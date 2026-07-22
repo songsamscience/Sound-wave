@@ -102,6 +102,32 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
       · 탭 5에도 파형 앨범 영역을 두어 그 자리에서 확인·PNG 저장할 수 있습니다.
       · 단축키 : Space 화면 멈추기 · C 화면 기록 (탭 1·6과 동일한 조작 체계)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ v4.2 변경 요지 — 「같은 줄에 있는 것은 같은 높이로」 + 계측 화면 다듬기
+   1) 버튼 높이가 들쭉날쭉하던 문제의 진짜 원인 (가장 큰 수정)
+      · 외곽선 버튼의 클래스 이름 .btn.sec 이 섹션 여백 규칙 `.sec{margin-bottom:32px}`
+        과 겹쳐 있었습니다. 그래서 ⏸ 파형 정지 · CSV 내보내기 · PDF 저장 · 겹쳐보기 등
+        13개 버튼에만 아래 여백 32px 이 조용히 붙어, 같은 줄의 옆 버튼과 어긋나 보였습니다.
+      · 이름을 .btn.line 으로 바꿔 충돌 제거. 이제 .sec 는 '섹션'만 뜻합니다.
+   2) 컨트롤 높이를 4종으로 고정 (--ctl-xs 32 / sm 36 / md 44 / lg 52)
+      · 그전에는 32·36·38·40·42·44·46·52·54 로 9종이 섞여 있었습니다.
+      · .segs 는 padding 3 + border 1 을 더해 36 + 8 = 44 로 .btn 과 정확히 맞췄습니다.
+      · 발표 모드는 같은 비례로 40 / 48 / 58 로 함께 커집니다.
+      · 한 줄에 .btn 과 .btn.sm 이 섞이면 작은 쪽을 큰 쪽에 맞춰 올립니다.
+   3) 줄맞춤 규칙
+      · 제목 줄(.sec-h/.stage-h)의 오른쪽 버튼은 베이스라인이 아니라 세로 가운데에.
+      · 비교 패널 머리줄(.pane-h)에 최소 높이 56px — 악기 이름이 두 줄로 접혀도
+        ▶ 버튼이 다섯 패널 모두 같은 높이에 옵니다.
+      · 라벨·트랙·눈금이 쌓인 슬라이더는 버튼과 같은 줄에 서지 않도록 제 줄을 씁니다.
+   4) 그래픽
+      · 파형을 그리는 공통 붓(paintWave) 신설 — 중심선까지 옅은 면 채움 + 2단 발광 + 선.
+        모든 탭(연주실·비교 실험·합성·마이크·가청·개념 카드)이 같은 붓을 씁니다.
+        면을 채우니 진폭 차이가 넓이로도 읽혀 실험 1의 결론이 훨씬 잘 보입니다.
+      · 계측 화면에 잔눈금(칸당 5)·비네트·유리 반사광 추가 — 실제 오실로스코프의 문법.
+      · 빈 화면에 대표 모티프(진폭이 커지는 사인 파동선)를 옅게 깔아 '고장'이 아니라
+        '아직 소리가 없음'으로 읽히게 했습니다.
+      · 스펙트럼 막대는 세로 그라데이션 + 둥근 머리, 가청 범위 막대는 그라데이션 + 발광.
+      · 건반에 하이라이트·안쪽 그림자를 더해 상아빛 두께를 살렸습니다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 -->
 
 <style>
@@ -136,6 +162,14 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px;
   /* 반지름 3종 + pill */
   --r-xs:8px; --r-sm:12px; --r-md:16px; --r-pill:999px;
+  /* v4.2 — 컨트롤 높이 4종. 버튼·입력·칩은 반드시 이 넷 중 하나만 씁니다.
+     같은 줄에 놓인 컨트롤의 높이가 어긋나 보이던 문제를 여기서 원천 차단합니다.
+       xs 32 : 아이콘 전용 미니 (표의 ✕, 안내 닫기)
+       sm 36 : 보조 컨트롤 (btn.sm · 세그먼트 · 프리셋 · 칩 · 스코프 오버레이)
+       md 44 : 기본 터치 타깃 (btn · 입력 · 탭 · 아코디언 헤더 — WCAG 2.5.5)
+       lg 52 : 큰 선택지 (퀴즈 보기 · 청력 확인 버튼)
+     ※ .segs 는 padding 3 + border 1 이므로 sm(36) + 8 = md(44) 로 정확히 맞습니다. */
+  --ctl-xs:32px; --ctl-sm:36px; --ctl-md:44px; --ctl-lg:52px;
   /* 깊이 3종 + 내부 하이라이트 */
   --e1:0 1px 2px rgba(20,46,66,.06);
   --e2:0 6px 20px rgba(20,46,66,.10);
@@ -239,7 +273,7 @@ header{
 .tools{display:flex; align-items:center; gap:6px; flex:none;}
 .tbtn{
   display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  min-width:42px; height:42px; padding:0 10px; border-radius:var(--r-pill);
+  min-width:var(--ctl-md); height:var(--ctl-md); padding:0 10px; border-radius:var(--r-pill);
   background:var(--surface); border:1px solid var(--line); color:var(--text-sub);
   transition:background var(--t-base) var(--ease),color var(--t-base) var(--ease),
              border-color var(--t-base) var(--ease),transform var(--t-fast) var(--ease);
@@ -265,7 +299,7 @@ header{
 .safety b{color:inherit;}
 .safety .sx{
   position:absolute; right:6px; top:50%; transform:translateY(-50%);
-  width:32px; height:32px; border-radius:50%; color:inherit; font-size:15px; font-weight:800; opacity:.7;
+  width:var(--ctl-xs); height:var(--ctl-xs); border-radius:50%; color:inherit; font-size:15px; font-weight:800; opacity:.7;
 }
 .safety .sx:hover{opacity:1; background:color-mix(in srgb,var(--warn) 18%,transparent);}
 .safety.gone{display:none;}
@@ -285,7 +319,7 @@ header{
    ══════════════════════════════════════════════════════════════ */
 .student{margin:var(--s4) 0 0;}
 .stu-sum{
-  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:46px;
+  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:var(--ctl-md);
   padding:0 var(--s4); border-radius:var(--r-pill);
   background:var(--surface); border:1px solid var(--line); text-align:left;
   transition:border-color var(--t-base) var(--ease);
@@ -299,7 +333,7 @@ header{
 .field{flex:1 1 180px; min-width:0;}
 .field label{display:block; font-size:12.5px; font-weight:600; color:var(--text-sub); margin-bottom:6px;}
 .field input{
-  width:100%; height:46px; padding:0 14px; border-radius:var(--r-xs);
+  width:100%; height:var(--ctl-md); padding:0 14px; border-radius:var(--r-xs);
   background:var(--surface-2); border:1.5px solid var(--line); color:var(--text); font-size:15px;
   transition:border-color var(--t-base) var(--ease);
 }
@@ -338,7 +372,7 @@ header{
 .tab{
   position:relative; z-index:1; min-width:0;
   display:flex; align-items:center; justify-content:center; gap:6px;
-  min-height:44px; padding:0 8px; border-radius:calc(var(--r-md) - 5px);
+  min-height:var(--ctl-md); padding:0 8px; border-radius:calc(var(--r-md) - 5px);
   color:var(--text-sub); font-size:13px; font-weight:600; line-height:1.25; text-align:center;
   transition:color var(--t-base) var(--ease);
 }
@@ -374,10 +408,13 @@ header{
 .panel.on{display:block; animation:fadeUp .32s var(--ease);}
 @keyframes fadeUp{from{opacity:0; transform:translateY(8px);}to{opacity:1; transform:none;}}
 .sec{margin-bottom:var(--s8);}
-.sec-h{display:flex; align-items:baseline; gap:var(--s3); margin-bottom:var(--s3); flex-wrap:wrap;}
+/* 제목은 베이스라인으로 맞추되, 오른쪽에 오는 버튼은 제목 줄의 세로 가운데에 둡니다.
+   (버튼을 베이스라인에 걸면 캡슐 높이만큼 아래로 내려앉아 줄이 어긋나 보입니다) */
+.sec-h{display:flex; align-items:baseline; gap:var(--s3); margin-bottom:var(--s3); flex-wrap:wrap; min-height:var(--ctl-sm);}
 .sec-h h2{font-size:19px;}
 .sec-h p{font-size:13px; color:var(--text-sub);}
-.sec-h .sh-r{margin-left:auto;}
+.sec-h .sh-r{margin-left:auto; align-self:center;}
+.sec-h .sh-r,.stage-h .sh-r{display:flex; align-items:center; gap:var(--s2);}
 .card{
   padding:var(--s5); border-radius:var(--r-md);
   background:var(--surface); border:1px solid var(--line); box-shadow:var(--inset);
@@ -406,7 +443,7 @@ header{
 }
 .stage-h h2{font-size:17px;}
 .stage-h p{font-size:12.5px; color:var(--text-sub);}
-.stage-h .sh-r{margin-left:auto;}
+.stage-h .sh-r{margin-left:auto; align-self:center;}
 /* 조작부 묶음 — 카드 남용을 피하고 옅은 구분선만 사용 */
 .ctrl-box{padding:var(--s4); border-radius:var(--r-md); background:var(--surface); border:1px solid var(--line); box-shadow:var(--inset);}
 .ctrl-box > .ct{font-size:12.5px; font-weight:700; color:var(--text-sub); margin-bottom:var(--s2);}
@@ -463,7 +500,7 @@ header{
 /* 탐구 가이드 아코디언 */
 .guide{border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface-2); overflow:hidden; margin-bottom:var(--s4);}
 .guide-h{
-  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:46px; padding:var(--s2) var(--s4);
+  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:var(--ctl-md); padding:var(--s2) var(--s4);
   font-size:13.5px; font-weight:700; text-align:left;
 }
 /* 기본은 접힘 — 펼치라는 힌트를 헤더 오른쪽에 작게 둡니다 */
@@ -501,7 +538,7 @@ header{
    ══════════════════════════════════════════════════════════════ */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  min-height:44px; padding:0 var(--s5); border-radius:var(--r-pill);
+  min-height:var(--ctl-md); padding:0 var(--s5); border-radius:var(--r-pill);
   font-size:14.5px; font-weight:700; white-space:nowrap;
   border:1.5px solid transparent; transition:all var(--t-base) var(--ease);
 }
@@ -512,14 +549,27 @@ header{
 [data-theme="light"] .btn.sig{color:#fff;}
 .btn.main{background:var(--brand); color:#0B1120;}
 [data-theme="light"] .btn.main{background:var(--brand); color:#fff;}
-.btn.sec{background:var(--surface); border-color:var(--line-strong); color:var(--text);}
-.btn.sec:hover{border-color:var(--brand);}
+/* ⚠ v4.2 — 예전 이름은 .btn.sec 이었습니다.
+   섹션 여백 규칙 `.sec{margin-bottom:32px}` 과 이름이 겹쳐,
+   외곽선 버튼에만 아래 여백 32px 이 조용히 붙어 같은 줄의 다른 버튼과 어긋나 있었습니다.
+   (⏸ 파형 정지 · CSV 내보내기 · PDF 저장 · 겹쳐보기 등 13곳)
+   이름을 .btn.line 으로 바꿔 충돌을 없앴습니다. .sec 는 이제 '섹션'만 뜻합니다. */
+.btn.line{background:var(--surface); border-color:var(--line-strong); color:var(--text);}
+.btn.line:hover{border-color:var(--brand);}
 .btn.ghost{background:transparent; border-color:var(--line); color:var(--text-sub);}
 .btn.ghost:hover{color:var(--text); border-color:var(--line-strong);}
 .btn[disabled]{background:var(--surface-3); color:var(--text-faint); border-color:var(--line); cursor:not-allowed; box-shadow:none; filter:grayscale(1);}
-.btn.sm{min-height:38px; padding:0 var(--s4); font-size:13px;}
+.btn.sm{min-height:var(--ctl-sm); padding:0 var(--s4); font-size:13px;}
 .btn.sm svg{width:16px; height:16px;}
 .btn-row{display:flex; gap:var(--s2); flex-wrap:wrap; align-items:center;}
+/* ── v4.2 : 한 줄에 놓인 컨트롤은 무조건 같은 높이로 ──────────────────────
+   같은 .btn-row 안에서 .btn 과 .btn.sm 을 섞어 쓰면 8px 차이가 눈에 띕니다.
+   섞였을 때는 작은 쪽을 큰 쪽(md)에 맞춰 올려 줄을 가지런히 만듭니다.
+   (:has 미지원 브라우저는 기존처럼 각자 높이를 쓰지만 세로 가운데 정렬은 유지) */
+.btn-row:has(> .btn:not(.sm)) > .btn.sm{min-height:var(--ctl-md); font-size:13.5px;}
+/* 버튼 옆의 입력·세그먼트·상태 문구도 같은 줄에서는 세로 가운데를 맞춥니다.
+   (높이는 위 토큰으로 이미 같으므로, 세그먼트가 두 줄로 접혀도 어색해지지 않습니다) */
+.btn-row > *{align-self:center;}
 
 /* 악기 선택 칩 */
 .ins-row{display:grid; grid-template-columns:repeat(5,1fr); gap:var(--s2);}
@@ -535,6 +585,8 @@ header{
 .ins[aria-pressed="true"]{
   background:color-mix(in srgb,var(--ic) 13%,var(--surface));
   border-color:color-mix(in srgb,var(--ic) 62%,transparent); color:var(--text);
+  /* 선택한 악기가 파형의 색과 이어진다는 것을 옅은 후광으로 알려 줍니다 */
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--ic) 14%,transparent);
 }
 .ins[aria-pressed="true"] svg{color:var(--ic);}
 @keyframes insPulse{0%{transform:scale(1);}45%{transform:scale(1.14);}100%{transform:scale(1);}}
@@ -543,10 +595,19 @@ header{
 /* ══════════════════════════════════════════════════════════════
    8. 오실로스코프 · 캔버스
    ══════════════════════════════════════════════════════════════ */
+/* 계측기 스크린 — 무광 금속 베젤 안에 유리 화면이 들어앉은 느낌.
+   위쪽 1px 하이라이트 + 안쪽 어두운 테두리 두 겹으로 두께를 만듭니다. */
 .scope{
   position:relative; border-radius:var(--r-md); overflow:hidden;
   background:var(--scope-bg); border:1px solid var(--line-strong);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),
+             inset 0 0 0 1px rgba(0,0,0,.34),
+             0 2px 10px rgba(0,0,0,.18);
+}
+/* 유리면의 반사광 — 왼쪽 위에서 아주 옅게 들어오는 한 줄기 (주 광원: 상단 확산광) */
+.scope::after{
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none; border-radius:inherit;
+  background:linear-gradient(158deg,rgba(255,255,255,.055) 0%,rgba(255,255,255,0) 34%);
 }
 /* 세로 스크롤은 브라우저에 맡기고 가로 드래그(측정 커서)만 앱이 처리 */
 .scope canvas{display:block; width:100%; height:100%; touch-action:pan-y;}
@@ -566,18 +627,23 @@ header{
 .scope .tag.frozen{color:#FBBF4A; border-color:rgba(251,191,74,.45);}
 .scope .rt{position:absolute; top:8px; right:10px; z-index:2; display:flex; gap:4px;}
 .scope .rt button{
-  min-width:38px; height:36px; padding:0 10px; border-radius:var(--r-xs);
+  min-width:var(--ctl-sm); height:var(--ctl-sm); padding:0 10px; border-radius:var(--r-xs);
   background:rgba(8,13,23,.7); border:1px solid rgba(148,163,184,.3); color:#CBD5E1;
   font-size:11.5px; font-weight:700; transition:all var(--t-fast) var(--ease);
 }
 .scope .rt button:hover{color:#fff; border-color:rgba(148,163,184,.6);}
 .scope .rt button[aria-pressed="true"]{background:var(--sig); color:#0B1120; border-color:var(--sig);}
-.scope-tools{display:flex; align-items:center; gap:var(--s4); flex-wrap:wrap; margin-top:var(--s3);}
+/* 정지·자동고정·기록 버튼과 시간축 슬라이더가 한 줄에 섞이는 곳 —
+   버튼끼리는 같은 높이로 묶고, 슬라이더는 그 줄의 가운데에 겁니다 */
+.scope-tools{display:flex; align-items:center; gap:var(--s3) var(--s4); flex-wrap:wrap; margin-top:var(--s3);}
+.scope-tools > *{align-self:center;}
+/* 슬라이더는 라벨·트랙·눈금이 쌓인 세 줄짜리라 버튼과 키가 맞지 않습니다 — 늘 제 줄을 씁니다 */
+.scope-tools > .slider,.btn-row > .slider{flex:1 1 100%;}
 /* 자동 고정 안내 — 비어 있을 때는 자리를 차지하지 않습니다 */
 .holdhint{font-size:12px; line-height:1.6; color:var(--warn); margin-top:var(--s2);}
 .holdhint:empty{display:none;}
 [data-theme="light"] .holdhint{color:var(--warn-deep);}
-.btn.sec[aria-pressed="false"]#btnHold{color:var(--text-faint); border-color:var(--line);}
+.btn.line[aria-pressed="false"]#btnHold{color:var(--text-faint); border-color:var(--line);}
 
 /* 측정 커서 판독창 */
 .cal{
@@ -610,8 +676,13 @@ input[type=range]::-moz-range-track{height:8px; border-radius:var(--r-pill); bac
 input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; background:#fff; border:2px solid var(--sig); box-shadow:var(--e1);}
 
 /* 세그먼트 선택 */
-.segs{display:inline-flex; padding:4px; gap:3px; border-radius:var(--r-pill); background:var(--surface-2); border:1px solid var(--line);}
-.seg{min-height:36px; padding:0 14px; border-radius:var(--r-pill); font-size:13px; font-weight:700; color:var(--text-sub); transition:all var(--t-base) var(--ease);}
+/* padding 3 + border 1 을 위아래로 더하면 36 + 8 = 44 — .btn 과 정확히 같은 높이가 됩니다.
+   여러 줄로 접힐 때도 각 줄이 sm(36)로 고르게 쌓이도록 row-gap 을 따로 둡니다. */
+.segs{display:inline-flex; padding:3px; gap:3px; row-gap:3px; align-items:center;
+      border-radius:var(--r-pill); background:var(--surface-2); border:1px solid var(--line);}
+.seg{min-height:var(--ctl-sm); display:inline-flex; align-items:center; justify-content:center;
+     padding:0 14px; border-radius:var(--r-pill); font-size:13px; font-weight:700; color:var(--text-sub);
+     transition:all var(--t-base) var(--ease);}
 .seg:hover{color:var(--text);}
 .seg[aria-pressed="true"]{background:var(--sig); color:#0B1120;}
 [data-theme="light"] .seg[aria-pressed="true"]{color:#fff;}
@@ -640,9 +711,12 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .key{
   position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
   gap:2px; height:134px; padding-bottom:12px; border-radius:5px 5px 12px 12px;
-  background:linear-gradient(180deg,#FCFDFF 0%,#EFF3F8 60%,#D6DEE8 100%);
+  /* 상아빛 건반 — 위쪽 하이라이트, 가운데 평면, 아래 그림자로 두께를 만듭니다 */
+  background:linear-gradient(180deg,#FFFFFF 0%,#F6F9FC 8%,#EFF3F8 62%,#D6DEE8 100%);
   border:1px solid rgba(15,23,42,.2);
-  box-shadow:0 3px 0 rgba(15,23,42,.26);
+  box-shadow:0 3px 0 rgba(15,23,42,.26),
+             inset 0 1px 0 rgba(255,255,255,.95),
+             inset 0 -6px 10px -6px rgba(15,23,42,.22);
   color:#334155; transition:transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
   user-select:none;
 }
@@ -689,7 +763,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .speed-tool{display:grid; grid-template-columns:1fr 1fr; gap:var(--s4); align-items:start;}
 .medium-row{display:flex; gap:6px; flex-wrap:wrap;}
 .medium{
-  flex:1 1 auto; min-height:44px; padding:0 var(--s3); border-radius:var(--r-xs);
+  flex:1 1 auto; min-height:var(--ctl-md); padding:0 var(--s3); border-radius:var(--r-xs);
   background:var(--surface-2); border:1.5px solid var(--line);
   font-size:13px; font-weight:700; color:var(--text-sub); transition:all var(--t-base) var(--ease);
 }
@@ -708,11 +782,24 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .cmp{display:grid; gap:var(--s4);}
 .cmp.two{grid-template-columns:1fr 1fr;}
 .cmp.five{grid-template-columns:repeat(2,1fr);}
-.pane{border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface); overflow:hidden;}
-.pane-h{display:flex; align-items:center; gap:var(--s2); padding:var(--s3) var(--s4); border-bottom:1px solid var(--line); flex-wrap:wrap;}
+.pane{border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface); overflow:hidden;
+      display:flex; flex-direction:column;}
+/* ── v4.2 : 나란히 놓인 패널의 ▶ 버튼이 같은 높이에 오도록 ─────────────────
+   악기 이름 길이에 따라 제목이 한 줄/두 줄로 갈리면 그 아래 모든 것이 어긋났습니다.
+   머리줄에 고정 최소 높이를 주고, 제목 묶음만 줄바꿈하게 해 버튼은 항상 오른쪽 가운데. */
+.pane-h{
+  display:flex; align-items:center; gap:var(--s2);
+  min-height:56px; padding:var(--s2) var(--s4);
+  border-bottom:1px solid var(--line); flex-wrap:nowrap;
+}
 .pane-h .dot{width:10px; height:10px; border-radius:50%; background:var(--pc,var(--sig)); flex:none;}
-.pane-h b{font-size:14.5px;}
-.pane-h .pb{margin-left:auto;}
+/* 제목은 필요하면 두 줄까지 접히고(min-height 56 안에서 소화), 부제는 줄여서 표시 */
+.pane-h b{flex:0 1 auto; min-width:0; font-size:14.5px; line-height:1.35; word-break:keep-all;}
+.pane-h .tiny{flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.pane-h .pb{margin-left:auto; flex:none;}
+.pane-h .tiny.pb{flex:0 1 auto; white-space:normal; text-align:right; line-height:1.4;}
+/* 패널 안의 여백이 남으면 파형이 아래로 붙지 않고 위쪽부터 채워지도록 */
+.pane-b{flex:1;}
 .pane-b{padding:var(--s3);}
 .pane-m{display:flex; gap:var(--s5); padding:0 var(--s4) var(--s4); flex-wrap:wrap;}
 .metric .k{font-size:11.5px; color:var(--text-sub); font-weight:600;}
@@ -730,7 +817,9 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 
 /* 배음 막대 */
 .harm{display:flex; align-items:flex-end; gap:4px; height:58px; padding:0 var(--s4) var(--s5);}
-.harm i{flex:1; border-radius:3px 3px 0 0; background:var(--pc,var(--sig)); opacity:.85; min-height:2px; position:relative;}
+/* 배음 막대 — 위가 진하고 아래로 갈수록 옅어져 '기본음이 가장 크다'가 색으로도 읽힙니다 */
+.harm i{flex:1; border-radius:3px 3px 0 0; min-height:2px; position:relative;
+  background:linear-gradient(180deg,var(--pc,var(--sig)),color-mix(in srgb,var(--pc,var(--sig)) 42%,transparent));}
 .harm i b{position:absolute; bottom:-16px; left:0; right:0; text-align:center; font-size:9px; font-weight:700; color:var(--text-faint);}
 
 /* 배음 합성 실험실 */
@@ -751,7 +840,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .hs input[type=range]::-moz-range-thumb{width:20px; height:20px; border-radius:50%; background:#fff; border:2px solid var(--sig);}
 .presets{display:flex; gap:6px; flex-wrap:wrap;}
 .preset{
-  min-height:38px; padding:0 var(--s3); border-radius:var(--r-pill);
+  min-height:var(--ctl-sm); padding:0 var(--s3); border-radius:var(--r-pill);
   background:var(--surface-2); border:1px solid var(--line); font-size:12.5px; font-weight:700; color:var(--text-sub);
   transition:all var(--t-base) var(--ease);
 }
@@ -772,7 +861,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .shot .meta span{display:block; font-size:11px; color:var(--text-faint); line-height:1.5;}
 .shot .act{display:flex; gap:1px; border-top:1px solid var(--line);}
 .shot .act button{
-  flex:1; min-height:38px; font-size:12px; font-weight:700; color:var(--text-sub);
+  flex:1; min-height:var(--ctl-sm); font-size:12px; font-weight:700; color:var(--text-sub);
   transition:background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
 }
 .shot .act button:hover{background:var(--surface-3); color:var(--text);}
@@ -821,7 +910,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .fnote b{color:var(--text-sub);}
 .fstep{display:flex; gap:6px; flex-wrap:wrap; margin-top:var(--s2);}
 .fstep button{
-  min-height:40px; min-width:44px; padding:0 12px; border-radius:var(--r-xs);
+  flex:1 1 0; min-height:var(--ctl-sm); min-width:var(--ctl-md); padding:0 12px; border-radius:var(--r-xs);
   background:var(--surface-2); border:1px solid var(--line);
   font-size:12.5px; font-weight:800; color:var(--text-sub); transition:all var(--t-base) var(--ease);
 }
@@ -829,7 +918,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .fstep button:active{transform:scale(.96);}
 .fpresets{display:flex; gap:6px; flex-wrap:wrap;}
 .fpre{
-  min-height:38px; padding:0 13px; border-radius:var(--r-pill);
+  min-height:var(--ctl-sm); padding:0 13px; border-radius:var(--r-pill);
   background:var(--surface-2); border:1px solid var(--line);
   font-size:12.5px; font-weight:700; color:var(--text-sub); transition:all var(--t-base) var(--ease);
 }
@@ -838,7 +927,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .aud-grid{display:grid; grid-template-columns:1fr 300px; gap:var(--s4); align-items:start;}
 .hear{display:grid; grid-template-columns:repeat(3,1fr); gap:6px;}
 .hear button{
-  min-height:52px; padding:6px 4px; border-radius:var(--r-sm);
+  min-height:var(--ctl-lg); padding:6px 4px; border-radius:var(--r-sm);
   background:var(--surface-2); border:1.5px solid var(--line);
   font-size:13px; font-weight:800; color:var(--text-sub); line-height:1.3;
   transition:all var(--t-base) var(--ease);
@@ -882,7 +971,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .level i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--ok),var(--warn) 72%,var(--no)); transition:width .08s linear;}
 .missions{display:grid; gap:var(--s2); margin-top:var(--s4);}
 .mission{
-  display:flex; gap:var(--s3); align-items:flex-start; padding:var(--s3) var(--s4);
+  display:flex; gap:var(--s3); align-items:flex-start; min-height:var(--ctl-md); padding:var(--s3) var(--s4);
   border-radius:var(--r-sm); background:var(--surface-2); border:1px solid var(--line);
   border-left:3px solid var(--mc,var(--sig)); font-size:13.5px; color:var(--text-sub); text-align:left; width:100%;
   transition:all var(--t-base) var(--ease);
@@ -909,7 +998,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .qexp{margin:var(--s3) 0 var(--s4); padding:var(--s3) var(--s4); border-radius:var(--r-sm); background:var(--surface-2); border:1px dashed var(--line); font-size:13.5px; color:var(--text-sub);}
 .opts{display:grid; gap:var(--s2); margin-top:var(--s4);}
 .opt{
-  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:54px; padding:var(--s3) var(--s4);
+  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:var(--ctl-lg); padding:var(--s3) var(--s4);
   border-radius:var(--r-sm); background:var(--surface-2); border:1.5px solid var(--line);
   font-size:15px; text-align:left; color:var(--text); transition:all var(--t-base) var(--ease);
 }
@@ -940,7 +1029,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .wrongs{max-width:560px; margin:var(--s5) auto 0; text-align:left;}
 .wrongs .wh{font-size:12.5px; font-weight:700; color:var(--text-sub); margin-bottom:var(--s2);}
 .wrongs button{
-  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:46px; padding:var(--s2) var(--s4);
+  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:var(--ctl-md); padding:var(--s2) var(--s4);
   margin-bottom:6px; border-radius:var(--r-sm);
   background:var(--no-tint); border:1px solid color-mix(in srgb,var(--no) 32%,transparent);
   font-size:13.5px; color:var(--text); text-align:left;
@@ -951,7 +1040,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .selfchk{display:grid; gap:var(--s2); max-width:560px; margin:var(--s5) auto 0; text-align:left;}
 .selfchk .sc-h{font-size:12.5px; font-weight:700; color:var(--text-sub);}
 .selfchk button{
-  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:46px; padding:var(--s2) var(--s4);
+  display:flex; align-items:center; gap:var(--s3); width:100%; min-height:var(--ctl-md); padding:var(--s2) var(--s4);
   border-radius:var(--r-sm); background:var(--surface-2); border:1px solid var(--line);
   font-size:13.5px; color:var(--text-sub); text-align:left; transition:all var(--t-base) var(--ease);
 }
@@ -976,13 +1065,13 @@ table.rec th{
 table.rec td{padding:9px 10px; border-bottom:1px solid var(--line); color:var(--text); white-space:nowrap;}
 table.rec tbody tr:nth-child(odd){background:var(--surface-2);}
 table.rec td.del{text-align:right; padding:4px 6px;}
-table.rec .x{width:32px; height:32px; border-radius:8px; color:var(--text-faint); font-size:13px; transition:all var(--t-fast) var(--ease);}
+table.rec .x{width:var(--ctl-xs); height:var(--ctl-xs); border-radius:8px; color:var(--text-faint); font-size:13px; transition:all var(--t-fast) var(--ease);}
 table.rec .x:hover{color:var(--no); background:var(--no-tint);}
 table.rec .memo{max-width:180px; overflow:hidden; text-overflow:ellipsis;}
 .rec-empty{padding:var(--s6) var(--s4); text-align:center; font-size:13.5px; color:var(--text-faint);}
 .rec-empty b{color:var(--text-sub);}
 .memo-in{
-  flex:1 1 200px; min-width:150px; height:44px; padding:0 14px; border-radius:var(--r-xs);
+  flex:1 1 200px; min-width:150px; height:var(--ctl-md); padding:0 14px; border-radius:var(--r-xs);
   background:var(--surface-2); border:1.5px solid var(--line); color:var(--text); font-size:14px;
 }
 .memo-in:focus{border-color:var(--brand); outline:none;}
@@ -1025,7 +1114,7 @@ table.rec .memo{max-width:180px; overflow:hidden; text-overflow:ellipsis;}
 .dr-t h3{font-size:17px; flex:1;}
 .chips{display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; margin-top:var(--s3);}
 .chips::-webkit-scrollbar{display:none;}
-.chips button{flex:none; min-height:38px; padding:0 14px; border-radius:var(--r-pill); background:var(--surface); border:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--text-sub); white-space:nowrap;}
+.chips button{flex:none; min-height:var(--ctl-sm); padding:0 14px; border-radius:var(--r-pill); background:var(--surface); border:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--text-sub); white-space:nowrap;}
 .chips button.read{border-color:color-mix(in srgb,var(--ok) 45%,transparent); color:var(--ok);}
 [data-theme="light"] .chips button.read{color:var(--ok-deep);}
 .dr-b{flex:1; overflow-y:auto; padding:var(--s4); -webkit-overflow-scrolling:touch;}
@@ -1048,7 +1137,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 .f-l b{font-size:15px;} .f-l p{font-size:12.5px; color:var(--text-sub); margin-top:2px;}
 .sns{display:flex; gap:var(--s2); flex-wrap:wrap;}
 .sns-btn{
-  display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 18px 8px 8px;
+  display:inline-flex; align-items:center; gap:8px; min-height:var(--ctl-md); padding:8px 18px 8px 8px;
   border-radius:var(--r-pill); background:var(--surface); border:1.5px solid var(--line);
   color:var(--text); font-weight:600; font-size:13.5px; text-decoration:none;
   transition:transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
@@ -1081,13 +1170,16 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 [data-present="on"] .metric .v{font-size:26px;}
 [data-present="on"] .sec-h h2{font-size:23px;}
 [data-present="on"] .qtext{font-size:20px;}
-[data-present="on"] .opt{font-size:17px; min-height:60px;}
+[data-present="on"] .opt{font-size:17px;}
 [data-present="on"] .scope.big canvas{height:330px;}
 [data-present="on"] .scope.mid canvas{height:200px;}
 [data-present="on"] .scope.sml canvas{height:150px;}
 [data-present="on"] .tuner .note{font-size:64px;}
 [data-present="on"] .key{height:158px;}
-[data-present="on"] .btn{font-size:16px; min-height:48px;}
+/* 발표 모드에서도 높이 4종의 비례는 그대로 유지합니다 (md 48 · sm 40 · lg 58) */
+[data-present="on"]{--ctl-sm:40px; --ctl-md:48px; --ctl-lg:58px;}
+[data-present="on"] .btn{font-size:16px;}
+[data-present="on"] .btn.sm{font-size:14px;}
 
 /* ══════════════════════════════════════════════════════════════
    17. 반응형
@@ -1160,7 +1252,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   .logo{width:34px; height:34px; font-size:10px;}
   .htitle b{font-size:13.5px;}
   .tools{flex:none; gap:4px;}
-  .tbtn{height:38px; min-width:38px; padding:0 7px;}
+  .tbtn{height:var(--ctl-sm); min-width:var(--ctl-sm); padding:0 7px;}
   .tbtn svg{width:18px; height:18px;}
   .tbtn.labeled{padding:0 9px; font-size:12px; gap:4px;}
   .hintbub{right:12px; left:12px; max-width:none;}
@@ -1251,7 +1343,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         입력한 정보는 내 기기 안에서만 사용되며, 내가 저장하는 결과 이미지·PDF에만 표시됩니다.
       </p>
       <div class="btn-row" style="margin-top:var(--s3)">
-        <button class="btn sec sm" id="stuDone">입력 마치기</button>
+        <button class="btn line sm" id="stuDone">입력 마치기</button>
       </div>
     </div>
   </section>
@@ -1363,11 +1455,13 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <!-- 정지·기록·시간축은 .stage 밖에 둡니다 — 좁은 화면에서 고정 영역이 너무 높아지지 않도록 -->
         <p class="holdhint" id="holdHint" aria-live="polite"></p>
         <div class="scope-tools">
-          <button class="btn sec sm" id="btnFreeze" aria-pressed="false">⏸ 파형 정지</button>
-          <button class="btn sec sm" id="btnHold" aria-pressed="true"
+          <button class="btn line sm" id="btnFreeze" aria-pressed="false">⏸ 파형 정지</button>
+          <button class="btn line sm" id="btnHold" aria-pressed="true"
                   aria-label="소리가 끝나면 가장 큰 파형에서 자동으로 화면 멈추기">🔒 자동 고정 켜짐</button>
           <button class="btn main sm" id="btnShot">📷 파형 기록</button>
-          <div class="slider" style="flex:1 1 200px">
+          <!-- 슬라이더는 라벨·눈금까지 세 줄짜리 덩어리라, 버튼과 같은 줄에 서면
+               버튼만 가운데에 떠 보입니다. 항상 아래 줄을 통째로 쓰게 둡니다. -->
+          <div class="slider" style="flex:1 1 100%">
             <div class="top"><label for="rgTime">화면에 보이는 시간</label><span class="val tnum" id="vTime">12 ms</span></div>
             <input type="range" id="rgTime" min="2" max="40" step="1" value="12" aria-label="시간축 확대 축소">
             <div class="ends"><span>2 ms (확대)</span><span>40 ms (축소)</span></div>
@@ -1505,8 +1599,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
           <button class="btn main" id="recAdd">지금 소리 기록하기</button>
         </div>
         <div class="btn-row" style="margin-bottom:var(--s4)">
-          <button class="btn sec sm" id="recCsv" disabled>CSV로 내보내기</button>
-          <button class="btn sec sm" id="recJson" disabled>JSON으로 내보내기</button>
+          <button class="btn line sm" id="recCsv" disabled>CSV로 내보내기</button>
+          <button class="btn line sm" id="recJson" disabled>JSON으로 내보내기</button>
           <button class="btn ghost sm" id="recClear" disabled>기록 모두 지우기</button>
         </div>
         <div class="rec-wrap">
@@ -1619,7 +1713,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
           <p class="ct">③ 실행하기</p>
           <div class="btn-row">
             <button class="btn main" id="ampBoth" style="flex:1 1 100%">약하게 → 세게 이어서 듣기</button>
-            <button class="btn sec" id="ampOverBtn" aria-pressed="false" style="flex:1 1 100%">겹쳐보기</button>
+            <button class="btn line" id="ampOverBtn" aria-pressed="false" style="flex:1 1 100%">겹쳐보기</button>
           </div>
           <p class="tiny" style="margin-top:var(--s3)">각 파형의 <b>▶</b> 버튼은 그 화면 바로 위에 있어요. 눌러도 화면이 움직이지 않으니 바로 비교해 보세요.</p>
         </div>
@@ -1716,7 +1810,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
           <p class="ct">③ 실행하기</p>
           <div class="btn-row">
             <button class="btn main" id="freqBoth" style="flex:1 1 100%">낮은 음 → 높은 음 이어서 듣기</button>
-            <button class="btn sec" id="freqOctBtn" aria-pressed="false" style="flex:1 1 100%">옥타브 관계 보기</button>
+            <button class="btn line" id="freqOctBtn" aria-pressed="false" style="flex:1 1 100%">옥타브 관계 보기</button>
           </div>
           <p class="tiny" style="margin-top:var(--s3)">계이름을 바꾸면 왼쪽 두 파형이 즉시 다시 그려집니다. 화면을 오르내리지 않고 그대로 비교하세요.</p>
         </div>
@@ -1770,7 +1864,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <div class="sec-h"><h2>다섯 악기의 파형</h2><p>같은 음 · 같은 세기 — 그래도 모양이 다릅니다</p></div>
       <div class="ctrl-box" style="margin-bottom:var(--s3)">
         <p class="ct">기준 음 고르기 <span style="font-weight:600;color:var(--text-faint)">— 다섯 악기가 모두 이 음을 같은 세기로 연주합니다 (기본 라 A4 · 440 Hz)</span></p>
-        <div class="btn-row" style="align-items:flex-start">
+        <div class="btn-row">
           <div class="segs" data-notes="timbre" role="group" aria-label="실험 3 기준 음 선택" style="flex-wrap:wrap"></div>
           <button class="btn main" id="timbreAll" style="margin-left:auto">다섯 악기 순서대로 듣기</button>
         </div>
@@ -2047,7 +2141,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
           </div>
           <div class="btn-row" style="margin-bottom:var(--s4)">
             <button class="btn sig" id="audPlay">▶ 소리 켜기</button>
-            <button class="btn main sm" id="audShot">📷 파형 기록</button>
+            <button class="btn main" id="audShot">📷 파형 기록</button>
             <span class="tiny" id="audTimer" aria-live="polite"></span>
           </div>
 
@@ -2155,7 +2249,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <p class="tiny" style="margin-bottom:var(--s3)">⚠️ 새로고침하면 입력값과 퀴즈 결과가 사라져요. 먼저 저장해 주세요.</p>
         <div class="btn-row">
           <button class="btn primary" id="btnPng">결과 캡처 (PNG)</button>
-          <button class="btn sec" id="btnPdf">PDF 저장</button>
+          <button class="btn line" id="btnPdf">PDF 저장</button>
         </div>
         <p class="privacy" style="margin-top:var(--s3)">🔒 이 파일은 내 기기에서 만들어집니다. 어떤 서버로도 전송되지 않아요.</p>
       </div>
@@ -2589,6 +2683,21 @@ function readColors(){
   INS_ORDER.forEach(k => { C.ins[k] = g(INSTRUMENTS[k].cssvar) || INSTRUMENTS[k].color; });
 }
 
+/* 색 문자열(#RGB · #RRGGBB · rgb()/rgba())에 알파를 입혀 돌려줍니다.
+   캔버스 그라데이션은 CSS 변수를 그대로 못 쓰므로 여기서 한 번 변환합니다. */
+function rgba(col, a){
+  const s = (col || '').trim();
+  if (s.charAt(0) === '#'){
+    let x = s.slice(1);
+    if (x.length === 3) x = x[0] + x[0] + x[1] + x[1] + x[2] + x[2];
+    const n = parseInt(x.slice(0, 6), 16);
+    if (isNum(n)) return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+  const m = s.match(/-?\d*\.?\d+/g);
+  if (m && m.length >= 3) return 'rgba(' + m[0] + ',' + m[1] + ',' + m[2] + ',' + a + ')';
+  return 'rgba(148,163,184,' + a + ')';
+}
+
 /* 캔버스 해상도 맞추기 (DPR 상한 2) */
 function fitCanvas(cv){
   if (!cv) return null;
@@ -2881,26 +2990,48 @@ function fx(kind){
 /* ══════════════════════════════════════════════════════════════════════════
    [5] 캔버스 렌더링 — 배경 격자 → 파형 → 주석 → 워터마크 순서
    ══════════════════════════════════════════════════════════════════════════ */
+/* 계측기 스크린 — 실제 오실로스코프의 눈금 문법을 따릅니다.
+   ① 바탕 : 위가 살짝 밝은 유리면  ② 큰 눈금(칸)  ③ 중심축의 잔눈금(칸당 5)
+   ④ 중심선  ⑤ 코너 브래킷  ⑥ 가장자리 비네트 — 화면이 유리 안쪽으로 들어가 보이게 */
 function drawScopeBg(ctx, w, h, opt){
   const o = opt || {};
   ctx.clearRect(0, 0, w, h);
   const bg = ctx.createLinearGradient(0, 0, 0, h);
   bg.addColorStop(0, C.bg2 || C.bg); bg.addColorStop(1, C.bg);
   ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+
   const cols = o.cols || 10, rows = o.rows || 4;
+  const cw = w / cols, ch = h / rows;
   ctx.lineWidth = 1;
   ctx.strokeStyle = C.grid;
   ctx.beginPath();
-  for (let i = 1; i < cols; i++){ const x = Math.round(w * i / cols) + .5; ctx.moveTo(x, 0); ctx.lineTo(x, h); }
-  for (let j = 1; j < rows; j++){ const y = Math.round(h * j / rows) + .5; ctx.moveTo(0, y); ctx.lineTo(w, y); }
+  for (let i = 1; i < cols; i++){ const x = Math.round(cw * i) + .5; ctx.moveTo(x, 0); ctx.lineTo(x, h); }
+  for (let j = 1; j < rows; j++){ const y = Math.round(ch * j) + .5; ctx.moveTo(0, y); ctx.lineTo(w, y); }
   ctx.stroke();
-  if (o.axis !== false){                            // 중심선(진동의 중심)
-    ctx.strokeStyle = C.axis;
-    ctx.beginPath();
+
+  if (o.axis !== false){
     const my = Math.round(h / 2) + .5;
-    ctx.moveTo(0, my); ctx.lineTo(w, my);
-    ctx.stroke();
+    // 중심축의 잔눈금 — 한 칸을 5로 나눈 작은 표시 (계측기의 상징적인 디테일)
+    if (cw > 26){
+      ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 0; i <= cols * 5; i++){
+        if (i % 5 === 0) continue;
+        const x = Math.round(cw * i / 5) + .5;
+        ctx.moveTo(x, my - 3); ctx.lineTo(x, my + 3);
+      }
+      // 세로축 잔눈금은 왼쪽 가장자리에만 (파형을 가리지 않도록)
+      for (let j = 0; j <= rows * 5; j++){
+        if (j % 5 === 0) continue;
+        const y = Math.round(ch * j / 5) + .5;
+        ctx.moveTo(3, y); ctx.lineTo(9, y);
+      }
+      ctx.stroke();
+    }
+    ctx.strokeStyle = C.axis; ctx.lineWidth = 1;      // 중심선(진동의 중심)
+    ctx.beginPath(); ctx.moveTo(0, my); ctx.lineTo(w, my); ctx.stroke();
   }
+
   // 계측기 느낌의 코너 브래킷
   ctx.strokeStyle = C.gridS; ctx.lineWidth = 1.4;
   const L = 12, p = 5;
@@ -2910,6 +3041,85 @@ function drawScopeBg(ctx, w, h, opt){
   ctx.moveTo(p, h - p - L); ctx.lineTo(p, h - p); ctx.lineTo(p + L, h - p);
   ctx.moveTo(w - p - L, h - p); ctx.lineTo(w - p, h - p); ctx.lineTo(w - p, h - p - L);
   ctx.stroke();
+
+  // 유리 화면의 비네트 — 네 귀퉁이만 아주 옅게 눌러 줍니다
+  if (o.vignette !== false){
+    const vg = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.28,
+                                        w / 2, h / 2, Math.max(w, h) * 0.72);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(0,0,0,.30)');
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, w, h);
+  }
+}
+
+/* 빈 상태 — 진폭이 커지는 사인 파동선(이 실험실의 대표 모티프)을 아주 옅게.
+   "고장난 화면"이 아니라 "아직 소리가 없는 화면"으로 읽히게 하는 장치입니다. */
+function drawScopeIdle(ctx, w, h, msg){
+  const yc = h / 2, half = (h / 2 - 10) * 0.5;
+  ctx.save();
+  ctx.globalAlpha = .24;                              // 진짜 파형으로 오해하지 않을 만큼만 옅게
+  ctx.strokeStyle = C.faint; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  const N = 160;
+  for (let i = 0; i <= N; i++){
+    const u = i / N;                                  // 왼쪽에서 오른쪽으로 갈수록 진폭이 커집니다
+    const x = w * u;
+    const y = yc - Math.sin(u * Math.PI * 5) * half * (0.12 + 0.88 * u);
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+  ctx.stroke();
+  ctx.restore();
+  if (msg){
+    ctx.save();
+    ctx.font = '700 11.5px Pretendard, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = rgba(C.faint, .85);
+    ctx.fillText(msg, w / 2, yc + Math.min(h * 0.30, 46));
+    ctx.restore();
+  }
+}
+
+/* ── 파형을 그리는 공통 붓 ──────────────────────────────────────────────
+   같은 규칙으로 그려야 탭을 옮겨 다녀도 "같은 계측기"로 보입니다.
+     ① 중심선까지 닫아 옅은 면으로 채움 — 진폭(넓이)이 한눈에 들어옵니다
+     ② 넓고 옅은 획으로 발광(glow)
+     ③ 또렷한 선
+   pts 는 [x, y] 의 배열입니다. */
+function paintWave(ctx, pts, o){
+  if (!pts || pts.length < 2) return;
+  const col = o.color, h = o.h, yc = o.yc == null ? h / 2 : o.yc;
+  const alpha = o.alpha == null ? 1 : o.alpha;
+  const lw = o.width || 2.4;
+  const trace = () => {
+    ctx.beginPath();
+    for (let i = 0; i < pts.length; i++){
+      if (i) ctx.lineTo(pts[i][0], pts[i][1]); else ctx.moveTo(pts[i][0], pts[i][1]);
+    }
+  };
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  if (o.fill !== false){
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], yc);
+    for (let i = 0; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.lineTo(pts[pts.length - 1][0], yc);
+    ctx.closePath();
+    const g = ctx.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0,   rgba(col, .30));
+    g.addColorStop(.5,  rgba(col, .04));
+    g.addColorStop(1,   rgba(col, .30));
+    ctx.fillStyle = g; ctx.fill();
+  }
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.strokeStyle = col;
+  if (o.glow !== false){
+    trace();
+    ctx.globalAlpha = alpha * .10; ctx.lineWidth = lw * 3.6; ctx.stroke();
+    ctx.globalAlpha = alpha * .18; ctx.lineWidth = lw * 2.0; ctx.stroke();
+  }
+  trace();
+  ctx.globalAlpha = alpha; ctx.lineWidth = lw; ctx.stroke();
+  ctx.restore();
 }
 function drawWatermark(ctx, w, h){
   ctx.font = '600 10px Pretendard, sans-serif';
@@ -2984,20 +3194,18 @@ function paintModel(cv, spanMs, series, opt){
        세기 비(약하게 : 세게 = 1 : 3.3)는 각 계열을 자기 진폭에 맞추므로 그대로 유지된다. */
     const want = ampOf(s.strength);
     const k = mx > 1e-6 ? want / mx : 1;
-    ctx.beginPath();
+    const pts = new Array(N + 1);
     for (let i = 0; i <= N; i++){
       const v = buf[i] * k;
-      const x = w * i / N;
-      const y = h / 2 - v * (h / 2 - 8) * 0.94;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts[i] = [w * i / N, h / 2 - v * (h / 2 - 8) * 0.94];
     }
     if (si === 0){ peak = want; mainFreq = s.freq; }
-    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.globalAlpha = s.alpha == null ? 1 : s.alpha;
-    ctx.lineWidth = s.width || 2.2;
-    ctx.strokeStyle = s.color;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
+    // 겹쳐보기처럼 계열이 둘 이상이면 면을 채우지 않습니다 (두 파형이 서로를 가리므로)
+    paintWave(ctx, pts, {
+      color: s.color, h, width: s.width || 2.2,
+      alpha: s.alpha == null ? 1 : s.alpha,
+      fill: series.length === 1
+    });
   });
   if (state.annot && series.length === 1) drawAnnotations(ctx, w, h, mainFreq, peak, spanMs);
   if (o.label) drawNote(ctx, w, h, o.label, o.labelColor);
@@ -3050,20 +3258,17 @@ function drawLiveScope(){
       if (!armed){ if (data[i] < 124) armed = true; }
       else if (data[i - 1] < 128 && data[i] >= 128){ start = i; break; }
     }
-    ctx.beginPath();
     const step = Math.max(1, Math.floor(need / (w * 2)));
+    const pts = [];
     for (let i = 0; i <= need; i += step){
       const v = (data[start + i] - 128) / 128;
       if (Math.abs(v) > peak) peak = Math.abs(v);
-      const x = w * i / need;
-      const y = h / 2 - v * (h / 2 - 8) * 0.94;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts.push([w * i / need, h / 2 - v * (h / 2 - 8) * 0.94]);
     }
-    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.lineWidth = 2.4; ctx.strokeStyle = col;
-    ctx.stroke();
-    ctx.globalAlpha = .16; ctx.lineWidth = 7; ctx.stroke(); ctx.globalAlpha = 1;   // 은은한 glow
+    paintWave(ctx, pts, { color: col, h, width: 2.4 });
   }
+  // 아직 소리를 낸 적이 없을 때 — 화면이 텅 비지 않도록 대표 모티프를 옅게 깔아 둡니다
+  if (peak < 0.012) drawScopeIdle(ctx, w, h, '건반을 누르면 이 자리에 파형이 그려집니다');
   // 라이브로 그린 프레임 중 가장 큰 것을 붙잡아 둔다 (소리가 사그라진 뒤에도 쓰려고)
   if (live){
     lastLivePeak = peak;
@@ -3166,7 +3371,14 @@ function specXOf(hz, w){
 /** 스펙트럼 막대 그리기 — 픽셀 구간에 대응하는 bin 최댓값을 쓴다 */
 function paintSpecBars(ctx, w, h, data, binHz, color, base){
   const STEP = 5, BW = 3, bottom = h - 15;
-  ctx.fillStyle = color;
+  // 아래는 어둡고 위(센 성분)로 갈수록 밝아지는 세로 그라데이션 — 세기가 색으로도 읽힙니다
+  const g = ctx.createLinearGradient(0, base, 0, bottom);
+  g.addColorStop(0, color);
+  g.addColorStop(1, rgba(color, .34));
+  ctx.save();
+  ctx.fillStyle = g;
+  ctx.shadowColor = rgba(color, .55); ctx.shadowBlur = 6;
+  const round = !!ctx.roundRect;
   for (let x = 0; x < w - 2; x += STEP){
     const hz0 = specHzAt(x, w), hz1 = specHzAt(x + STEP, w);
     let i0 = Math.max(1, Math.floor(hz0 / binHz));
@@ -3175,10 +3387,14 @@ function paintSpecBars(ctx, w, h, data, binHz, color, base){
     for (let i = i0; i <= i1; i++){ if (data[i] > m) m = data[i]; }
     const bh = (m / 255) * (bottom - base);
     if (bh < 1) continue;
-    ctx.globalAlpha = 0.5 + 0.5 * (m / 255);
-    ctx.fillRect(x + 1, bottom - bh, BW, bh);
+    ctx.globalAlpha = 0.55 + 0.45 * (m / 255);
+    if (round && bh > BW){
+      ctx.beginPath(); ctx.roundRect(x + 1, bottom - bh, BW, bh, [BW / 2, BW / 2, 0, 0]); ctx.fill();
+    } else {
+      ctx.fillRect(x + 1, bottom - bh, BW, bh);
+    }
   }
-  ctx.globalAlpha = 1;
+  ctx.restore();
 }
 /** 스펙트럼 가로축 눈금 */
 function paintSpecAxis(ctx, w, h){
@@ -3723,14 +3939,13 @@ function drawOctView(lo, hi, key){
   drawScopeBg(ctx, w, h, { cols:8, rows:4, axis:false });
   const N = Math.round(w * 2);
   const line = (freq, color, yc, sc) => {
-    ctx.beginPath();
+    const pts = new Array(N + 1);
     for (let i = 0; i <= N; i++){
       const t = (span / 1000) * i / N;
       const v = modelSample(key, freq, CMP_STRENGTH, t);
-      const x = w * i / N, y = yc - v * sc;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts[i] = [w * i / N, yc - v * sc];
     }
-    ctx.lineWidth = 2.2; ctx.strokeStyle = color; ctx.lineJoin = 'round'; ctx.stroke();
+    paintWave(ctx, pts, { color, h, yc, width:2.2, fill:false });
   };
   // 낮은 음의 주기 경계 (2등분) — 이 한 칸이 낮은 음 1주기입니다
   ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2; ctx.strokeStyle = C.accent2;
@@ -3845,18 +4060,15 @@ function renderSynth(){
     drawScopeBg(ctx, w, h, { cols:8, rows:4 });
     const pk = synthPeak(), N = Math.max(200, Math.round(w * 2));
     const cycles = 2;
-    ctx.beginPath();
+    const pts = new Array(N + 1);
     for (let i = 0; i <= N; i++){
       const th = cycles * i / N;                 // 기본음 기준 2주기
       let s = 0;
       for (let k = 0; k < HARM_N; k++) s += state.synth[k] * Math.sin(2 * Math.PI * (k + 1) * th);
       const v = s / pk;
-      const x = w * i / N, y = h / 2 - v * (h / 2 - 10) * 0.94;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts[i] = [w * i / N, h / 2 - v * (h / 2 - 10) * 0.94];
     }
-    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.lineWidth = 2.6; ctx.strokeStyle = C.sig; ctx.stroke();
-    ctx.globalAlpha = .16; ctx.lineWidth = 8; ctx.stroke(); ctx.globalAlpha = 1;
+    paintWave(ctx, pts, { color: C.sig, h, width: 2.6 });
     drawNote(ctx, w, h, '기본음 2주기 · ' + n.ko + '(' + n.en + ')', C.sig);
     const used = state.synth.filter(v => v > 0.02).length;
     drawNote(ctx, w, h, '섞은 배음 ' + used + '개', C.faint, 'right');
@@ -4086,7 +4298,7 @@ async function micStart(){
     spectroInit(); spectroClear();
     err.classList.add('hidden');
     $('#micBtn').textContent = '마이크 끄기';
-    $('#micBtn').classList.remove('sig'); $('#micBtn').classList.add('sec');
+    $('#micBtn').classList.remove('sig'); $('#micBtn').classList.add('line');
     $('#micHold').disabled = false;
     $('#micShot').disabled = false;
     $('#micState').textContent = '마이크가 켜졌어요. 소리를 내 보세요!';
@@ -4108,7 +4320,7 @@ function micStop(quiet){
   Mic.stream = null; Mic.src = null; Mic.an = null;
   state.micOn = false; state.micHold = false;
   $('#micBtn').textContent = '마이크 켜기';
-  $('#micBtn').classList.add('sig'); $('#micBtn').classList.remove('sec');
+  $('#micBtn').classList.add('sig'); $('#micBtn').classList.remove('line');
   $('#micHold').disabled = true; $('#micHold').setAttribute('aria-pressed', 'false');
   $('#micHold').textContent = '⏸ 화면 멈추기';
   $('#micShot').disabled = true;
@@ -4123,10 +4335,14 @@ function micIdleDraw(){
   [['#cvMicWave', 4], ['#cvMicSpec', 4], ['#cvSpectro', 4]].forEach(([sel, rows]) => {
     const f = fitCanvas($(sel)); if (!f) return;
     drawScopeBg(f.ctx, f.w, f.h, { cols:10, rows, axis:sel === '#cvMicWave' });
-    f.ctx.font = '600 12px Pretendard, sans-serif';
-    f.ctx.textAlign = 'center'; f.ctx.textBaseline = 'middle';
-    f.ctx.fillStyle = C.faint;
-    f.ctx.fillText('마이크를 켜면 여기에 그려집니다', f.w / 2, f.h / 2);
+    if (sel === '#cvMicWave'){
+      drawScopeIdle(f.ctx, f.w, f.h, '마이크를 켜면 여기에 그려집니다');
+    } else {
+      f.ctx.font = '600 12px Pretendard, sans-serif';
+      f.ctx.textAlign = 'center'; f.ctx.textBaseline = 'middle';
+      f.ctx.fillStyle = C.faint;
+      f.ctx.fillText('마이크를 켜면 여기에 그려집니다', f.w / 2, f.h / 2);
+    }
     drawWatermark(f.ctx, f.w, f.h);
   });
 }
@@ -4152,17 +4368,16 @@ function micFrame(){
     let mx = 0;
     for (let i = 0; i <= need; i++){ const a = Math.abs(Mic.time[start + i]); if (a > mx) mx = a; }
     const gain = clamp(mx > 0.001 ? 0.86 / mx : 1, 1, 14);   // 작은 소리도 보이도록 자동 확대
-    ctx.beginPath();
     const step = Math.max(1, Math.floor(need / (w * 2)));
+    const pts = [];
     for (let i = 0; i <= need; i += step){
       let v = Mic.time[start + i] * gain;
       if (!isNum(v)) v = 0;
       v = clamp(v, -1, 1);
-      const x = w * i / need, y = h / 2 - v * (h / 2 - 8) * 0.94;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts.push([w * i / need, h / 2 - v * (h / 2 - 8) * 0.94]);
     }
-    ctx.lineWidth = 2.2; ctx.strokeStyle = C.accent2; ctx.lineJoin = 'round'; ctx.stroke();
-    ctx.globalAlpha = .14; ctx.lineWidth = 7; ctx.stroke(); ctx.globalAlpha = 1;
+    paintWave(ctx, pts, { color: C.accent2, h, width: 2.2 });
+    if (mx < 0.004) drawScopeIdle(ctx, w, h, '소리를 내면 파형이 커집니다');
     drawNote(ctx, w, h, '내 소리 · 화면 확대 ' + gain.toFixed(1) + '배', C.accent2);
     drawNote(ctx, w, h, '보이는 시간 25 ms', C.faint, 'right');
     drawWatermark(ctx, w, h);
@@ -4498,20 +4713,21 @@ function drawAudible(){
   if (amp <= 0.005){
     ctx.strokeStyle = C.faint; ctx.lineWidth = 2.2;
     ctx.beginPath(); ctx.moveTo(0, yc); ctx.lineTo(w, yc); ctx.stroke();
+    drawScopeIdle(ctx, w, h, '음량을 올리면 파형이 나타납니다');
   } else if (cyclesPerPx < 0.25){
     const N = Math.max(240, Math.round(w * 3));
-    ctx.beginPath();
+    const pts = new Array(N + 1);
     for (let i = 0; i <= N; i++){
       const t = (spanMs / 1000) * i / N;
       const v = amp * Math.sin(2 * Math.PI * hz * t);
-      const x = w * i / N, y = yc - v * half;
-      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      pts[i] = [w * i / N, yc - v * half];
     }
-    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    ctx.lineWidth = 2.4; ctx.strokeStyle = col; ctx.stroke();
-    ctx.globalAlpha = .16; ctx.lineWidth = 8; ctx.stroke(); ctx.globalAlpha = 1;
+    paintWave(ctx, pts, { color: col, h, yc, width: 2.4 });
   } else {
     dense = true;
+    // 촘촘한 구간은 포락선(띠)이므로 면 채움 대신 옅은 배경 띠 + 선으로 정직하게 표현합니다
+    ctx.fillStyle = rgba(col, .16);
+    ctx.fillRect(0, yc - amp * half, w, amp * half * 2);
     ctx.strokeStyle = col; ctx.lineWidth = 1;
     ctx.beginPath();
     const W = Math.round(w);
@@ -4568,11 +4784,21 @@ function drawBand(){
   ANIMALS.forEach((a, i) => {
     const y = padT + rowH * i + rowH * 0.2, bh = Math.max(6, rowH * 0.46);
     const color = cs.getPropertyValue(a[3]).trim() || C.sig;
-    const x0 = X(a[1]), x1 = X(a[2]);
-    ctx.fillStyle = color; ctx.globalAlpha = .85;
-    if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x0, y, Math.max(4, x1 - x0), bh, bh / 2); ctx.fill(); }
-    else ctx.fillRect(x0, y, Math.max(4, x1 - x0), bh);
-    ctx.globalAlpha = 1;
+    const x0 = X(a[1]), x1 = X(a[2]), bw = Math.max(4, x1 - x0);
+    // 막대에 가로 그라데이션과 옅은 발광을 주어 겹친 범위도 구분되게 합니다
+    const bg2 = ctx.createLinearGradient(x0, 0, x1, 0);
+    bg2.addColorStop(0, rgba(color, .55));
+    bg2.addColorStop(.5, color);
+    bg2.addColorStop(1, rgba(color, .55));
+    ctx.save();
+    ctx.shadowColor = rgba(color, .45); ctx.shadowBlur = 8;
+    ctx.fillStyle = bg2;
+    if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x0, y, bw, bh, bh / 2); ctx.fill(); }
+    else ctx.fillRect(x0, y, bw, bh);
+    ctx.restore();
+    // 막대 위쪽에 얇은 하이라이트 — 유리질감(디자인 방향표의 '무광 금속 + 유리')
+    ctx.fillStyle = 'rgba(255,255,255,.16)';
+    if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x0 + 1, y + 1, bw - 2, Math.max(1, bh * 0.32), bh / 2); ctx.fill(); }
     ctx.fillStyle = C.sub; ctx.font = '700 11px Pretendard, sans-serif';
     ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
     ctx.fillText(a[0], padL - 8, y + bh / 2);
@@ -4700,7 +4926,7 @@ function updateAudUI(){
   const b = $('#audPlay');
   b.textContent = state.aud.playing ? '■ 소리 끄기' : '▶ 소리 켜기';
   b.classList.toggle('sig', !state.aud.playing);
-  b.classList.toggle('sec', state.aud.playing);
+  b.classList.toggle('line', state.aud.playing);
   const tag = $('#audTag');
   tag.textContent = state.aud.playing ? '● 소리 나는 중' : '순음 파형';
   tag.classList.toggle('live', state.aud.playing);
@@ -4885,7 +5111,7 @@ function renderQuiz(){
         '" aria-pressed="' + selfChecked.has(i) + '"><span class="bx" aria-hidden="true">✓</span><span>' + s + '</span></button>').join('') +
       '</div>' +
       '<div class="btn-row" style="justify-content:center;margin-top:var(--s5)">' +
-      '<button class="btn sec" id="qRetry">전체 다시 풀기</button>' +
+      '<button class="btn line" id="qRetry">전체 다시 풀기</button>' +
       (wrong.length ? '<button class="btn main" id="qRetryWrong">틀린 문항만 다시 풀기</button>' : '') +
       '<button class="btn ghost" id="qTheory">개념 다시 보기</button></div></div>';
     $('#qRetry').addEventListener('click', () => { state.quiz = newQuiz(); fx('click'); renderQuiz(); });
@@ -5150,10 +5376,12 @@ function drawMinis(){
     const f = fitCanvas(cv); if (!f) return;
     const { ctx, w, h } = f, kind = cv.dataset.mini;
     drawScopeBg(ctx, w, h, { cols:8, rows:2 });
+    // 개념 카드의 도식도 본 화면과 같은 붓을 씁니다 (한 벌로 보이도록).
+    // 두 선을 겹쳐 비교하는 도식이 많아 면 채움은 끄고 발광만 남깁니다.
     const line = (fn, color, width) => {
-      ctx.beginPath();
-      for (let i = 0; i <= 240; i++){ const x = w * i / 240, y = h / 2 - fn(i / 240) * (h / 2 - 6); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
-      ctx.lineWidth = width || 2; ctx.strokeStyle = color; ctx.lineJoin = 'round'; ctx.stroke();
+      const pts = new Array(241);
+      for (let i = 0; i <= 240; i++) pts[i] = [w * i / 240, h / 2 - fn(i / 240) * (h / 2 - 6)];
+      paintWave(ctx, pts, { color, h, width: width || 2, fill:false });
     };
     ctx.font = '700 10px Pretendard, sans-serif'; ctx.textBaseline = 'top';
     if (kind === 'wave'){
