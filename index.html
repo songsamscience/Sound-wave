@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>송쌤과학 소리 분석 가상실험실</title>
-<meta name="description" content="송쌤과학 소리 분석 가상실험실 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고, 내 목소리를 30초 녹음해 여성·남성·아이·할아버지·할머니 목소리로 변조하며 소리의 세기·높낮이·맵시를 탐구하는 과학 시뮬레이션">
+<meta name="description" content="송쌤과학 소리 분석 가상실험실 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고, 내 목소리를 30초 녹음해 여성·남성·아이·할아버지·할머니 목소리로 변조하며, 마이크로 피아노 음계의 음정을 맞히는 음정 게임까지 즐기는 과학 시뮬레이션">
 <meta name="theme-color" content="#0B1120">
 <meta property="og:title" content="송쌤과학 소리 분석 가상실험실">
 <meta property="og:description" content="악기 소리와 내 목소리를 파형으로 분석하고, 음성 변조로 진동수가 바뀌는 것을 눈과 귀로 함께 확인해 보세요.">
@@ -63,9 +63,10 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
    · 탭1 관찰 기록 표 → 행 삭제·전체 삭제는 토스트 실행취소, CSV는 UTF-8 BOM 포함
    · ❓ 도움말 모달 → 사용법·단축키·교실 설정(음량·발표 모드·모형 정확도)·전체 초기화
    · 파형 앨범 → 📷 파형 기록으로 관찰 장면을 PNG로 모아 비교하고 결과지에 함께 담음
-   · 음성 변조 스튜디오 → 30초 녹음 · 12가지 목소리 · 재생하며 파형 관찰 (탭 5, v5 신설)
-   · 단축키 : 1~7 탭 이동 / Space 파형 정지 / C 파형 기록 / M 측정 커서 /
-             N 녹음 / P 변조 재생 / R 전체 초기화 / ? 도움말 / Esc 닫기
+   · 음성 변조 비교 관찰대 → 30초 녹음 · 12가지 목소리 · 원음↔변조음을 한 화면에서 나란히 (탭 5)
+   · 음정 게임 → 주어진 피아노 음계의 음을 마이크로 맞히는 연습·게임 (탭 7)
+   · 단축키 : 1~8 탭 이동 / Space 파형 정지·게임 시작 / C 파형 기록 / M 측정 커서 /
+             N 녹음 / P 변조 재생 / L 목표 음 듣기 / R 전체 초기화 / ? 도움말 / Esc 닫기
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  v3 변경 요지
    · 탭 6에 [실험 4 · 가청 주파수] 신설 (20 Hz~20 kHz 순음 · 음량 0~100 · 파형 관찰)
@@ -163,10 +164,51 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
       · 「원래 ≈ 198 Hz → 변조 ≈ 250 Hz · +4반음 · 1.26배」처럼 수치로도 함께 보여 줍니다.
       · 재생 위치는 미리보기 파형 위의 세로선으로 따라 움직입니다.
       · 보관함의 목소리를 ▶ 로 들을 때도 똑같이 세 화면이 그 소리를 분석합니다.
+   4-2) v5.1 화면 정리 — 「비교하려고 스크롤하지 않게」
+      · v5 는 마이크 화면(위)과 변조 조작부(아래)가 멀어, 원음과 변조음을 견주려면
+        화면을 오르내려야 했습니다. 두 소리를 동시에 볼 수 없으니 비교 자체가 어려웠습니다.
+      · 그래서 탭 5 의 순서를 바꾸었습니다 —
+        ① 비교 관찰대(원래 ↔ 변조 두 칸) + 목소리 고르기  ② 🔬 정밀 관찰(세 화면)  ③ 보관함  ④ 앨범
+      · 비교 관찰대의 두 칸은 「소리가 들어오는 쪽」만 살아 움직이고 반대쪽은 마지막 관찰 모습을
+        붙잡고 있습니다. 그래서 재생이 끝난 뒤에도 두 파형·두 진동수가 나란히 남습니다.
+      · 목소리를 고르기만 해도 오른쪽 칸에 「예상 진동수」가 먼저 뜹니다(f × 2^(반음/12)).
+        실제로 재생해 보면 그 자리가 실측값으로 바뀌고, 가운데 배지도 실측 비율로 바뀝니다.
+      · 📷 비교 기록 — 두 파형과 두 진동수를 한 장으로 묶어 파형 앨범에 담습니다.
+      · 한 화면에 담기 위한 조정 : 목소리 카드 4열, 직접 조절은 기본 접힘,
+        녹음 미리보기는 얇은 띠(64px)로, 비교 파형은 108px 로 낮췄습니다.
    5) 함께 정리한 것
       · 개념 카드 8 「음성 변조의 원리」, 확인 문제 7번(음성 변조), 마이크 미션 6번 추가.
       · 단축키 N(녹음 시작·정지) · P(변조된 목소리 재생·정지) 추가.
         R 은 이미 「전체 초기화」이므로 녹음에는 쓰지 않았습니다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ v6 변경 요지 — 「스크롤 없이 한 화면에서, 그리고 내 목소리로 음을 맞힌다」
+   1) 🎯 탭 7 · 음정 게임 신설 (피아노 음계 도·레·미·파·솔·라·시·높은 도)
+      · 두 가지 모드를 한 탭 안에서 세그먼트로 전환합니다.
+        ▸ 연습 모드(수동) : 학생이 건반에서 목표 음을 직접 고르고, 마이크로 그 음을 맞춰 봅니다.
+                            시간 제한·점수가 없어 음정이 맞을 때까지 천천히 조절할 수 있습니다.
+        ▸ 게임 모드(자동) : 목표 음이 자동으로 나오고 소리로 들려줍니다. 제한 시간 안에
+                            그 음을 목소리(또는 악기)로 내면 정답 — 8문항을 연속으로 진행합니다.
+      · 판정은 「센트(cent)」로 합니다. 1반음 = 100센트이고, 난이도에 따라
+        쉬움 ±60 · 보통 ±35 · 어려움 ±20 센트 안에서 0.6초 동안 유지하면 정답입니다.
+      · 「옥타브 달라도 정답」 스위치(기본 켜짐) — 목소리 높이가 사람마다 달라
+        같은 계이름이면 옥타브가 달라도 맞은 것으로 봅니다(교육적 배려).
+      · 음정 미터는 「띠 그래프(strip chart)」입니다. 가로축은 최근 3초의 시간,
+        세로축은 목표 음과의 차이(센트). 가운데 초록 띠 안에 선이 머물면 정답입니다.
+        → 음정이 흔들리는 모습까지 눈으로 보이므로, 소리의 높낮이 = 진동수가 몸으로 남습니다.
+      · 결과 화면 : 점수 · 정확도 · 평균 오차(센트) · 최고 연속 정답. 결과지에도 함께 담깁니다.
+   2) 「메뉴를 보려고 스크롤하지 않게」 — 화면 고르기 막대(서브 메뉴) 도입
+      · 탭 1·4·5·6은 한 탭 안에 관찰 화면과 여러 보조 자료가 세로로 길게 이어져 있어,
+        아래쪽 조작부를 보려면 화면을 한참 내려야 했습니다.
+      · 각 탭 위에 「화면 고르기」 막대를 두고, 고른 화면 하나만 보여 줍니다.
+        관찰 → 조작이 늘 한 화면 안에서 끝나고, 스크롤이 필요한 곳이 사라집니다.
+      · 이 막대는 탭 레일 바로 아래에 붙어(sticky) 어디서든 손이 닿습니다.
+   3) 탭이 8개로 늘어난 데 따른 정리
+      · 메뉴바는 여전히 가로 스크롤 0 — 넓은 화면은 8등분, 좁은 화면은 4열 두 줄로 접힙니다.
+      · 단축키 1~8, 진행률 8단계, 학습 흐름 4단계(소리 내보기 → 비교 실험 → 음정 도전 → 확인).
+   4) 함께 고친 것
+      · 마이크 탭에서 「정밀 관찰」 화면을 접어 두어도 비교 관찰대의 파형·진동수가
+        계속 갱신되도록 분석 순서를 바로잡았습니다(캔버스가 숨겨지면 멈추던 문제).
+      · 도움말·결과지·개념 드로어에 음정 게임 안내를 더했습니다.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 -->
 
@@ -221,6 +263,9 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
   --maxw:1140px;
   /* v4 — 관찰 화면 고정에 쓰는 값. --hh 는 실제 헤더 높이로 JS가 갱신합니다 */
   --hh:56px; --pad:var(--s4);
+  /* v6 — 화면 고르기 막대의 높이. 막대가 있는 탭에서만 값이 생겨,
+     그 아래에 붙는 관찰 화면·실행 줄이 막대에 가리지 않게 합니다 */
+  --subh:0px;
 }
 /* 영역 시그니처 — data-domain 한 줄로 전환 */
 [data-domain="physics"]{--sig:#3D5AFE; --sig-deep:#2438B8; --sig-tint:#EEF1FF; --domain-pos:2%;}
@@ -393,12 +438,12 @@ header{
 .steps b{color:var(--text-sub); font-weight:700;}
 .steps .now{color:var(--sig);}
 
-/* ── 메뉴바(탭) : 가로 스크롤 없이 7개가 한눈에 ───────────────────────────
-   폭을 7등분하는 그리드라 어떤 화면에서도 잘려 나가지 않습니다.
+/* ── 메뉴바(탭) : 가로 스크롤 없이 8개가 한눈에 ───────────────────────────
+   폭을 8등분하는 그리드라 어떤 화면에서도 잘려 나가지 않습니다.
    좁은 화면에서는 4열 두 줄로 접히고, 인디케이터도 세로 이동을 지원합니다. */
 .tabrail{position:relative; margin-bottom:var(--s3);}
 .tabs{
-  position:relative; display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px;
+  position:relative; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:4px;
   padding:4px; border-radius:var(--r-md);
   background:var(--surface-2); border:1px solid var(--line);
 }
@@ -441,11 +486,49 @@ header{
 .track .lb{font-size:12px; font-weight:700; color:var(--text-sub); white-space:nowrap;}
 .track .lb b{color:var(--sig);}
 
+/* ── v6 : 화면 고르기 막대(서브 메뉴) ───────────────────────────────────
+   한 탭 안에 세로로 길게 이어져 있던 보조 자료들을 「화면」 단위로 나누고,
+   고른 화면 하나만 보여 줍니다. 아래로 한참 스크롤해야 보이던 조작부가
+   늘 첫 화면에 들어오게 하는 장치입니다. 탭 레일 바로 아래에 붙습니다. */
+.subrail{
+  position:sticky; top:var(--hh); z-index:36;
+  display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  margin:0 calc(var(--pad) * -1) var(--s4); padding:7px var(--pad);
+  background:color-mix(in srgb,var(--bg) 96%,transparent);
+  backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid var(--line);
+}
+.subrail .srl{
+  flex:none; font-size:11.5px; font-weight:800; color:var(--text-faint);
+  letter-spacing:-.01em; margin-right:2px;
+}
+.sbtn{
+  display:inline-flex; align-items:center; gap:5px;
+  min-height:var(--ctl-sm); padding:0 13px; border-radius:var(--r-pill);
+  background:var(--surface-2); border:1px solid var(--line);
+  font-size:12.5px; font-weight:700; color:var(--text-sub); white-space:nowrap;
+  transition:all var(--t-base) var(--ease);
+}
+.sbtn .sn{
+  display:inline-flex; align-items:center; justify-content:center; width:17px; height:17px;
+  border-radius:5px; background:var(--surface-3); font-size:10px; font-weight:800; color:var(--text-faint);
+}
+.sbtn:hover{color:var(--text); border-color:var(--line-strong);}
+.sbtn[aria-pressed="true"]{
+  background:var(--sig-tint); border-color:color-mix(in srgb,var(--sig) 55%,transparent); color:var(--sig);
+}
+.sbtn[aria-pressed="true"] .sn{background:var(--sig); color:#0B1120;}
+[data-theme="light"] .sbtn[aria-pressed="true"] .sn{color:#fff;}
+/* 고르지 않은 화면은 자리도 차지하지 않습니다 */
+.sub-off{display:none !important;}
+
 /* ══════════════════════════════════════════════════════════════
    6. 패널 · 섹션 공통
    ══════════════════════════════════════════════════════════════ */
 .panel{display:none; padding-bottom:var(--s12);}
 .panel.on{display:block; animation:fadeUp .32s var(--ease);}
+/* 화면 고르기 막대가 있는 탭은 그 높이만큼 아래 고정 요소를 내려 줍니다 */
+.panel.has-sub{--subh:50px;}
 @keyframes fadeUp{from{opacity:0; transform:translateY(8px);}to{opacity:1; transform:none;}}
 .sec{margin-bottom:var(--s8);}
 /* 제목은 베이스라인으로 맞추되, 오른쪽에 오는 버튼은 제목 줄의 세로 가운데에 둡니다.
@@ -499,7 +582,7 @@ header{
 .pinned::before{content:'📌';}
 /* 항상 손이 닿아야 하는 실행 줄 (마이크 켜기 등) */
 .stickybar{
-  position:sticky; top:var(--hh); z-index:38;
+  position:sticky; top:calc(var(--hh) + var(--subh)); z-index:38;
   margin-inline:calc(var(--pad) * -1); padding:9px var(--pad);
   background:color-mix(in srgb,var(--bg) 88%,transparent);
   backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%);
@@ -507,7 +590,7 @@ header{
 }
 
 @media (min-width:1001px){
-  .lab-view{position:sticky; top:calc(var(--hh) + 10px);}
+  .lab-view{position:sticky; top:calc(var(--hh) + var(--subh) + 10px);}
 }
 @media (max-width:1000px){
   /* 한 줄로 세울 때는 .lab 을 블록으로 바꾸고 두 열을 display:contents 로 풀어 놓습니다.
@@ -521,7 +604,7 @@ header{
   /* 화면 위에 붙이는 건 「캔버스 1개짜리」 관찰 화면만 (pin-mobile).
      비교 실험처럼 화면이 두 개인 탭은 붙이면 오히려 화면을 다 덮어 버립니다. */
   .lab-view.pin-mobile .stage{
-    position:sticky; top:var(--hh); z-index:40;
+    position:sticky; top:calc(var(--hh) + var(--subh)); z-index:40;
     margin-inline:calc(var(--pad) * -1); padding-inline:var(--pad);
     padding-top:8px; padding-bottom:9px;
     background:color-mix(in srgb,var(--bg) 88%,transparent);
@@ -535,6 +618,16 @@ header{
   .lab-view.pin-mobile .stage .stage-h p,
   .lab-view.pin-mobile .stage .pinned{display:none;}
   [data-present="on"] .lab-view.pin-mobile .stage .scope.big canvas{height:186px;}
+  /* v6 · 음정 게임 — 고정되는 관찰 화면(목표 음 + 미터 + 판정)이
+     좁은 화면의 절반을 넘지 않도록 한 단계씩 줄입니다 */
+  .lab-view.pin-mobile .stage .gtarget{padding:5px var(--s3); margin-bottom:var(--s2);}
+  .lab-view.pin-mobile .stage .gtarget .big{font-size:26px;}
+  .lab-view.pin-mobile .stage .gtarget .lb,
+  .lab-view.pin-mobile .stage .gtarget .hz{display:none;}
+  .lab-view.pin-mobile .stage .gmine .n{font-size:20px;}
+  .lab-view.pin-mobile .stage .gjudge{min-height:32px; font-size:12.5px; margin-top:var(--s2);}
+  .lab-view.pin-mobile .stage .gact{margin-top:var(--s2);}
+  .lab-view.pin-mobile .stage .gact .mic-live{font-size:11px;}
 }
 
 /* 탐구 가이드 아코디언 */
@@ -995,7 +1088,7 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
    ══════════════════════════════════════════════════════════════ */
 .mic-grid{display:grid; grid-template-columns:1fr 320px; gap:var(--s4); align-items:start;}
 /* 음이름·세기 계기판은 스크롤해도 옆에 남아 있게 (v4) */
-@media (min-width:901px){ .mic-side{position:sticky; top:calc(var(--hh) + 78px);} }
+@media (min-width:901px){ .mic-side{position:sticky; top:calc(var(--hh) + var(--subh) + 78px);} }
 .tuner{padding:var(--s5); border-radius:var(--r-md); background:var(--surface); border:1px solid var(--line); text-align:center;}
 .tuner .note{font-size:52px; font-weight:800; line-height:1.05; letter-spacing:-.04em;}
 .tuner .kolb{font-size:17px; font-weight:700; color:var(--sig); margin-top:2px;}
@@ -1030,6 +1123,49 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
    탭 5의 다른 화면과 같은 「관찰은 왼쪽, 조작은 오른쪽」 규칙을 그대로 씁니다.
    ══════════════════════════════════════════════════════════════ */
 .vox-grid{display:grid; grid-template-columns:1fr 340px; gap:var(--s4); align-items:start;}
+/* ── v5.1 : 「원래 ↔ 변조」를 한 화면에서 ─────────────────────────────────
+   v5 에서는 마이크 화면(위)과 변조 조작부(아래)가 멀어, 두 소리를 비교하려면
+   스크롤을 오르내려야 했습니다. 비교 관찰대를 마이크 탭 맨 위로 올리고
+   두 파형·두 진동수를 한 줄에 나란히 두어 눈을 옮기지 않고 보게 했습니다. */
+.vox-lab{display:grid; grid-template-columns:1fr 380px; gap:var(--s4); align-items:start;}
+/* 비교 관찰대가 「스크롤 없이 한 화면」에 들어가야 하므로, 이 안에서는 한 단계씩 낮춰 씁니다 */
+.vox-lab .voices{grid-template-columns:repeat(4,1fr);}
+.vox-lab .voice{min-height:70px;}
+.vox-view .scope.sml canvas{height:64px;}   /* 녹음 전체 모습은 「길이와 위치」만 보면 되므로 얇게 */
+.vox-view .vox-read{padding:7px var(--s3); font-size:12.5px; line-height:1.6; margin-top:var(--s2);}
+.vox-view .vox-read b{font-size:13.5px;}
+.abcmp{display:grid; grid-template-columns:1fr auto 1fr; gap:var(--s2); align-items:stretch;}
+.abpane{
+  min-width:0; display:flex; flex-direction:column; overflow:hidden;
+  border:1px solid var(--line); border-top:3px solid var(--ac,var(--sig));
+  border-radius:var(--r-md); background:var(--surface);
+}
+.abh{display:flex; align-items:center; gap:6px; min-height:34px; padding:5px var(--s3); border-bottom:1px solid var(--line);}
+.abh b{min-width:0; font-size:13.5px; color:var(--ac,var(--text)); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.abh .abtag{margin-left:auto; flex:none; font-size:10.5px; font-weight:700; color:var(--text-faint); white-space:nowrap;}
+.abh .abtag.on{color:var(--ac,var(--sig));}
+/* 계측 화면을 카드 안에 꼭 맞게 끼워 넣습니다 (겹 테두리를 만들지 않으려고 테두리는 뺍니다) */
+.abpane .scope{border:0; border-radius:0; box-shadow:none;}
+.abpane .scope canvas{height:108px;}
+.abnum{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; padding:6px var(--s3) 8px;}
+.abnum .hz{font-size:24px; font-weight:800; letter-spacing:-.035em; line-height:1.12; color:var(--ac,var(--sig));}
+.abnum .nm{font-size:12.5px; font-weight:700; color:var(--text-sub);}
+.abnum .guess{font-size:10.5px; font-weight:700; color:var(--text-faint); margin-left:auto;}
+/* 가운데 배수 배지 — 두 수치 사이에서 「몇 배가 되었는지」를 바로 읽게 합니다 */
+.abmid{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; min-width:64px; padding:0 2px;}
+.abmid .ar{font-size:17px; line-height:1; color:var(--text-faint);}
+.abmid b{font-size:20px; font-weight:800; letter-spacing:-.035em; color:var(--sig);}
+.abmid .semi{font-size:10.5px; font-weight:700; color:var(--text-faint); text-align:center; line-height:1.3; white-space:pre-line;}
+/* 직접 조절은 기본으로 접어 두어 목소리 카드가 한 화면에 들어오게 합니다 */
+.vox-more summary{
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:6px;
+  font-size:12.5px; font-weight:700; color:var(--text-sub);
+}
+.vox-more summary::-webkit-details-marker{display:none;}
+.vox-more summary::after{content:'▾'; margin-left:auto; color:var(--text-faint); transition:transform var(--t-base) var(--ease);}
+.vox-more[open] summary::after{transform:rotate(180deg);}
+.vox-more summary:hover{color:var(--text);}
+.vox-more .vox-sl{margin-top:var(--s3);}
 .vox-bar{display:flex; gap:var(--s2); flex-wrap:wrap; align-items:center; margin-top:var(--s3);}
 .vox-bar > *{align-self:center;}
 .vox-time{font-size:13px; font-weight:800; color:var(--text-sub); letter-spacing:-.02em;}
@@ -1088,6 +1224,123 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .vsave .act button.del:hover{background:var(--no-tint); color:var(--no);}
 /* 직접 조절 슬라이더 묶음 — 세로로 쌓되 라벨·값·눈금 규칙은 다른 슬라이더와 동일 */
 .vox-sl{display:grid; gap:var(--s3);}
+
+/* ══════════════════════════════════════════════════════════════
+   12-4. 음정 게임 (v6)
+   왼쪽 = 목표 음과 음정 미터(관찰), 오른쪽 = 모드·범위·난이도(조작).
+   다른 탭과 같은 「관찰은 왼쪽, 조작은 오른쪽」 규칙을 그대로 씁니다.
+   ══════════════════════════════════════════════════════════════ */
+/* 목표 음 판 — 이 화면에서 가장 먼저 읽혀야 하는 정보이므로 가장 큽니다 */
+.gtarget{
+  display:flex; align-items:center; gap:var(--s4); flex-wrap:wrap;
+  padding:var(--s3) var(--s4); border-radius:var(--r-md);
+  background:var(--sig-tint); border:1px solid color-mix(in srgb,var(--sig) 32%,transparent);
+  margin-bottom:var(--s3);
+}
+.gtarget .gt-l{min-width:0;}
+.gtarget .lb{display:block; font-size:11.5px; font-weight:800; color:var(--text-faint); letter-spacing:.02em;}
+.gtarget .big{font-size:40px; font-weight:800; line-height:1.05; letter-spacing:-.04em; color:var(--sig);}
+.gtarget .en{font-size:14px; font-weight:800; color:var(--text-sub); margin-left:6px; letter-spacing:-.02em;}
+.gtarget .hz{display:block; font-size:12.5px; color:var(--text-sub); margin-top:2px;}
+.gtarget .gt-r{margin-left:auto; display:flex; align-items:center; gap:var(--s2); flex-wrap:wrap;}
+/* 내가 내고 있는 음 — 목표 음과 나란히 두어 눈을 옮기지 않고 견줍니다 */
+.gmine{text-align:right; min-width:104px;}
+.gmine .n{font-size:26px; font-weight:800; line-height:1.1; letter-spacing:-.035em;}
+.gmine .d{font-size:12px; font-weight:700; color:var(--text-sub);}
+.gmine.good .n{color:var(--ok);} .gmine.low .n{color:var(--info);} .gmine.high .n{color:var(--warn);}
+[data-theme="light"] .gmine.good .n{color:var(--ok-deep);}
+
+/* 판정 문구 — 소리를 내는 동안 계속 바뀌므로 높이를 고정해 화면이 들썩이지 않게 합니다 */
+.gjudge{
+  display:flex; align-items:center; gap:var(--s2); min-height:38px;
+  padding:0 var(--s4); border-radius:var(--r-pill);
+  background:var(--surface-2); border:1px solid var(--line);
+  font-size:14px; font-weight:800; color:var(--text-sub); letter-spacing:-.02em;
+  margin-top:var(--s3);
+}
+.gjudge.ok{background:var(--ok-tint); border-color:color-mix(in srgb,var(--ok) 45%,transparent); color:var(--ok);}
+.gjudge.low{background:var(--info-tint); border-color:color-mix(in srgb,var(--info) 40%,transparent); color:var(--info);}
+.gjudge.high{background:var(--warn-tint); border-color:color-mix(in srgb,var(--warn) 40%,transparent); color:var(--warn);}
+.gjudge.miss{background:var(--no-tint); border-color:color-mix(in srgb,var(--no) 40%,transparent); color:var(--no);}
+[data-theme="light"] .gjudge.ok{color:var(--ok-deep);} [data-theme="light"] .gjudge.high{color:var(--warn-deep);}
+.gjudge .gj-r{margin-left:auto; font-size:12px; font-weight:700; color:var(--text-faint);}
+
+/* 실행 줄 — 관찰 화면 안에 두어 화면이 위에 고정될 때 함께 붙어 있게 합니다 */
+.gact{margin-top:var(--s3); gap:var(--s2);}
+.gact > *{align-self:center;}
+
+/* 제한 시간 막대 (게임 모드) */
+.gtime{height:8px; border-radius:var(--r-pill); background:var(--surface-3); overflow:hidden; margin-top:var(--s2);}
+.gtime i{display:block; height:100%; width:100%; border-radius:var(--r-pill);
+  background:linear-gradient(90deg,var(--ok),var(--warn) 70%,var(--no));}
+.gtime.hidden{display:none;}
+
+/* 점수판 — 진행 · 점수 · 연속 정답을 한 줄로 */
+.gscore{display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s2); margin-top:var(--s3);}
+.gsc{padding:var(--s2) var(--s3); border-radius:var(--r-sm); background:var(--surface-2); border:1px solid var(--line); text-align:center;}
+.gsc .k{font-size:11px; color:var(--text-sub); font-weight:600;}
+.gsc .v{font-size:20px; font-weight:800; letter-spacing:-.03em; line-height:1.25;}
+.gsc .v small{font-size:11.5px; font-weight:700; color:var(--text-faint); margin-left:2px;}
+.gsc.a .v{color:var(--sig);} .gsc.b .v{color:var(--ok);} .gsc.c .v{color:var(--warn);}
+[data-theme="light"] .gsc.b .v{color:var(--ok-deep);} [data-theme="light"] .gsc.c .v{color:var(--warn-deep);}
+
+/* 게임용 건반 — 연주실 건반과 같은 문법이되 한 화면에 들어오도록 낮게 */
+.gkeys{display:grid; grid-template-columns:repeat(8,1fr); gap:4px;}
+.gkey{
+  position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  gap:1px; height:84px; padding-bottom:8px; border-radius:5px 5px 10px 10px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F6F9FC 8%,#EFF3F8 62%,#D6DEE8 100%);
+  border:1px solid rgba(15,23,42,.2);
+  box-shadow:0 3px 0 rgba(15,23,42,.26), inset 0 1px 0 rgba(255,255,255,.95),
+             inset 0 -6px 10px -6px rgba(15,23,42,.22);
+  color:#334155; transition:transform var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+  user-select:none;
+}
+.gkey .ko{font-size:13.5px; font-weight:800; letter-spacing:-.03em;}
+.gkey .en{font-size:9.5px; font-weight:700; color:#64748B;}
+.gkey[aria-pressed="true"]{
+  background:linear-gradient(180deg,color-mix(in srgb,var(--sig) 30%,#F8FAFC),color-mix(in srgb,var(--sig) 48%,#E2E8F0));
+  box-shadow:0 3px 0 rgba(15,23,42,.26), inset 0 1px 0 rgba(255,255,255,.8);
+}
+.gkey[aria-pressed="true"] .en{color:#334155;}
+.gkey.hit{background:linear-gradient(180deg,#D8FBEE,#8FE7C8);}
+.gkeys.off{opacity:.45; pointer-events:none;}
+
+/* 결과 화면 */
+.gresult{
+  padding:var(--s5); border-radius:var(--r-md); text-align:center;
+  background:var(--surface); border:1px solid var(--line); box-shadow:var(--inset);
+}
+.gresult .big{font-size:44px; font-weight:800; letter-spacing:-.04em; line-height:1.1; color:var(--sig);}
+.gresult .big small{font-size:18px; color:var(--text-sub); font-weight:700;}
+.gresult .msg{font-size:14.5px; font-weight:700; margin-top:var(--s2); color:var(--text);}
+.gresult .det{font-size:13px; color:var(--text-sub); margin-top:var(--s2); line-height:1.8;}
+.gresult .btn-row{justify-content:center; margin-top:var(--s4);}
+/* 한 문항씩의 결과 — 맞힌 음은 초록, 놓친 음은 회색 */
+.gsteps{display:flex; gap:5px; flex-wrap:wrap; justify-content:center; margin-top:var(--s3);}
+.gstepdot{
+  display:inline-flex; align-items:center; justify-content:center; gap:3px;
+  min-width:46px; min-height:28px; padding:0 8px; border-radius:var(--r-pill);
+  background:var(--surface-2); border:1px solid var(--line);
+  font-size:11.5px; font-weight:800; color:var(--text-faint);
+}
+.gstepdot.ok{background:var(--ok-tint); border-color:color-mix(in srgb,var(--ok) 45%,transparent); color:var(--ok);}
+.gstepdot.no{background:var(--no-tint); border-color:color-mix(in srgb,var(--no) 35%,transparent); color:var(--no);}
+[data-theme="light"] .gstepdot.ok{color:var(--ok-deep);}
+/* 마이크가 꺼져 있을 때의 안내 */
+.gwarn{
+  padding:var(--s3) var(--s4); border-radius:var(--r-sm); margin-top:var(--s3);
+  background:var(--warn-tint); border:1px solid color-mix(in srgb,var(--warn) 25%,transparent);
+  font-size:13px; color:var(--text-sub); line-height:1.7;
+}
+.gwarn.hidden{display:none;}
+.gtips{display:grid; gap:6px; margin-top:var(--s2);}
+.gtip{
+  display:flex; gap:8px; align-items:flex-start; padding:7px var(--s3); border-radius:var(--r-sm);
+  background:var(--surface-2); border:1px solid var(--line); border-left:3px solid var(--gc,var(--sig));
+  font-size:12.5px; color:var(--text-sub); line-height:1.6;
+}
+.gtip b{color:var(--text);}
 
 /* ══════════════════════════════════════════════════════════════
    13. 퀴즈
@@ -1289,21 +1542,32 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 /* ══════════════════════════════════════════════════════════════
    17. 반응형
    ══════════════════════════════════════════════════════════════ */
-/* 탭 글자가 좁아지면 단계적으로 압축 — 어떤 폭에서도 가로 스크롤은 만들지 않습니다 */
-@media (max-width:1060px){
+/* 탭 글자가 좁아지면 단계적으로 압축 — 어떤 폭에서도 가로 스크롤은 만들지 않습니다.
+   v6 에서 탭이 8개가 되었으므로 압축 시점을 한 단계씩 앞당겼습니다. */
+@media (max-width:1180px){
   .tab{font-size:12px; gap:5px; padding:0 6px;}
   .tab .num{width:19px; height:19px; font-size:10.5px;}
 }
-@media (max-width:860px){
+@media (max-width:980px){
   .tab{flex-direction:column; gap:2px; padding:6px 4px; min-height:54px; font-size:11.5px;}
   .tab .dn{top:4px; right:4px;}
 }
-@media (max-width:600px){
+@media (max-width:680px){
+  /* 8개 = 4열 두 줄로 정확히 나누어떨어집니다 (가로 스크롤 0) */
   .tabs{grid-template-columns:repeat(4,minmax(0,1fr));}
   .tab{min-height:56px; padding:5px 3px; font-size:11px;}
   .tab .lb{white-space:normal; overflow:visible; line-height:1.2;}
+}
+@media (max-width:600px){
+  /* v6 — 좁은 화면에서 학습 흐름 안내가 두 줄로 접히며 세로를 잡아먹었습니다.
+     같은 정보를 탭 번호가 이미 알려 주므로 진행률만 남깁니다 */
+  .steps{display:none;}
   .safety{padding:5px 40px 5px var(--s3); gap:var(--s2); font-size:11.5px;}
   .safety span:last-of-type{display:none;}   /* 좁은 화면에서는 한 줄만 */
+  .subrail{padding:6px var(--pad); gap:5px;}
+  .subrail .srl{display:none;}
+  .sbtn{padding:0 10px; font-size:12px;}
+  .panel.has-sub{--subh:46px;}
 }
 @media (max-width:980px){
   .synth{grid-template-columns:1fr;}
@@ -1312,6 +1576,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 @media (max-width:900px){
   .mic-grid{grid-template-columns:1fr;}
   .vox-grid{grid-template-columns:1fr;}
+  .vox-lab{grid-template-columns:1fr;}
   .vsaves{grid-template-columns:repeat(2,1fr);}
   .speed-tool{grid-template-columns:1fr;}
   .shots{grid-template-columns:repeat(3,1fr);}
@@ -1347,9 +1612,31 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   .voice{min-height:68px; font-size:11.5px;}
   .voice .vi{font-size:19px;}
   .vsaves{grid-template-columns:1fr;}
+  /* 좁은 화면에서도 두 소리는 반드시 나란히 — 비교가 이 화면의 목적이기 때문 */
+  .abcmp{gap:5px;}
+  .abpane .scope canvas{height:104px;}
+  .abh{min-height:30px; padding:4px 9px;}
+  .abh b{font-size:12px;} .abh .abtag{font-size:9.5px;}
+  .abnum{padding:6px 9px 8px; gap:5px;}
+  .abnum .hz{font-size:19px;} .abnum .nm{font-size:11px;} .abnum .guess{display:none;}
+  .abmid{min-width:46px;}
+  .abmid b{font-size:15px;} .abmid .ar{font-size:14px;} .abmid .semi{font-size:9.5px;}
   .bigread .n{font-size:32px;}
   .bigread .tagx{margin-left:0;}
   [data-present="on"] .scope.big canvas{height:240px;}
+  /* 음정 게임 — 좁은 화면에서도 목표 음·미터·판정이 한 화면에 들어오게 */
+  .gtarget{gap:var(--s3); padding:var(--s2) var(--s3);}
+  .gtarget .big{font-size:32px;}
+  .gmine{min-width:88px;}
+  .gmine .n{font-size:21px;}
+  .gscore{grid-template-columns:repeat(2,1fr);}
+  .gkey{height:70px;}
+  .gkey .ko{font-size:12.5px;}
+  .gresult .big{font-size:36px;}
+  /* 실행 줄이 두 줄로 접히면 고정된 관찰 화면이 그만큼 높아지므로 글자를 줄입니다 */
+  .wide-only{display:none;}
+  .gact .mic-live{font-size:10.5px;}
+  .lab-view.pin-mobile .stage .scope.mid canvas{height:104px;}
 }
 @media (min-width:761px){ .grab{display:none;} }
 @media (max-width:520px){
@@ -1386,7 +1673,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
 }
 @media print{
-  header,footer,.tabs,.tabrail,#toast,.safety{display:none !important;}
+  header,footer,.tabs,.tabrail,.subrail,#toast,.safety{display:none !important;}
+  .sub-off{display:block !important;}   /* 인쇄할 때는 모든 화면을 펼칩니다 */
   .lab{grid-template-columns:1fr !important;}
   .lab-view,.lab-view .stage{position:static !important; background:none !important; border:0 !important;}
 }
@@ -1463,16 +1751,16 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   <!-- ═══════════════ 스텝 · 진행률 (한 줄) ═══════════════ -->
   <div class="topline">
     <div class="steps" id="steps">
-      <b class="s1">① 소리 내보기</b><span>→</span><b class="s2">② 비교 실험</b><span>→</span><b class="s3">③ 확인하기</b>
+      <b class="s1">① 소리 내보기</b><span>→</span><b class="s2">② 비교 실험</b><span>→</span><b class="s3">③ 음정 도전</b><span>→</span><b class="s4">④ 확인하기</b>
     </div>
     <div class="track">
       <span class="lb">진행률 <b id="trkPct">0%</b></span>
       <div class="bar"><i id="trkBar"></i></div>
-      <span class="lb tnum" id="trkTxt">0 / 7 단계</span>
+      <span class="lb tnum" id="trkTxt">0 / 8 단계</span>
     </div>
   </div>
 
-  <!-- ═══════════════ 메뉴바(탭) — 7개가 한 화면에 ═══════════════
+  <!-- ═══════════════ 메뉴바(탭) — 8개가 한 화면에 ═══════════════
        긴 이름은 짧게 줄이고 원래 이름은 aria-label·title 에 남깁니다 -->
   <div class="tabrail">
     <div class="tabs" role="tablist" aria-label="실험 단계 선택">
@@ -1489,15 +1777,26 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
               aria-label="5단계 마이크 실시간 분석" title="마이크 실시간 분석"><span class="num">5</span><span class="lb">마이크 분석</span><span class="dn" aria-hidden="true"></span></button>
       <button class="tab" role="tab" id="t-audible" aria-controls="p-audible" aria-selected="false" tabindex="-1"
               aria-label="6단계 실험 4 가청 주파수" title="실험 4 · 가청 주파수"><span class="num">6</span><span class="lb">가청 주파수</span><span class="dn" aria-hidden="true"></span></button>
+      <button class="tab" role="tab" id="t-game"   aria-controls="p-game"   aria-selected="false" tabindex="-1"
+              aria-label="7단계 음정 게임 마이크로 음 맞히기" title="음정 게임 · 마이크로 음 맞히기"><span class="num">7</span><span class="lb">음정 게임</span><span class="dn" aria-hidden="true"></span></button>
       <button class="tab" role="tab" id="t-quiz"   aria-controls="p-quiz"   aria-selected="false" tabindex="-1"
-              aria-label="7단계 확인 문제" title="확인 문제"><span class="num">7</span><span class="lb">확인 문제</span><span class="dn" aria-hidden="true"></span></button>
+              aria-label="8단계 확인 문제" title="확인 문제"><span class="num">8</span><span class="lb">확인 문제</span><span class="dn" aria-hidden="true"></span></button>
     </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
        탭 1 · 자유 탐구 연주실
        ═══════════════════════════════════════════════════════════ -->
-  <section class="panel on" id="p-play" role="tabpanel" aria-labelledby="t-play">
+  <section class="panel on has-sub" id="p-play" role="tabpanel" aria-labelledby="t-play">
+
+    <!-- v6 · 화면 고르기 — 아래로 길게 이어져 있던 보조 자료를 화면 단위로 나눕니다 -->
+    <div class="subrail" role="group" aria-label="연주실 화면 고르기">
+      <span class="srl">화면 고르기</span>
+      <button class="sbtn" type="button" data-sub="play-main" aria-pressed="true"><span class="sn">1</span>연주 · 파형</button>
+      <button class="sbtn" type="button" data-sub="play-spec" aria-pressed="false"><span class="sn">2</span>스펙트럼</button>
+      <button class="sbtn" type="button" data-sub="play-speed" aria-pressed="false"><span class="sn">3</span>속력 · 파장</button>
+      <button class="sbtn" type="button" data-sub="play-rec" aria-pressed="false"><span class="sn">4</span>앨범 · 기록</button>
+    </div>
 
     <div class="guide" id="g-play">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-play">
@@ -1540,7 +1839,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <!-- ── 관찰 작업대 : 왼쪽(고정) 파형 · 오른쪽 연주 조작 ────────────────── -->
-    <div class="lab">
+    <div class="lab" data-subid="play-main">
       <div class="lab-view pin-mobile">
         <div class="stage">
           <div class="stage-h">
@@ -1642,7 +1941,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="play-rec">
       <div class="sec-h">
         <h2>파형 앨범</h2>
         <p>기록한 파형은 나중에 나란히 비교할 수 있어요</p>
@@ -1655,7 +1954,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <p class="tiny" style="margin-top:var(--s2)">기록한 파형은 결과지에도 함께 담기고, 각각 PNG 그림으로 내려받을 수 있어요.</p>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="play-speed">
       <div class="sec-h"><h2>소리의 속력과 파장</h2><p>매질과 온도를 바꾸면 파장이 어떻게 변할까요</p></div>
       <div class="card">
         <div class="speed-tool">
@@ -1684,7 +1983,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="play-spec">
       <div class="sec-h">
         <h2>주파수 스펙트럼</h2>
         <p>소리 안에 어떤 진동수가 섞여 있는지 보여 줘요</p>
@@ -1700,9 +1999,16 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <canvas id="cvSpec" role="img" aria-label="소리의 주파수 스펙트럼 막대그래프"></canvas>
       </div>
       <p class="tiny" style="margin-top:var(--s2)">가장 왼쪽의 큰 막대가 <b>기본음</b>이고, 그 오른쪽 막대들이 <b>배음</b>이에요. 배음의 크기 차이가 악기의 맵시를 만듭니다.</p>
+      <!-- v6 — 이 화면에서도 바로 소리를 낼 수 있도록 건반을 함께 둡니다
+           (화면을 옮겨 다니며 스크롤하지 않게 하는 것이 v6의 목표입니다) -->
+      <div class="ctrl-box" style="margin-top:var(--s4)">
+        <p class="ct">여기서 바로 연주하기 — 누르는 즉시 위 막대가 바뀝니다</p>
+        <div class="keys" id="keys2" role="group" aria-label="건반 (스펙트럼 화면)"></div>
+        <p class="kb-hint">키보드 <b>A S D F G H J K</b> 로도 연주할 수 있어요 · <b>Z / X</b> 옥타브 이동</p>
+      </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="play-rec">
       <div class="sec-h"><h2>관찰 기록</h2><p>기록해 둔 값은 결과지에 함께 저장돼요</p></div>
       <div class="card">
         <p class="rec-note">⚠️ 새로고침하면 기록이 사라져요. 먼저 저장해 주세요.</p>
@@ -1937,7 +2243,13 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   <!-- ═══════════════════════════════════════════════════════════
        탭 4 · 실험 3 — 악기의 맵시(음색)와 배음
        ═══════════════════════════════════════════════════════════ -->
-  <section class="panel" id="p-timbre" role="tabpanel" aria-labelledby="t-timbre">
+  <section class="panel has-sub" id="p-timbre" role="tabpanel" aria-labelledby="t-timbre">
+
+    <div class="subrail" role="group" aria-label="실험 3 화면 고르기">
+      <span class="srl">화면 고르기</span>
+      <button class="sbtn" type="button" data-sub="tb-five" aria-pressed="true"><span class="sn">1</span>다섯 악기 비교</button>
+      <button class="sbtn" type="button" data-sub="tb-synth" aria-pressed="false"><span class="sn">2</span>배음 합성 실험대</button>
+    </div>
 
     <div class="guide" id="g-timbre">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-timbre">
@@ -1972,7 +2284,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <!-- 기준 음 선택을 파형 바로 위에 붙여 두어 고르는 즉시 다섯 파형을 볼 수 있게 했습니다 -->
-    <div class="sec">
+    <div class="sec" data-subid="tb-five">
       <div class="sec-h"><h2>다섯 악기의 파형</h2><p>같은 음 · 같은 세기 — 그래도 모양이 다릅니다</p></div>
       <div class="ctrl-box" style="margin-bottom:var(--s3)">
         <p class="ct">기준 음 고르기 <span style="font-weight:600;color:var(--text-faint)">— 다섯 악기가 모두 이 음을 같은 세기로 연주합니다 (기본 라 A4 · 440 Hz)</span></p>
@@ -1988,7 +2300,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="tb-synth">
       <div class="sec-h"><h2>배음 합성 실험대</h2><p>배음을 직접 섞어 파형을 만들어 보세요</p></div>
       <div class="synth">
         <div>
@@ -2031,7 +2343,14 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   <!-- ═══════════════════════════════════════════════════════════
        탭 5 · 마이크 실시간 분석실
        ═══════════════════════════════════════════════════════════ -->
-  <section class="panel" id="p-mic" role="tabpanel" aria-labelledby="t-mic">
+  <section class="panel has-sub" id="p-mic" role="tabpanel" aria-labelledby="t-mic">
+
+    <div class="subrail" role="group" aria-label="마이크 분석실 화면 고르기">
+      <span class="srl">화면 고르기</span>
+      <button class="sbtn" type="button" data-sub="mic-ab" aria-pressed="true"><span class="sn">1</span>음성 변조 비교</button>
+      <button class="sbtn" type="button" data-sub="mic-fine" aria-pressed="false"><span class="sn">2</span>정밀 관찰</button>
+      <button class="sbtn" type="button" data-sub="mic-keep" aria-pressed="false"><span class="sn">3</span>보관함 · 앨범</button>
+    </div>
 
     <div class="guide" id="g-mic">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-mic">
@@ -2052,13 +2371,15 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
               <li>아래 미션 카드를 하나씩 눌러 가며 소리를 내 봅니다.</li>
               <li>파형 · 스펙트럼 · 스펙트로그램 · 음이름이 어떻게 바뀌는지 관찰합니다.</li>
               <li><b>🔴 녹음</b>을 눌러 최대 <b>30초</b> 동안 한 문장을 말해 봅니다. (예: &ldquo;안녕하세요, 저는 ○○○입니다.&rdquo;)</li>
-              <li><b>🎭 음성 변조 스튜디오</b>에서 여성 · 남성 · 아이 · 할머니 · 할아버지 등 목소리를 골라
-                  <b>▶ 변조된 목소리</b>로 들어 봅니다. 재생하는 동안 위쪽 세 화면이 그 소리를 그대로 분석합니다.</li>
-              <li><b>▶ 원래 목소리</b>와 번갈아 들으며 <b>검출된 진동수(Hz)</b>가 몇 배로 변하는지 비교합니다.</li>
+              <li><b>목소리 고르기</b>에서 여성 · 남성 · 아이 · 할머니 · 할아버지 등을 고릅니다.
+                  고르는 순간 오른쪽 칸에 <b>바뀔 진동수(예상값)</b>가 먼저 표시됩니다.</li>
+              <li><b>▶ 변조된 목소리</b>와 <b>▶ 원래 목소리</b>를 번갈아 누릅니다.
+                  <b>비교 관찰대</b>의 왼쪽·오른쪽 칸에 두 파형과 두 진동수가 나란히 남아,
+                  스크롤하지 않고 <b>한 화면에서</b> 견줄 수 있습니다. 가운데 배지가 <b>몇 배</b>인지 알려 줍니다.</li>
               <li>마음에 드는 목소리는 <b>🎧 이 목소리 담기</b>로 <b>목소리 보관함</b>에 모아 두고 번갈아 들어 봅니다.
                   파일로 남기려면 <b>💾 WAV</b>를 누르세요.</li>
-              <li>남기고 싶은 장면이 나오면 <b>⏸ 화면 멈추기</b>로 잡아 두고
-                  <b>📷 화면 기록</b>을 눌러 <b>파형 앨범</b>에 저장합니다. (세 화면이 한 장에 담겨요)</li></ol>
+              <li>비교한 결과는 <b>📷 비교 기록</b>으로 두 파형을 <b>한 장</b>에 담아 남길 수 있어요.
+                  아래 <b>🔬 정밀 관찰</b>에서는 <b>📷 화면 기록</b>으로 파형 · 스펙트럼 · 스펙트로그램을 함께 남깁니다.</li></ol>
           <p class="tiny" style="margin-top:6px">🔒 마이크 소리와 녹음은 <b>내 기기의 메모리 안에서만</b> 다뤄집니다.
              어떤 서버로도 전송되지 않고 저절로 저장되지도 않으며, 다른 탭으로 옮기거나 새로고침하면 <b>즉시 사라집니다</b>.
              파일로 남는 것은 <b>💾 WAV 저장</b>을 직접 눌렀을 때뿐이에요. 다른 사람의 목소리는 <b>반드시 허락을 받고</b> 녹음합니다.</p></div>
@@ -2077,7 +2398,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <!-- 마이크 켜기·멈추기는 어디까지 스크롤해도 손이 닿도록 화면 위에 고정합니다 -->
+    <!-- 마이크 켜기·멈추기는 어디까지 스크롤해도 손이 닿도록 화면 위에 고정합니다
+         (v6 — 화면 고르기 막대 바로 아래에 붙습니다) -->
     <div class="stickybar">
       <div class="btn-row">
         <button class="btn sig" id="micBtn">마이크 켜기</button>
@@ -2094,7 +2416,117 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <div class="mic-note hidden" id="micErr" role="alert" style="margin-top:var(--s2)"></div>
     </div>
 
-    <div class="mic-grid">
+    <!-- ── 🎭 음성 변조 · 비교 관찰대 (v5.1) ─────────────────────────────────
+         v5 에서는 마이크 화면(위)과 변조 조작부(아래)가 멀리 떨어져 있어,
+         원래 목소리와 변조된 목소리를 견주려면 화면을 오르내려야 했습니다.
+         두 파형과 두 진동수를 한 줄에 나란히 놓고, 재생 버튼과 목소리 카드까지
+         같은 화면에 모아 「눈을 옮기지 않고 비교」할 수 있게 했습니다. -->
+    <div class="sec" id="voxSec" data-subid="mic-ab">
+      <div class="sec-h">
+        <h2>🎭 음성 변조 · 한눈에 비교</h2>
+        <p>왼쪽은 원래 목소리, 오른쪽은 변조된 목소리 — 파형과 진동수를 나란히 놓고 봅니다</p>
+      </div>
+
+      <div class="vox-lab">
+        <div class="vox-view">
+          <div class="abcmp">
+            <div class="abpane" style="--ac:var(--accent-2)">
+              <div class="abh"><b>원래 목소리</b><span class="abtag" id="abTagA">대기 중</span></div>
+              <div class="scope"><canvas id="cvAbA" role="img" aria-label="원래 목소리의 파형"></canvas></div>
+              <div class="abnum">
+                <span class="hz tnum" id="abHzA">— Hz</span>
+                <span class="nm" id="abNoteA">소리를 내 보세요</span>
+                <span class="guess hidden" id="abGuessA">예상값</span>
+              </div>
+            </div>
+            <div class="abmid">
+              <span class="ar" aria-hidden="true">→</span>
+              <b class="tnum" id="abRatio">×1.00</b>
+              <span class="semi" id="abSemi">그대로</span>
+            </div>
+            <div class="abpane" style="--ac:var(--sig)">
+              <div class="abh"><b id="abNameB">변조된 목소리</b><span class="abtag" id="abTagB">녹음 후 재생</span></div>
+              <div class="scope"><canvas id="cvAbB" role="img" aria-label="변조된 목소리의 파형"></canvas></div>
+              <div class="abnum">
+                <span class="hz tnum" id="abHzB">— Hz</span>
+                <span class="nm" id="abNoteB">목소리를 골라 보세요</span>
+                <span class="guess hidden" id="abGuessB">예상값</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="vox-bar">
+            <button class="btn line" id="voxPlayOrig" disabled>▶ 원래 목소리</button>
+            <button class="btn main" id="voxPlayMod" disabled>▶ 변조된 목소리</button>
+            <button class="btn ghost" id="voxStop" disabled>■ 정지</button>
+            <button class="btn ghost sm" id="abShot" disabled
+                    aria-label="원래 목소리와 변조된 목소리의 비교 화면을 파형 앨범에 기록">📷 비교 기록</button>
+            <span class="vox-time tnum" id="voxTime" aria-live="polite">녹음 없음</span>
+          </div>
+
+          <div class="scope sml" style="margin-top:var(--s2)">
+            <span class="tag" id="voxTag">녹음 전</span>
+            <canvas id="cvVox" role="img" aria-label="녹음한 목소리의 전체 파형과 재생 위치"></canvas>
+          </div>
+
+          <div class="vox-bar">
+            <button class="btn line sm" id="voxKeep" disabled
+                    aria-label="지금 고른 목소리를 보관함에 담아 두기">🎧 이 목소리 담기</button>
+            <button class="btn ghost sm" id="voxWav" disabled
+                    aria-label="변조된 목소리를 WAV 파일로 내 컴퓨터에 저장">💾 WAV 저장</button>
+            <button class="btn ghost sm" id="voxAgain" disabled>🔄 다시 녹음</button>
+            <button class="btn ghost sm" id="voxDel" disabled>🗑 녹음 지우기</button>
+          </div>
+
+          <div class="vox-read" id="voxRead">
+            먼저 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 순서로 내 목소리를 담아 보세요.
+            녹음이 끝나면 위의 두 화면에 <b>원래 목소리</b>와 <b>변조된 목소리</b>의 파형·진동수가 나란히 표시됩니다.
+          </div>
+        </div>
+
+        <div class="vox-ctrl">
+          <div class="ctrl-box">
+            <div class="ct">목소리 고르기</div>
+            <div class="voices" id="voxPresets" role="group" aria-label="음성 변조 목소리 선택"></div>
+            <p class="vox-tip" id="voxDesc">카드를 누르면 그 목소리로 바뀝니다. 아래 숫자는 <b>원래 목소리보다 몇 반음</b> 높이거나 낮추는지를 뜻해요.</p>
+          </div>
+
+          <details class="ctrl-box vox-more" style="margin-top:var(--s3)">
+            <summary>직접 조절 — 반음 · 말하기 속도 · 밝기</summary>
+            <div class="vox-sl">
+              <div class="slider">
+                <div class="top"><label for="rgVoxSt">음 높이 (반음)</label><span class="val tnum" id="vVoxSt">0 반음</span></div>
+                <input type="range" id="rgVoxSt" min="-12" max="12" step="1" value="0" aria-label="음 높이 반음">
+                <div class="ends"><span>-12 (한 옥타브 아래)</span><span>+12 (한 옥타브 위)</span></div>
+              </div>
+              <div class="slider">
+                <div class="top"><label for="rgVoxSp">말하기 속도</label><span class="val tnum" id="vVoxSp">1.00 배</span></div>
+                <input type="range" id="rgVoxSp" min="70" max="140" step="2" value="100" aria-label="말하기 속도">
+                <div class="ends"><span>0.7배 (느리게)</span><span>1.4배 (빠르게)</span></div>
+              </div>
+              <div class="slider">
+                <div class="top"><label for="rgVoxTn">목소리 밝기</label><span class="val tnum" id="vVoxTn">0 dB</span></div>
+                <input type="range" id="rgVoxTn" min="-8" max="8" step="1" value="0" aria-label="목소리 밝기">
+                <div class="ends"><span>-8 (먹먹하게)</span><span>+8 (또렷하게)</span></div>
+              </div>
+            </div>
+            <p class="vox-tip">슬라이더를 움직이면 <b>직접 조절</b>로 바뀝니다.
+              반음 <b>+12</b>는 진동수 <b>2배</b>(한 옥타브 위), <b>-12</b>는 <b>½배</b>예요.</p>
+          </details>
+
+          <p class="tiny" style="margin-top:var(--s2)">
+            🔒 녹음은 <b>메모리에만</b> 있고 전송·자동 저장이 없어요. 🔈 <b>이어폰</b>을 쓰면 더 정확히 관찰됩니다.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 정밀 관찰 : 지금 들리는 소리(마이크 또는 재생)를 세 가지 방법으로 ── -->
+    <div class="sec-h" style="margin-top:var(--s6)" data-subid="mic-fine">
+      <h2>🔬 정밀 관찰</h2>
+      <p>지금 들리는 소리 — 마이크를 켜면 내 목소리, 재생 중에는 그 소리를 분석합니다</p>
+    </div>
+    <div class="mic-grid" data-subid="mic-fine">
       <div>
         <div class="sec">
           <div class="sec-h"><h2>실시간 파형</h2><p>내 소리가 만드는 공기의 떨림</p></div>
@@ -2148,99 +2580,25 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <!-- ── 음성 변조 스튜디오 (v5) ────────────────────────────────────────────
-         왼쪽 : 녹음한 소리의 전체 모습과 재생 위치 (관찰)
-         오른쪽 : 어떤 목소리로 바꿀지 (조작)
-         재생하는 동안 위쪽 세 화면(파형·스펙트럼·스펙트로그램)이 변조된 소리를 분석합니다. -->
-    <div class="sec" id="voxSec" style="margin-top:var(--s6)">
+    <!-- ── 목소리 보관함 : 변조한 목소리를 여러 개 담아 두고 번갈아 듣고 비교합니다 ── -->
+    <div class="sec" style="margin-top:var(--s6)" data-subid="mic-keep">
       <div class="sec-h">
-        <h2>🎭 음성 변조 스튜디오</h2>
-        <p>내 목소리를 30초까지 녹음해 여러 목소리로 바꿔 듣고, 그 파형을 그대로 관찰합니다</p>
+        <h2>🎧 목소리 보관함</h2>
+        <p>🎧 이 목소리 담기로 저장한 변조 음성이 여기에 모입니다 — 번갈아 들으며 비교해 보세요</p>
+        <div class="sh-r"><button class="btn ghost sm" id="voxSavesClear" disabled>모두 지우기</button></div>
       </div>
-
-      <div class="vox-grid">
-        <div>
-          <div class="scope mid">
-            <span class="tag" id="voxTag">녹음 전</span>
-            <canvas id="cvVox" role="img" aria-label="녹음한 목소리의 전체 파형과 재생 위치"></canvas>
-          </div>
-          <div class="vox-bar">
-            <button class="btn line" id="voxPlayOrig" disabled>▶ 원래 목소리</button>
-            <button class="btn main" id="voxPlayMod" disabled>▶ 변조된 목소리</button>
-            <button class="btn ghost" id="voxStop" disabled>■ 정지</button>
-            <span class="vox-time tnum" id="voxTime" aria-live="polite">녹음 없음</span>
-          </div>
-          <div class="vox-bar">
-            <button class="btn line sm" id="voxKeep" disabled
-                    aria-label="지금 고른 목소리를 보관함에 담아 두기">🎧 이 목소리 담기</button>
-            <button class="btn ghost sm" id="voxWav" disabled
-                    aria-label="변조된 목소리를 WAV 파일로 내 컴퓨터에 저장">💾 WAV 저장</button>
-            <button class="btn ghost sm" id="voxAgain" disabled>🔄 다시 녹음</button>
-            <button class="btn ghost sm" id="voxDel" disabled>🗑 녹음 지우기</button>
-          </div>
-
-          <div class="vox-read" id="voxRead">
-            먼저 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 순서로 내 목소리를 담아 보세요.
-            녹음이 끝나면 이곳에 <b>원래 목소리의 진동수</b>와 <b>변조된 목소리의 진동수</b>가 나란히 표시됩니다.
-          </div>
-          <p class="tiny" style="margin-top:var(--s2)">
-            🔒 녹음한 소리는 <b>이 페이지의 메모리에만</b> 있습니다. 전송·자동 저장이 없고, 탭을 옮기거나 새로고침하면 사라져요.
-            스피커 소리가 마이크로 다시 들어가면 소리가 겹쳐 들릴 수 있으니, <b>이어폰</b>을 쓰거나 재생할 때 볼륨을 조금 낮춰 주세요.
-          </p>
-        </div>
-
-        <div>
-          <div class="ctrl-box">
-            <div class="ct">목소리 고르기</div>
-            <div class="voices" id="voxPresets" role="group" aria-label="음성 변조 목소리 선택"></div>
-            <p class="vox-tip" id="voxDesc">카드를 누르면 그 목소리로 바뀝니다. 아래 숫자는 <b>원래 목소리보다 몇 반음</b> 높이거나 낮추는지를 뜻해요.</p>
-          </div>
-
-          <div class="ctrl-box" style="margin-top:var(--s4)">
-            <div class="ct">직접 조절</div>
-            <div class="vox-sl">
-              <div class="slider">
-                <div class="top"><label for="rgVoxSt">음 높이 (반음)</label><span class="val tnum" id="vVoxSt">0 반음</span></div>
-                <input type="range" id="rgVoxSt" min="-12" max="12" step="1" value="0" aria-label="음 높이 반음">
-                <div class="ends"><span>-12 (한 옥타브 아래)</span><span>+12 (한 옥타브 위)</span></div>
-              </div>
-              <div class="slider">
-                <div class="top"><label for="rgVoxSp">말하기 속도</label><span class="val tnum" id="vVoxSp">1.00 배</span></div>
-                <input type="range" id="rgVoxSp" min="70" max="140" step="2" value="100" aria-label="말하기 속도">
-                <div class="ends"><span>0.7배 (느리게)</span><span>1.4배 (빠르게)</span></div>
-              </div>
-              <div class="slider">
-                <div class="top"><label for="rgVoxTn">목소리 밝기</label><span class="val tnum" id="vVoxTn">0 dB</span></div>
-                <input type="range" id="rgVoxTn" min="-8" max="8" step="1" value="0" aria-label="목소리 밝기">
-                <div class="ends"><span>-8 (먹먹하게)</span><span>+8 (또렷하게)</span></div>
-              </div>
-            </div>
-            <p class="vox-tip">슬라이더를 움직이면 <b>직접 조절</b>로 바뀝니다.
-              반음 <b>+12</b>는 진동수 <b>2배</b>(한 옥타브 위), <b>-12</b>는 <b>½배</b>예요.</p>
-          </div>
-        </div>
+      <div class="vsaves hidden" id="voxSaves"></div>
+      <div class="shots-empty" id="voxSavesEmpty">
+        아직 담아 둔 목소리가 없어요. 목소리를 고른 뒤 <b>🎧 이 목소리 담기</b>를 눌러 보세요.
+        담아 둔 목소리는 <b>▶ 듣기</b>로 다시 들으면서 파형을 관찰하고, <b>💾 WAV</b>로 파일로도 남길 수 있어요.
       </div>
-
-      <!-- ── 목소리 보관함 : 변조한 목소리를 여러 개 담아 두고 번갈아 듣고 비교합니다 ── -->
-      <div class="sec" style="margin-top:var(--s6)">
-        <div class="sec-h">
-          <h2>🎧 목소리 보관함</h2>
-          <p>🎧 이 목소리 담기로 저장한 변조 음성이 여기에 모입니다 — 번갈아 들으며 비교해 보세요</p>
-          <div class="sh-r"><button class="btn ghost sm" id="voxSavesClear" disabled>모두 지우기</button></div>
-        </div>
-        <div class="vsaves hidden" id="voxSaves"></div>
-        <div class="shots-empty" id="voxSavesEmpty">
-          아직 담아 둔 목소리가 없어요. 목소리를 고른 뒤 <b>🎧 이 목소리 담기</b>를 눌러 보세요.
-          담아 둔 목소리는 <b>▶ 듣기</b>로 다시 들으면서 파형을 관찰하고, <b>💾 WAV</b>로 파일로도 남길 수 있어요.
-        </div>
-        <p class="tiny" style="margin-top:var(--s2)">
-          최대 <b>6개</b>까지 담을 수 있어요. 담아 둔 목소리는 다른 탭에 다녀와도 남아 있지만,
-          <b>새로고침하면 사라집니다.</b> 파일로 남기려면 <b>💾 WAV</b>를 눌러 주세요.
-        </p>
-      </div>
+      <p class="tiny" style="margin-top:var(--s2)">
+        최대 <b>6개</b>까지 담을 수 있어요. 담아 둔 목소리는 다른 탭에 다녀와도 남아 있지만,
+        <b>새로고침하면 사라집니다.</b> 파일로 남기려면 <b>💾 WAV</b>를 눌러 주세요.
+      </p>
     </div>
 
-    <div class="sec" style="margin-top:var(--s6)">
+    <div class="sec" style="margin-top:var(--s6)" data-subid="mic-keep">
       <div class="sec-h">
         <h2>파형 앨범</h2>
         <p>📷 화면 기록으로 남긴 장면이 여기에 모입니다</p>
@@ -2261,7 +2619,14 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   <!-- ═══════════════════════════════════════════════════════════
        탭 6 · 실험 4 — 가청 주파수와 음량
        ═══════════════════════════════════════════════════════════ -->
-  <section class="panel" id="p-audible" role="tabpanel" aria-labelledby="t-audible">
+  <section class="panel has-sub" id="p-audible" role="tabpanel" aria-labelledby="t-audible">
+
+    <div class="subrail" role="group" aria-label="실험 4 화면 고르기">
+      <span class="srl">화면 고르기</span>
+      <button class="sbtn" type="button" data-sub="aud-main" aria-pressed="true"><span class="sn">1</span>진동수 조절 · 파형</button>
+      <button class="sbtn" type="button" data-sub="aud-band" aria-pressed="false"><span class="sn">2</span>동물 가청 범위</button>
+      <button class="sbtn" type="button" data-sub="aud-ear" aria-pressed="false"><span class="sn">3</span>내 귀 확인 · 앨범</button>
+    </div>
 
     <div class="guide" id="g-aud">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-aud">
@@ -2305,7 +2670,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <!-- ── 관찰 작업대 : 왼쪽 파형(고정) · 오른쪽 진동수·음량 조작 ───────────── -->
-    <div class="lab">
+    <div class="lab" data-subid="aud-main">
       <div class="lab-view pin-mobile">
         <div class="stage">
           <div class="stage-h">
@@ -2397,7 +2762,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="aud-ear">
       <div class="sec-h">
         <h2>파형 앨범</h2>
         <p>낮은 음과 높은 음을 기록해 나란히 놓고 비교해 보세요</p>
@@ -2409,7 +2774,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
     </div>
 
-    <div class="sec">
+    <div class="sec" data-subid="aud-band">
       <div class="sec-h"><h2>가청 주파수와 초음파</h2><p>사람과 동물이 들을 수 있는 범위를 비교해 보세요</p></div>
       <div class="scope tall">
         <canvas id="cvBand" role="img" aria-label="사람과 동물의 가청 주파수 범위 비교 그래프"></canvas>
@@ -2417,7 +2782,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <p class="tiny" style="margin-top:var(--s2)" id="bandRead">가로축은 로그 눈금이에요. 노란 세로선이 지금 만들고 있는 소리의 진동수입니다. 동물 값은 대푯값이며 개체에 따라 다릅니다.</p>
     </div>
 
-    <div class="aud-grid">
+    <div data-subid="aud-band">
       <div class="sec" style="margin-bottom:0">
         <div class="sec-h"><h2>초음파는 어디에 쓰일까</h2></div>
         <div class="usecases">
@@ -2436,16 +2801,185 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         </div>
       </div>
 
-      <div class="sec" style="margin-bottom:0">
-        <div class="sec-h"><h2>내 귀 확인하기</h2></div>
-        <div class="card">
-          <p class="tiny" style="margin-bottom:var(--s3)">버튼을 누르면 그 진동수의 소리가 <b>2초</b> 동안 납니다. <b>들렸다면</b> 한 번 더 눌러 체크해 두세요.</p>
-          <div class="hear" id="hearGrid"></div>
-          <div class="hear-out" id="hearOut">아직 확인한 진동수가 없어요.</div>
-          <div class="btn-row" style="margin-top:var(--s3)">
-            <button class="btn ghost sm" id="hearReset">체크 지우기</button>
+    </div>
+
+    <div class="sec" data-subid="aud-ear">
+      <div class="sec-h"><h2>내 귀 확인하기</h2><p>어느 높이까지 들리는지 스스로 확인해 보세요</p></div>
+      <div class="card">
+        <p class="tiny" style="margin-bottom:var(--s3)">버튼을 누르면 그 진동수의 소리가 <b>2초</b> 동안 납니다. <b>들렸다면</b> 한 번 더 눌러 체크해 두세요.</p>
+        <div class="hear" id="hearGrid"></div>
+        <div class="hear-out" id="hearOut">아직 확인한 진동수가 없어요.</div>
+        <div class="btn-row" style="margin-top:var(--s3)">
+          <button class="btn ghost sm" id="hearReset">체크 지우기</button>
+        </div>
+        <p class="tiny" style="margin-top:var(--s3)">※ 이 결과는 <b>놀이용 어림값</b>이에요. 스피커 성능·주변 소음·음량에 크게 좌우되므로 실제 청력 검사가 아닙니다.</p>
+      </div>
+    </div>
+
+    <div class="btn-row" style="justify-content:center;margin-top:var(--s8)">
+      <button class="btn main" data-go="t-quiz">이제 → 확인 문제 풀기</button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       탭 7 · 음정 게임 (v6 신설)
+
+       ▸ 왜 만들었나
+         소리의 높낮이 = 진동수라는 사실은 「보는 것」만으로는 잘 남지 않습니다.
+         내 목소리로 그 진동수를 직접 만들어 맞혀 보면, 높낮이가 몸에 남습니다.
+       ▸ 두 가지 모드를 한 화면에서 세그먼트로 전환합니다.
+         · 연습 모드(수동) : 목표 음을 학생이 직접 고르고, 시간 제한 없이 맞춰 봅니다.
+         · 게임 모드(자동) : 목표 음이 자동으로 나오고, 제한 시간 안에 맞히면 점수.
+       ▸ 음은 모두 피아노 음계(12평균율)의 도·레·미·파·솔·라·시·높은 도입니다.
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="panel" id="p-game" role="tabpanel" aria-labelledby="t-game">
+
+    <div class="guide" id="g-game">
+      <button class="guide-h" aria-expanded="false" aria-controls="gb-game">
+        <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.2"/><circle cx="12" cy="12" r="1"/></svg>
+        음정 게임 안내 — 내 목소리로 그 음을 만들어 보세요
+        <span class="gh-hint" aria-hidden="true">눌러서 펼치기</span>
+        <span class="arw" aria-hidden="true">▾</span>
+      </button>
+      <div class="guide-b" id="gb-game">
+        <div class="gstep"><h4>탐구 목표</h4>
+          <p>주어진 음과 <b>같은 진동수</b>의 소리를 내 목소리(또는 악기)로 만들어 봅니다.
+             소리의 높낮이가 곧 <b>진동수</b>라는 것을, 귀와 목과 눈으로 한 번에 확인합니다.</p></div>
+        <div class="gstep"><h4>생각 열기</h4>
+          <p>노래를 따라 부를 때 &lsquo;음이 맞다·틀리다&rsquo;는 무엇을 뜻할까요?
+             내가 낸 소리의 <b>무엇</b>이 목표와 같아야 &lsquo;맞다&rsquo;고 하는 걸까요?</p></div>
+        <div class="gstep"><h4>하는 방법</h4>
+          <ol>
+            <li><b>마이크 켜기</b>를 누릅니다. (권한 허용을 눌러 주세요)</li>
+            <li><b>연습 모드</b>에서는 건반을 눌러 목표 음을 고르고 <b>🔊 목표 음 듣기</b>로 소리를 확인합니다.
+                그 음을 &lsquo;아~&rsquo; 하고 길게 내면서 <b>음정 미터</b>의 선을 가운데 초록 띠 안에 넣어 보세요.</li>
+            <li><b>게임 모드</b>에서는 <b>▶ 게임 시작</b>을 누르면 목표 음이 자동으로 나옵니다.
+                제한 시간 안에 그 음을 내면 정답, 8문항을 이어서 풉니다.</li>
+            <li>목소리가 잘 안 나오면 <b>리코더 · 실로폰 · 피아노 앱</b> 같은 실제 악기 소리를 마이크에 들려줘도 됩니다.</li>
+          </ol>
+          <p class="tiny" style="margin-top:6px">🔒 마이크 소리는 <b>내 기기 안에서만</b> 분석되고, 녹음·전송·저장이 전혀 없습니다.
+             🔈 스피커 소리가 마이크로 되돌아 들어가면 판정이 흔들릴 수 있어요 — <b>이어폰</b>을 쓰면 가장 정확합니다.</p></div>
+        <div class="gstep"><h4>알아 두기 — 센트(cent)</h4>
+          <p>음정의 차이는 <b>센트</b>로 잽니다. <b>1반음 = 100센트</b>, <b>1옥타브 = 1200센트</b>예요.
+             ±<b>35</b>센트면 사람 귀로는 &lsquo;거의 같은 음&rsquo;으로 들립니다.
+             진동수로 보면 <b>2배</b>가 될 때마다 한 옥타브(1200센트)씩 올라갑니다.</p></div>
+        <div class="gstep"><h4>관찰 포인트</h4>
+          <ul>
+            <li>음이 <b>낮을 때</b>와 <b>높을 때</b>, 미터의 선은 각각 어느 쪽으로 갑니까?</li>
+            <li>소리를 길게 낼 때 선이 흔들린다면, 내 목소리의 <b>진동수</b>는 어떻게 되고 있는 걸까요?</li>
+            <li>한 옥타브 아래로 불러도 정답이 되는 이유는 무엇일까요? (계이름이 같기 때문이에요)</li>
+          </ul></div>
+        <div class="gstep"><h4>정리하기 <span class="tiny">(빈칸을 눌러 확인)</span></h4>
+          <p>두 소리의 음이 같다는 것은 <button class="blank" data-ans="진동수">진동수</button>가 같다는 뜻이고,
+             한 옥타브 위의 음은 진동수가 <button class="blank" data-ans="2배">2배</button>이다.</p></div>
+      </div>
+    </div>
+
+    <!-- ── 관찰 작업대 : 왼쪽 = 목표 음과 음정 미터, 오른쪽 = 모드·범위·난이도 ──
+         실행 버튼(마이크·듣기·시작)은 관찰 화면 안에 두었습니다.
+         좁은 화면에서 관찰 화면이 위에 고정될 때 버튼도 함께 붙어 있어야,
+         아래에서 설정을 바꾸는 동안에도 바로 손이 닿기 때문입니다. -->
+    <div class="lab">
+      <div class="lab-view pin-mobile">
+        <div class="stage">
+          <div class="gtarget">
+            <div class="gt-l">
+              <span class="lb">맞혀야 할 음</span>
+              <span class="big" id="gTargetKo">도</span><span class="en" id="gTargetEn">C4</span>
+              <span class="hz tnum" id="gTargetHz">261.6 Hz</span>
+            </div>
+            <div class="gt-r">
+              <div class="gmine" id="gMine">
+                <div class="n tnum" id="gMineNote">—</div>
+                <div class="d tnum" id="gMineHz">— Hz</div>
+              </div>
+            </div>
           </div>
-          <p class="tiny" style="margin-top:var(--s3)">※ 이 결과는 <b>놀이용 어림값</b>이에요. 스피커 성능·주변 소음·음량에 크게 좌우되므로 실제 청력 검사가 아닙니다.</p>
+
+          <div class="stage-h">
+            <h2>음정 미터</h2>
+            <p>가운데 초록 띠 안에 선을 넣고 유지하면 정답이에요</p>
+            <span class="sh-r pinned">이 화면은 계속 보입니다</span>
+          </div>
+          <div class="scope mid">
+            <span class="tag" id="gTag">대기 중</span>
+            <canvas id="cvGame" role="img" aria-label="목표 음과 내 소리의 차이를 시간에 따라 그린 음정 미터"></canvas>
+          </div>
+          <div class="gjudge" id="gJudge">마이크를 켜고 소리를 내 보세요.<span class="gj-r" id="gJudgeR"></span></div>
+          <div class="gtime hidden" id="gTimeWrap"><i id="gTimeBar"></i></div>
+
+          <div class="btn-row gact">
+            <button class="btn sig sm" id="gMic">마이크 켜기</button>
+            <button class="btn line sm" id="gHear" aria-label="목표 음 다시 듣기">🔊 <span class="wide-only">목표 음 </span>듣기</button>
+            <button class="btn main sm" id="gStart" disabled>▶ 게임 시작</button>
+            <button class="btn ghost sm" id="gStop" disabled>■ 그만하기</button>
+            <span class="mic-live hidden" id="gLiveBadge"><i></i>마이크 사용 중</span>
+          </div>
+        </div>
+
+        <p class="muted" id="gState" aria-live="polite" style="margin-top:var(--s2)">마이크는 버튼을 눌렀을 때만 켜집니다.</p>
+        <div class="mic-note hidden" id="gErr" role="alert" style="margin-top:var(--s2)"></div>
+
+        <div class="sec tight" style="margin-top:var(--s4)">
+          <div class="gscore">
+            <div class="gsc a"><div class="k">진행</div><div class="v tnum" id="gRound">— <small>/ 8</small></div></div>
+            <div class="gsc b"><div class="k">맞힌 개수</div><div class="v tnum" id="gScore">0</div></div>
+            <div class="gsc c"><div class="k">연속 정답</div><div class="v tnum" id="gCombo">0</div></div>
+            <div class="gsc"><div class="k">음 차이</div><div class="v tnum" id="gCents">— <small>센트</small></div></div>
+          </div>
+          <div class="gwarn hidden" id="gWarn"></div>
+          <div class="gresult hidden" id="gResult" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="lab-ctrl">
+        <div class="ctrl-box">
+          <p class="ct">① 모드 고르기</p>
+          <div class="segs" id="gModeSeg" role="group" aria-label="게임 모드 선택" style="width:100%">
+            <button class="seg" data-gmode="practice" aria-pressed="true" style="flex:1">🎹 연습 (수동)</button>
+            <button class="seg" data-gmode="play" aria-pressed="false" style="flex:1">🎯 게임 (자동)</button>
+          </div>
+          <p class="vox-tip" id="gModeTip">
+            <b>연습 모드</b> — 아래 건반에서 목표 음을 직접 고르고, 시간 제한 없이 천천히 맞춰 봅니다.
+          </p>
+        </div>
+
+        <div class="ctrl-box">
+          <p class="ct">② 음의 높이(옥타브) <span style="font-weight:600;color:var(--text-faint)">— 내 목소리에 맞게</span></p>
+          <div class="segs" id="gOctSeg" role="group" aria-label="옥타브 선택" style="width:100%">
+            <button class="seg" data-goct="3" aria-pressed="false" style="flex:1">낮은 (남학생)</button>
+            <button class="seg" data-goct="4" aria-pressed="true" style="flex:1">기본</button>
+            <button class="seg" data-goct="5" aria-pressed="false" style="flex:1">높은</button>
+          </div>
+          <div class="swrow" style="margin-top:var(--s2)">
+            <div class="txt"><b>옥타브 달라도 정답</b><span>계이름만 같으면 맞은 것으로 봅니다. 목소리 높이가 사람마다 달라 기본으로 켜 둡니다.</span></div>
+            <button class="sw" id="gSwOct" aria-pressed="true" aria-label="옥타브 무시 켜기"></button>
+          </div>
+        </div>
+
+        <div class="ctrl-box" id="gDiffBox">
+          <p class="ct">③ 난이도 <span style="font-weight:600;color:var(--text-faint)">— 허용 오차와 제한 시간</span></p>
+          <div class="segs" id="gDiffSeg" role="group" aria-label="난이도 선택" style="width:100%">
+            <button class="seg" data-gdiff="easy" aria-pressed="false" style="flex:1">쉬움</button>
+            <button class="seg" data-gdiff="normal" aria-pressed="true" style="flex:1">보통</button>
+            <button class="seg" data-gdiff="hard" aria-pressed="false" style="flex:1">어려움</button>
+          </div>
+          <p class="vox-tip" id="gDiffTip">보통 — ±35센트 안에서 <b>0.6초</b> 유지하면 정답 · 한 문항 <b>12초</b></p>
+        </div>
+
+        <div class="ctrl-box" id="gKeyBox">
+          <p class="ct">④ 목표 음 고르기 <span style="font-weight:600;color:var(--text-faint)">— 누르면 그 음이 들립니다</span></p>
+          <div class="gkeys" id="gKeys" role="group" aria-label="목표 음 건반"></div>
+          <p class="kb-hint">게임 모드에서는 목표 음이 <b>자동</b>으로 정해집니다 · <b>Space</b> 시작·정지 · <b>L</b> 다시 듣기</p>
+        </div>
+
+        <div class="ctrl-box">
+          <p class="ct">도움말</p>
+          <div class="gtips">
+            <div class="gtip" style="--gc:var(--ins-recorder)"><span>🗣️</span><span><b>&lsquo;아~&rsquo; 하고 길게</b> 소리 내면 진동수가 안정되어 훨씬 잘 잡힙니다.</span></div>
+            <div class="gtip" style="--gc:var(--ins-piano)"><span>🎧</span><span>스피커 소리가 마이크로 들어가면 판정이 흔들려요. <b>이어폰</b>을 쓰거나 소리를 들은 뒤에 내 보세요.</span></div>
+            <div class="gtip" style="--gc:var(--ins-xylo)"><span>🎼</span><span>목소리가 닿지 않으면 <b>옥타브</b>를 바꾸거나, 위 스위치를 켜 둔 채로 편한 높이에서 부르세요.</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -2456,11 +2990,11 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
-       탭 7 · 확인 문제
+       탭 8 · 확인 문제
        ═══════════════════════════════════════════════════════════ -->
   <section class="panel" id="p-quiz" role="tabpanel" aria-labelledby="t-quiz">
     <div class="quiz-top">
-      <span class="qcount tnum" id="qCount">1 / 5</span>
+      <span class="qcount tnum" id="qCount">1 / 8</span>
       <div class="prog"><i id="qProg"></i></div>
       <span class="score tnum" id="qScore">0점</span>
     </div>
@@ -2529,6 +3063,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         T: 주기(초) — 한 번 진동하는 데 걸린 시간 · f: 진동수(Hz) — 1초 동안의 진동 횟수
       </div>
       <p class="link">🔬 <b>실험 연결</b> — 탭 1의 <b>측정</b> 버튼으로 물결 한 개의 시간을 직접 재면 1÷T가 실제 진동수와 거의 같게 나옵니다.</p>
+      <p class="link">🎯 <b>음정 게임(탭 7)</b> — 음의 차이는 <b>센트</b>로 잽니다. 1반음 = 100센트, 1옥타브 = 1200센트예요.
+         내 목소리의 진동수를 목표 음에 맞추면, 두 소리의 진동수가 같아진 것입니다.</p>
     </article>
 
     <article class="ccard" id="c-timbre" style="--cc:var(--ins-violin)">
@@ -2597,8 +3133,9 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
          그러면 <b>길이는 그대로인데 진동수만</b> 바뀌어 자연스럽게 들립니다.</p>
       <p>진동수 말고 <b>음색</b>을 바꾸는 방법도 있습니다. 높은 진동수를 깎아 내면 먹먹한 옛날 라디오 소리가 되고,
          떨림(트레몰로)을 더하면 목소리가 흔들려 나이 든 느낌이 납니다. 어떤 배음이 남느냐가 <b>맵시</b>를 정하기 때문이에요.</p>
-      <p class="link">🔬 <b>실험 연결</b> — 탭 5의 <b>음성 변조 스튜디오</b>에서 &lsquo;아이&rsquo;를 고른 뒤 재생하면,
-         검출된 진동수가 실제로 1.5배 안팎으로 올라가고 파형의 물결이 촘촘해지는 것을 확인할 수 있어요.</p>
+      <p class="link">🔬 <b>실험 연결</b> — 탭 5의 <b>비교 관찰대</b>에서 &lsquo;아이&rsquo;를 고른 뒤 재생하면,
+         왼쪽(원래)과 오른쪽(변조) 두 칸에서 진동수가 실제로 1.5배 안팎으로 올라가고
+         파형의 물결이 촘촘해지는 것을 <b>나란히</b> 확인할 수 있어요.</p>
     </article>
   </div>
   <div class="dr-f">
@@ -2621,7 +3158,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <li>탭 1에서 악기를 고르고 건반을 눌러 <b>소리와 파형</b>을 함께 살펴봅니다.</li>
         <li>탭 2 · 3 · 4에서 <b>세기 · 높낮이 · 맵시</b>를 하나씩 비교합니다.</li>
         <li>탭 5에서 <b>내 목소리</b>를, 탭 6에서 <b>가청 주파수</b>를 알아봅니다.</li>
-        <li>탭 7에서 확인 문제를 풀고, <b>결과 캡처</b> 또는 <b>PDF 저장</b>으로 과제를 제출합니다.</li>
+        <li>탭 7 <b>음정 게임</b>에서 주어진 음을 내 목소리로 맞혀 봅니다.</li>
+        <li>탭 8에서 확인 문제를 풀고, <b>결과 캡처</b> 또는 <b>PDF 저장</b>으로 과제를 제출합니다.</li>
       </ol>
       <p class="tiny" style="margin-top:var(--s2)">📷 <b>파형 기록</b> 버튼을 누르면 지금 화면의 파형이 <b>파형 앨범</b>에 사진으로 저장돼요. 결과지에도 함께 담깁니다.</p>
     </div>
@@ -2642,8 +3180,14 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <ol>
         <li>탭 5에서 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 를 누르고 한 문장을 말합니다. 30초가 되면 저절로 멈춰요.</li>
         <li><b>목소리 고르기</b>에서 여성 · 남성 · 아이 · 할머니 · 할아버지 · 로봇 등 카드를 누릅니다.</li>
-        <li><b>▶ 변조된 목소리</b>를 누르면 그 소리가 재생되고, 위쪽 세 화면이 <b>재생되는 소리</b>를 분석합니다.</li>
-        <li><b>▶ 원래 목소리</b>와 번갈아 들으며 <b>검출된 진동수(Hz)</b>가 몇 배로 변하는지 확인하세요.</li>
+        <li><b>비교 관찰대</b>가 화면 맨 위에 있습니다. <b>왼쪽 = 원래 목소리, 오른쪽 = 변조된 목소리</b>로
+          파형과 진동수가 나란히 놓여, <b>스크롤하지 않고</b> 두 소리를 견줄 수 있어요.
+          가운데 배지는 진동수가 <b>몇 배</b>가 되었는지 알려 줍니다.</li>
+        <li><b>▶ 변조된 목소리</b>와 <b>▶ 원래 목소리</b>를 번갈아 누르면 각 칸이 그때그때 갱신되고,
+          재생이 끝나도 마지막 모습이 남아 계속 비교할 수 있습니다.
+          목소리만 골라도 오른쪽에 <b>예상 진동수</b>가 먼저 표시돼요.</li>
+        <li>더 자세히 보고 싶으면 아래 <b>🔬 정밀 관찰</b>에서 파형 · 스펙트럼 · 스펙트로그램을 봅니다.
+          재생 중에는 이 세 화면도 <b>재생되는 소리</b>를 분석합니다.</li>
         <li><b>직접 조절</b> 슬라이더로 반음 · 말하기 속도 · 밝기를 스스로 바꿔 볼 수도 있어요.</li>
         <li>변조된 목소리를 <b>남기는 방법은 두 가지</b>예요.
           <b>🎧 이 목소리 담기</b>는 화면 속 <b>목소리 보관함</b>에 담아 두었다가 ▶ 로 번갈아 들어 비교하는 용도(최대 6개),
@@ -2659,12 +3203,32 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <div class="hl">
-      <h4>화면 보는 법 (v4에서 새로워졌어요)</h4>
+      <h4>🎯 음정 게임 (v6에서 새로 생겼어요)</h4>
+      <ol>
+        <li>탭 7에서 <b>마이크 켜기</b>를 누르고 권한을 허용합니다.</li>
+        <li><b>연습 모드</b>에서는 오른쪽 건반으로 목표 음을 직접 고릅니다. 누르면 그 음이 들려요.
+          그 음을 &lsquo;아~&rsquo; 하고 길게 내면서 <b>음정 미터</b>의 선을 가운데 <b>초록 띠</b> 안에 넣어 유지하면 성공입니다.</li>
+        <li><b>게임 모드</b>에서는 <b>▶ 게임 시작</b>을 누르면 목표 음이 자동으로 나옵니다.
+          제한 시간 안에 그 음을 내면 정답이고, <b>8문항</b>이 이어집니다. 끝나면 점수 · 정확도 · 평균 오차가 나옵니다.</li>
+        <li>난이도는 <b>허용 오차와 제한 시간</b>을 함께 바꿉니다 — 쉬움 ±60센트/15초 · 보통 ±35센트/12초 · 어려움 ±20센트/9초.</li>
+        <li><b>옥타브 달라도 정답</b> 스위치는 기본으로 켜져 있어요. 목소리 높이가 사람마다 달라
+          <b>계이름만 같으면</b> 맞은 것으로 봅니다. 끄면 옥타브까지 정확히 맞춰야 해요.</li>
+        <li>목소리가 잘 안 나오면 <b>리코더 · 실로폰</b> 같은 실제 악기 소리를 마이크에 들려줘도 됩니다.</li>
+      </ol>
+      <p class="tiny" style="margin-top:var(--s2)">🔒 이 게임에서도 마이크 소리는 <b>기기 안에서 분석만</b> 하고 녹음·전송·저장을 하지 않습니다.
+        🔈 스피커 소리가 마이크로 되돌아 들어가면 판정이 흔들릴 수 있어요 — <b>이어폰</b>을 쓰면 가장 정확합니다.</p>
+    </div>
+
+    <div class="hl">
+      <h4>화면 보는 법 (v6에서 다시 정리했어요)</h4>
       <ul>
         <li><b>왼쪽(넓은 화면) · 위쪽(좁은 화면)은 관찰 자리</b>예요. 파형은 그 자리에 <b>고정</b>되어 있어서, 아래에서 조작해도 사라지지 않습니다.</li>
         <li><b>오른쪽(넓은 화면) · 아래쪽(좁은 화면)은 조작 자리</b>예요. 악기 · 세기 · 건반 · 진동수를 여기서 바꿉니다.</li>
+        <li>탭 1 · 4 · 5 · 6 에는 탭 바로 아래에 <b>「화면 고르기」 막대</b>가 있어요.
+          예전에는 스펙트럼 · 앨범 · 보관함을 보려면 화면을 한참 내려야 했지만,
+          이제는 막대에서 고르면 그 화면 하나만 나와 <b>스크롤 없이</b> 조작할 수 있습니다.</li>
         <li>실험 안내는 기본으로 <b>접혀</b> 있어요. 필요할 때 안내 막대를 눌러 펼치면 됩니다.</li>
-        <li>탭 7개는 가로 스크롤 없이 <b>한 화면에</b> 모두 보이고, 화면이 좁으면 두 줄로 접힙니다.</li>
+        <li>탭 8개는 가로 스크롤 없이 <b>한 화면에</b> 모두 보이고, 화면이 좁으면 4개씩 두 줄로 접힙니다.</li>
       </ul>
     </div>
 
@@ -2689,12 +3253,13 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <h4>키보드 단축키</h4>
       <ul>
         <li><span class="kbd">A</span>~<span class="kbd">K</span> 건반 연주 · <span class="kbd">Z</span><span class="kbd">X</span> 옥타브 내리기·올리기</li>
-        <li><span class="kbd">1</span>~<span class="kbd">7</span> 탭 이동 · <span class="kbd">←</span><span class="kbd">→</span> 탭 목록에서 이동</li>
-        <li><span class="kbd">Space</span> 파형 정지 / 다시 움직이기 (마이크 탭에서는 화면 멈추기)</li>
+        <li><span class="kbd">1</span>~<span class="kbd">8</span> 탭 이동 · <span class="kbd">←</span><span class="kbd">→</span> 탭 목록에서 이동</li>
+        <li><span class="kbd">Space</span> 파형 정지 / 다시 움직이기 (마이크 탭 = 화면 멈추기 · 음정 게임 = 시작·정지)</li>
         <li><span class="kbd">C</span> 파형·화면 기록 (앨범에 사진으로 저장)</li>
         <li><span class="kbd">M</span> 측정 커서 켜기 / 끄기</li>
         <li><span class="kbd">N</span> 녹음 시작 / 멈추기 (마이크 탭)</li>
         <li><span class="kbd">P</span> 변조된 목소리 재생 / 정지 (마이크 탭)</li>
+        <li><span class="kbd">L</span> 목표 음 다시 듣기 (음정 게임 탭)</li>
         <li><span class="kbd">R</span> 전체 초기화 (실행취소 가능)</li>
         <li><span class="kbd">Esc</span> 열려 있는 패널 닫기</li>
       </ul>
@@ -2743,9 +3308,10 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </a>
     </div>
     <div class="f-meta">
-      송쌤과학 소리 분석 가상실험실 <b>v5</b> · 2026.07 업데이트 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
+      송쌤과학 소리 분석 가상실험실 <b>v6</b> · 2026.07 업데이트 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
       모든 소리는 Web Audio API로 실시간 합성했고, 그래픽은 직접 제작한 SVG·Canvas입니다. 외부 이미지·음원·라이브러리를 사용하지 않았습니다.
-      음성 변조도 브라우저 안에서 직접 계산합니다(WSOLA 시간 늘리기 + 재생 속도 보정).<br>
+      음성 변조도 브라우저 안에서 직접 계산합니다(WSOLA 시간 늘리기 + 재생 속도 보정).
+      음정 게임의 음높이 판정은 YIN 알고리즘으로 진동수를 찾아 센트 단위로 비교합니다.<br>
       ※ 음성 녹음은 이 페이지의 메모리에만 존재하며 서버로 전송되거나 자동 저장되지 않습니다. 탭을 옮기거나 새로고침하면 사라집니다.<br>
       ※ 교육적 단순화 — 공기의 흡수와 방의 울림은 없다고 가정했고, 소리의 속력은 공기에서 <b>v = 331.5 + 0.6 t</b>(℃), 물 1,480 m/s, 철 5,120 m/s를 사용했습니다.
       가청 주파수 20 Hz~20 kHz는 건강한 젊은 성인의 대푯값이며, 동물의 가청 범위도 개체에 따라 다른 대푯값입니다.
@@ -2858,7 +3424,7 @@ const state = {
   micOn:false, micHold:false, micDone:0,
   aud:{ freq:440, vol:30, playing:false, axis:'fix' },   // 실험 4 · 가청 주파수
   quiz:{ i:0, score:0, done:false, picked:[], order:null },
-  progress:{ play:false, amp:false, freq:false, timbre:false, mic:false, audible:false, quiz:false },
+  progress:{ play:false, amp:false, freq:false, timbre:false, mic:false, audible:false, game:false, quiz:false },
   theoryOpened:false, lastFocus:null
 };
 const WEAK = 0.18, STRONG = 1.0;          // 실험 1의 두 세기 (조작 변인)
@@ -3731,6 +4297,8 @@ function needLoop(){
   if (state.tab === 't-play') return !state.freeze && (liveVoices.size > 0 || performance.now() < activeUntil);
   // 탭 5는 마이크가 켜져 있을 때뿐 아니라 「변조된 목소리를 재생하는 동안」에도 화면이 살아 있어야 합니다
   if (state.tab === 't-mic')  return (state.micOn || Vox.playing) && !state.micHold;
+  // 탭 7 · 음정 게임 — 마이크가 켜져 있는 동안 계속 듣고 판정합니다
+  if (state.tab === 't-game') return state.micOn;
   return false;
 }
 function frame(){
@@ -3740,6 +4308,7 @@ function frame(){
     autoHoldCheck();          // 소리가 끝나면 최고 진폭 프레임에서 자동 고정
   }
   else if (state.tab === 't-mic'){ micFrame(); }
+  else if (state.tab === 't-game'){ gameFrame(); }
   if (needLoop()) rafId = requestAnimationFrame(frame);
 }
 function startLoop(){ if (rafId == null && needLoop()) rafId = requestAnimationFrame(frame); }
@@ -3748,9 +4317,9 @@ function stopLoop(){ if (rafId != null){ cancelAnimationFrame(rafId); rafId = nu
 /* ══════════════════════════════════════════════════════════════════════════
    [7] 진행률 트래커 — 6단계 탐구 흐름을 눈으로 확인
    ══════════════════════════════════════════════════════════════════════════ */
-const PROG_KEYS = ['play', 'amp', 'freq', 'timbre', 'mic', 'audible', 'quiz'];
+const PROG_KEYS = ['play', 'amp', 'freq', 'timbre', 'mic', 'audible', 'game', 'quiz'];
 const PROG_TAB  = { play:'t-play', amp:'t-amp', freq:'t-freq', timbre:'t-timbre',
-                    mic:'t-mic', audible:'t-audible', quiz:'t-quiz' };
+                    mic:'t-mic', audible:'t-audible', game:'t-game', quiz:'t-quiz' };
 function markProgress(k){
   if (state.progress[k]) return;
   state.progress[k] = true;
@@ -3794,13 +4363,13 @@ function buildInsRows(){
 }
 function syncKeyColor(){
   const v = INSTRUMENTS[state.ins.play].cssvar;
-  $('#keys').style.setProperty('--ic', 'var(' + v + ')');
+  // v6 — 건반이 여러 화면(연주·스펙트럼)에 놓이므로 모두 같은 악기 색을 씁니다
+  $$('.keys').forEach(box => box.style.setProperty('--ic', 'var(' + v + ')'));
 }
 
 const KEY_MAP = ['a','s','d','f','g','h','j','k'];
 function buildKeys(){
-  const box = $('#keys');
-  box.innerHTML = Array.from({ length: 8 }, (_, i) => {
+  const html = Array.from({ length: 8 }, (_, i) => {
     const n = noteOf(i, state.oct);
     const ko = i === 7 ? '높은 도' : SOLFEGE[i];
     return '<button class="key" data-deg="' + i + '" aria-label="' + n.ko + ' ' + n.en + ' ' + n.freq.toFixed(1) + '헤르츠 연주">' +
@@ -3808,6 +4377,7 @@ function buildKeys(){
            '<span class="ko">' + ko + '</span><span class="en">' + n.en + '</span>' +
            '<span class="hz tnum">' + n.freq.toFixed(1) + ' Hz</span></button>';
   }).join('');
+  $$('.keys').forEach(box => { box.innerHTML = html; });
   syncKeyColor();
 }
 function setOctave(o){
@@ -3829,8 +4399,7 @@ function pressKey(deg, id){
   const key = state.ins.play;
   const v = startVoice(key, n.freq, state.strength, null);
   held.set(id, { voice:v, deg });
-  const el = $('#keys [data-deg="' + deg + '"]');
-  if (el) el.classList.add('down');
+  $$('.keys [data-deg="' + deg + '"]').forEach(el => el.classList.add('down'));
   const chip = $('.ins-row[data-scope="play"] [data-ins="' + key + '"]');
   if (chip && !reduceMotion){ chip.classList.remove('hit'); void chip.offsetWidth; chip.classList.add('hit'); }
   state.last = { ins:key, freq:n.freq, amp:ampOf(state.strength), ko:n.ko, en:n.en };
@@ -3843,7 +4412,7 @@ function releaseKey(id){
   held.delete(id);
   if (h.voice) h.voice.release();
   const still = Array.from(held.values()).some(x => x.deg === h.deg);
-  if (!still){ const el = $('#keys [data-deg="' + h.deg + '"]'); if (el) el.classList.remove('down'); }
+  if (!still) $$('.keys [data-deg="' + h.deg + '"]').forEach(el => el.classList.remove('down'));
   wake(2200);
 }
 function releaseAllKeys(){ Array.from(held.keys()).forEach(releaseKey); }
@@ -3856,16 +4425,18 @@ function inEditable(){
   return !!el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName || '');
 }
 function bindKeys(){
-  const box = $('#keys');
-  box.addEventListener('pointerdown', ev => {
-    const k = ev.target.closest('.key'); if (!k) return;
-    ev.preventDefault();
-    try { k.setPointerCapture(ev.pointerId); } catch (e) {}
-    pressKey(+k.dataset.deg, 'p' + ev.pointerId);
-  });
   const up = ev => releaseKey('p' + ev.pointerId);
-  box.addEventListener('pointerup', up);
-  box.addEventListener('pointercancel', up);
+  // v6 — 연주실 건반과 스펙트럼 화면의 건반이 똑같이 동작하도록 모두에 연결합니다
+  $$('.keys').forEach(box => {
+    box.addEventListener('pointerdown', ev => {
+      const k = ev.target.closest('.key'); if (!k) return;
+      ev.preventDefault();
+      try { k.setPointerCapture(ev.pointerId); } catch (e) {}
+      pressKey(+k.dataset.deg, 'p' + ev.pointerId);
+    });
+    box.addEventListener('pointerup', up);
+    box.addEventListener('pointercancel', up);
+  });
   window.addEventListener('pointerup', up);
   window.addEventListener('blur', releaseAllKeys);
   window.addEventListener('keydown', ev => {
@@ -4576,7 +5147,9 @@ async function micStart(){
     $('#micLiveBadge').classList.remove('hidden');
     $('#micTag').textContent = '● 실시간';
     $('#micTag').classList.add('live');
-    voxSyncButtons();
+    abReset('A');                            // 새로 켠 마이크의 소리부터 관찰합니다
+    voxSyncButtons(); drawAB();
+    gameSyncMic();                           // 음정 게임 탭의 버튼·안내도 함께 켭니다
     toast('마이크를 켰어요. 소리를 내 보세요!', 'ok');
     startLoop();
   } catch (e) {
@@ -4602,7 +5175,8 @@ function micStop(quiet){
   $('#micLiveBadge').classList.add('hidden');
   $('#micTag').textContent = '대기 중';
   $('#micTag').classList.remove('live', 'frozen');
-  voxSyncButtons();
+  voxSyncButtons(); drawAB();
+  gameStop(true); gameSyncMic();             // 마이크가 꺼지면 진행 중이던 게임도 멈춥니다
   if (!Vox.playing) micIdleDraw();           // 재생 중이라면 화면은 재생 소리를 계속 그립니다
 }
 /** 지금 세 화면이 분석해야 할 소리 —
@@ -4638,20 +5212,25 @@ function micFrame(){
   const label = S.live ? '내 소리' : '변조된 목소리 (' + voxCurrentName() + ')';
   const col = S.live ? C.accent2 : C.sig;
 
-  /* 파형 — 영점 교차 트리거 + 자동 크기 조절 */
+  /* 파형 조각 고르기 — 영점 교차 트리거 (v6 : 캔버스가 보이지 않아도 반드시 계산합니다.
+     「정밀 관찰」 화면을 접어 두었을 때 비교 관찰대가 멈춰 버리던 문제를 여기서 막습니다) */
+  const need = Math.min(Math.round(0.025 * sr), buf.length - 4);
+  let start = 0, armed = false;
+  const limit = Math.max(1, Math.min(buf.length - need - 2, Math.floor(buf.length * 0.45)));
+  for (let i = 1; i < limit; i++){
+    if (!armed){ if (buf[i] < -0.02) armed = true; }
+    else if (buf[i - 1] < 0 && buf[i] >= 0){ start = i; break; }
+  }
+  let mx = 0;
+  for (let i = 0; i <= need; i++){ const a = Math.abs(buf[start + i]); if (a > mx) mx = a; }
+  // 같은 파형 조각을 비교 관찰대의 제 칸에 담아 둡니다 (화면 표시 여부와 무관)
+  abCapture(abSide(S.live), buf, start, need, mx);
+
+  /* 파형 — 자동 크기 조절 */
   const fw = fitCanvas($('#cvMicWave'));
   if (fw){
     const { ctx, w, h } = fw;
     drawScopeBg(ctx, w, h, { cols:10, rows:4 });
-    const need = Math.min(Math.round(0.025 * sr), buf.length - 4);
-    let start = 0, armed = false;
-    const limit = Math.max(1, Math.min(buf.length - need - 2, Math.floor(buf.length * 0.45)));
-    for (let i = 1; i < limit; i++){
-      if (!armed){ if (buf[i] < -0.02) armed = true; }
-      else if (buf[i - 1] < 0 && buf[i] >= 0){ start = i; break; }
-    }
-    let mx = 0;
-    for (let i = 0; i <= need; i++){ const a = Math.abs(buf[start + i]); if (a > mx) mx = a; }
     const gain = clamp(mx > 0.001 ? 0.86 / mx : 1, 1, 14);   // 작은 소리도 보이도록 자동 확대
     const step = Math.max(1, Math.floor(need / (w * 2)));
     const pts = [];
@@ -4682,6 +5261,9 @@ function micFrame(){
 
   /* 녹음 진행 막대 · 재생 위치는 음성 변조 스튜디오의 미리보기에 그립니다 */
   if (Vox.rec || Vox.playing) drawVoxPreview();
+  /* 비교 관찰대 — 60프레임 내내 다시 그릴 필요는 없어 25 ms 간격으로 묶습니다 */
+  const tn = performance.now();
+  if (tn - Vox.abLast > 25){ Vox.abLast = tn; drawAB(); }
 
   /* 음높이 검출은 120ms 간격으로만 (계산 비용 절약) */
   const now = performance.now();
@@ -4699,6 +5281,7 @@ function micFrame(){
       $('#micCent').textContent = (n.cents > 0 ? '+' : '') + n.cents;
       $('#micNeedle').style.left = clamp(50 + n.cents, 2, 98) + '%';
       $('#micGauge').classList.toggle('intune', Math.abs(n.cents) <= 10);
+      abAddHz(abSide(S.live), r.hz);         // 비교 관찰대의 제 칸에 진동수를 쌓습니다
       if (!S.live) voxLivePitch(r.hz);       // 재생 중 검출된 진동수를 모아 평균을 냅니다
     } else {
       $('#micNote').textContent = '—';
@@ -4805,6 +5388,12 @@ const Vox = {
   /* 재생 */
   an:null, time:null, freqData:null, src:null, oscs:[], playing:false, playMod:false,
   playT0:0, playDur:0, endTimer:null, livePitch:[], playLabel:'', playSaved:-1,
+  /* 비교 관찰대 (v5.1) — A = 원래 목소리, B = 변조된 목소리
+     각 칸은 「마지막으로 소리가 들어왔을 때의 25 ms 파형」과 그동안 검출된 진동수를 붙잡아 둡니다.
+     그래야 재생이 끝난 뒤에도 두 소리를 나란히 놓고 비교할 수 있습니다. */
+  abA:{ buf:null, list:[] },
+  abB:{ buf:null, list:[] },
+  abLast:0,
   /* 변조 설정 */
   preset:'none', st:0, sp:1, tone:0,
   cache:new Map()                          // 시간 늘림 결과 (같은 목소리를 다시 고르면 즉시 재생)
@@ -5034,7 +5623,7 @@ function voxRecStop(quiet){
 
   $('#voxTag').textContent = '녹음 완료';
   $('#voxTime').textContent = '녹음 ' + Vox.dur.toFixed(1) + ' 초';
-  voxSyncButtons(); drawVoxPreview(); voxRenderRead();
+  voxSyncButtons(); drawVoxPreview(); voxRenderRead(); drawAB();
   state.saved = false;
   if (!quiet) { fx('ok'); toast('녹음을 마쳤어요. 목소리를 골라 ▶ 변조된 목소리를 눌러 보세요!', 'ok'); }
 }
@@ -5086,7 +5675,7 @@ function voxStopPlay(silent){
   else { $('#micTag').textContent = '대기 중'; $('#micTag').classList.remove('live', 'frozen'); }
   spectroClear();
   voxSyncButtons(); renderVoxSaves();
-  drawVoxPreview();
+  drawVoxPreview(); drawAB();
   if (!state.micOn) micIdleDraw();
   if (!silent) startLoop();
 }
@@ -5146,6 +5735,7 @@ function voxBeginPlay(src, oscs, dur, label, mod){
   Vox.playing = true; Vox.playMod = !!mod;
   Vox.playLabel = label;
   Vox.livePitch = [];
+  abReset(mod ? 'B' : 'A');            // 이번 재생에서 관찰한 값만 그 칸에 담기도록 비웁니다
   src.onended = () => { if (Vox.playing) voxStopPlay(); };
   src.start();
   // onended 가 오지 않는 브라우저를 위한 보험
@@ -5166,6 +5756,125 @@ function voxBeginPlay(src, oscs, dur, label, mod){
 function voxLivePitch(hz){
   if (!Vox.playMod || Vox.livePitch.length > 240) return;
   Vox.livePitch.push(hz);
+}
+
+/* ══ 비교 관찰대 (v5.1) ═══════════════════════════════════════════════
+   「원래 목소리」와 「변조된 목소리」를 한 줄에 나란히 놓고,
+   파형과 진동수를 눈을 옮기지 않고 견주게 하는 것이 이 화면의 전부입니다.
+   ─ 소리가 들어오는 쪽(마이크 실시간 · 지금 재생 중인 쪽)은 살아 움직이고,
+     반대쪽은 마지막으로 관찰한 모습 그대로 멈춰 있습니다. */
+const AB_MIN_RMS = 0.012;                 // 이만큼은 소리가 나야 「관찰한 것」으로 봅니다
+
+/** 지금 프레임이 어느 칸의 소리인지 — 마이크와 원음 재생은 A, 변조 재생은 B */
+function abSide(live){
+  if (live) return 'A';
+  return Vox.playMod ? 'B' : 'A';
+}
+function abSlot(side){ return side === 'B' ? Vox.abB : Vox.abA; }
+function abReset(side){
+  const t = abSlot(side);
+  t.buf = null; t.list.length = 0;
+}
+/** 한 프레임을 그 칸에 담아 둔다 (소리가 충분히 클 때만) */
+function abCapture(side, buf, start, need, peak){
+  if (peak < AB_MIN_RMS) return;
+  const t = abSlot(side);
+  const n = Math.max(2, Math.min(need + 1, buf.length - start));
+  if (!t.buf || t.buf.length !== n) t.buf = new Float32Array(n);
+  t.buf.set(buf.subarray(start, start + n));
+}
+/** 검출된 진동수 한 개를 그 칸에 더한다 (음높이 검출 주기에 맞춰 120 ms 마다) */
+function abAddHz(side, hz){
+  if (!(hz > 0)) return;
+  const l = abSlot(side).list;
+  l.push(hz);
+  if (l.length > 90) l.shift();
+}
+/** 그 칸에서 관찰된 대표 진동수 (중앙값 — 튄 값에 끌려가지 않도록) */
+function abHz(side){
+  const l = abSlot(side).list;
+  if (!l.length) return 0;
+  const a = l.slice().sort((x, y) => x - y);
+  return a[Math.floor(a.length / 2)];
+}
+function drawABPane(sel, t, color, idle){
+  const f = fitCanvas($(sel)); if (!f) return;
+  const { ctx, w, h } = f;
+  drawScopeBg(ctx, w, h, { cols:8, rows:4 });
+  if (!t.buf || t.buf.length < 2){
+    drawScopeIdle(ctx, w, h, idle);
+    drawWatermark(ctx, w, h);
+    return;
+  }
+  const n = t.buf.length - 1;
+  let mx = 0;
+  for (let i = 0; i <= n; i++){ const a = Math.abs(t.buf[i]); if (a > mx) mx = a; }
+  const gain = clamp(mx > 0.001 ? 0.86 / mx : 1, 1, 14);
+  const step = Math.max(1, Math.floor(n / (w * 2)));
+  const pts = [];
+  for (let i = 0; i <= n; i += step){
+    let v = t.buf[i] * gain;
+    if (!isNum(v)) v = 0;
+    pts.push([w * i / n, h / 2 - clamp(v, -1, 1) * (h / 2 - 7) * 0.94]);
+  }
+  paintWave(ctx, pts, { color, h, width: 2 });
+  drawNote(ctx, w, h, '25 ms', C.faint, 'right');
+  drawWatermark(ctx, w, h);
+}
+/** 두 칸의 파형 · 수치 · 배수 배지를 한꺼번에 갱신 */
+function drawAB(){
+  const p = voxParams();
+  const r = voxRatio(p.st);
+  const live = state.micOn && !Vox.playing;
+  const side = Vox.playing ? abSide(false) : (live ? 'A' : null);
+
+  drawABPane('#cvAbA', Vox.abA, C.accent2,
+    state.micOn ? '소리를 내면 여기에 그려집니다' : '마이크를 켜 보세요');
+  drawABPane('#cvAbB', Vox.abB, C.sig,
+    Vox.raw ? '▶ 변조된 목소리를 눌러 보세요' : '녹음한 뒤 목소리를 골라 보세요');
+
+  /* 왼쪽 — 실제로 관찰된 값이 우선, 없으면 녹음에서 구한 대표 진동수 */
+  const mA = abHz('A'), fA = mA || Vox.f0;
+  const gA = !mA && Vox.f0 > 0;
+  $('#abHzA').textContent = fA > 0 ? fA.toFixed(1) + ' Hz' : '— Hz';
+  $('#abNoteA').textContent = fA > 0
+    ? (n => n.ko + ' · ' + n.en)(noteFromHz(fA))
+    : (state.micOn ? '소리를 내 보세요' : '마이크를 켜 보세요');
+  $('#abGuessA').classList.toggle('hidden', !gA);
+  $('#abGuessA').textContent = '녹음 대표값';
+
+  /* 오른쪽 — 재생해 보기 전에도 「이렇게 될 거예요」를 미리 보여 줍니다 */
+  const mB = abHz('B');
+  const fB = mB || (fA > 0 ? fA * r : 0);
+  const gB = !mB && fB > 0;
+  $('#abNameB').textContent = p.name === '원래 목소리' ? '변조된 목소리' : p.name;
+  if (p.mix && !mB){
+    $('#abHzB').textContent = '섞임';
+    $('#abNoteB').textContent = '새 진동수가 만들어져요';
+    $('#abGuessB').classList.add('hidden');
+  } else {
+    $('#abHzB').textContent = fB > 0 ? fB.toFixed(1) + ' Hz' : '— Hz';
+    $('#abNoteB').textContent = fB > 0
+      ? (n => n.ko + ' · ' + n.en)(noteFromHz(fB))
+      : '목소리를 골라 보세요';
+    $('#abGuessB').classList.toggle('hidden', !gB);
+    $('#abGuessB').textContent = '예상값';
+  }
+
+  /* 가운데 배지 — 실제로 두 값을 다 재었으면 그 비를, 아니면 이론값을 */
+  const both = mA > 0 && mB > 0;
+  $('#abRatio').textContent = '×' + (both ? mB / mA : r).toFixed(2);
+  $('#abSemi').textContent = (p.st === 0 ? '높이 그대로' : (p.st > 0 ? '+' : '') + p.st + ' 반음') +
+                             (both ? '\n(실측)' : '');
+  $('#abTagA').textContent = side === 'A' ? (Vox.playing ? '▶ 재생 중' : '● 마이크 실시간')
+                                          : (Vox.abA.buf ? '관찰한 모습' : '대기 중');
+  $('#abTagA').classList.toggle('on', side === 'A');
+  $('#abTagB').textContent = side === 'B' ? '▶ 재생 중'
+                                          : (Vox.abB.buf ? '관찰한 모습' : (Vox.raw ? '아직 재생 전' : '녹음 후 재생'));
+  $('#abTagB').classList.toggle('on', side === 'B');
+  // 두 칸이 모두 채워졌을 때만 「비교 기록」이 열립니다 (관찰 중에도 바로 반영)
+  const sh = $('#abShot');
+  if (sh) sh.disabled = !(Vox.abA.buf && Vox.abB.buf) || Vox.rec;
 }
 
 /* ══ 미리보기 화면 (녹음 전체 모습 · 재생 위치) ═══════════════════════ */
@@ -5281,6 +5990,7 @@ function voxSyncButtons(){
   set('#voxPlayOrig', !has || rec);
   set('#voxPlayMod',  !has || rec);
   set('#voxStop',     !play);
+  set('#abShot',      !(Vox.abA.buf && Vox.abB.buf) || rec);
   set('#voxKeep',     !has || rec || play || voxSaves.length >= VOX_SAVE_MAX);
   set('#voxWav',      !has || rec || play);
   set('#voxAgain',    !state.micOn || rec || play);
@@ -5486,10 +6196,11 @@ function voxClear(quiet){
   Vox.raw = null; Vox.env = null; Vox.dur = 0; Vox.f0 = 0;
   Vox.got = 0; Vox.chunks = []; Vox.livePitch = [];
   Vox.cache.clear();
+  abReset('A'); abReset('B');
   $('#voxTag').textContent = '녹음 전';
   $('#voxTag').classList.remove('live');
   $('#voxTime').textContent = '녹음 없음';
-  voxSyncButtons(); drawVoxPreview(); voxRenderRead();
+  voxSyncButtons(); drawVoxPreview(); voxRenderRead(); drawAB();
   if (!quiet) toast('녹음을 지웠어요.', 'ok');
 }
 
@@ -5531,12 +6242,14 @@ function voxSelect(id, fromSlider){
     $('#rgVoxTn').value = p.tone;
   }
   $$('#voxPresets .voice').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.vox === id)));
+  abReset('B');                      // 목소리가 바뀌었으니 오른쪽 칸은 다시 관찰해야 합니다
   const p = voxParams();
   $('#vVoxSt').textContent = (p.st > 0 ? '+' : '') + p.st + ' 반음';
   $('#vVoxSp').textContent = (p.sp || 1).toFixed(2) + ' 배';
   $('#vVoxTn').textContent = (p.tone > 0 ? '+' : '') + (+p.tone).toFixed(0) + ' dB';
   $('#voxDesc').innerHTML = '<b>' + p.name + '</b> — ' + p.desc;
   voxRenderRead();
+  drawAB();
 }
 function bindVox(){
   buildVox();
@@ -5560,6 +6273,7 @@ function bindVox(){
   $('#voxPlayOrig').addEventListener('click', () => { fx('click'); voxPlay(false); });
   $('#voxPlayMod').addEventListener('click', () => { fx('click'); voxPlay(true); });
   $('#voxStop').addEventListener('click', () => { fx('click'); voxStopPlay(); });
+  $('#abShot').addEventListener('click', shotFromAB);
   $('#voxKeep').addEventListener('click', voxKeep);
   $('#voxWav').addEventListener('click', voxSaveWav);
   $('#voxAgain').addEventListener('click', () => { voxClear(true); voxRecStart(); });
@@ -5707,8 +6421,65 @@ function micShotCanvas(){
   });
   return cv;
 }
+/** 비교 관찰대를 한 장으로 — 원래 목소리와 변조된 목소리를 나란히 (v5.1) */
+function abShotCanvas(){
+  const a = $('#cvAbA'), b = $('#cvAbB');
+  if (!a || !b || a.width < 4 || b.width < 4) return null;
+  if (!Vox.abA.buf || !Vox.abB.buf) return null;
+
+  const S = 2, W = 460, PAD = 12, HEAD = 30, LB = 15, NUM = 34, GAP = 10;
+  const cw = (W - GAP) / 2;
+  const ch = Math.round(cw * a.height / a.width);
+  const H = HEAD + LB + ch + NUM + PAD;
+
+  const cv = document.createElement('canvas');
+  cv.width = (W + PAD * 2) * S; cv.height = H * S;
+  const x = cv.getContext('2d');
+  x.setTransform(S, 0, 0, S, 0, 0);
+  x.fillStyle = C.bg2 || '#0B1322';
+  x.fillRect(0, 0, W + PAD * 2, H);
+
+  const p = voxParams(), r = voxRatio(p.st);
+  const mA = abHz('A'), mB = abHz('B');
+  x.fillStyle = C.text; x.font = '800 13px Pretendard, sans-serif';
+  x.textAlign = 'left'; x.textBaseline = 'middle';
+  x.fillText('🎭 원래 목소리 ↔ ' + p.name + ' 비교', PAD, HEAD / 2 + 2);
+  x.fillStyle = C.sig; x.font = '800 12px Pretendard, sans-serif';
+  x.textAlign = 'right';
+  x.fillText('진동수 ×' + ((mA > 0 && mB > 0) ? (mB / mA) : r).toFixed(2) +
+             ' · ' + (p.st > 0 ? '+' : '') + p.st + '반음', W + PAD, HEAD / 2 + 2);
+
+  [[a, '원래 목소리', mA || Vox.f0, C.accent2, 0],
+   [b, p.name,       mB || (Vox.f0 > 0 ? Vox.f0 * r : 0), C.sig, cw + GAP]].forEach(([cvs, nm, hz, col, dx]) => {
+    x.fillStyle = col; x.font = '700 10.5px Pretendard, sans-serif';
+    x.textAlign = 'left'; x.textBaseline = 'middle';
+    x.fillText(nm, PAD + dx, HEAD + LB / 2);
+    x.drawImage(cvs, PAD + dx, HEAD + LB, cw, ch);
+    x.fillStyle = col; x.font = '800 17px Pretendard, sans-serif';
+    x.fillText(hz > 0 ? hz.toFixed(1) + ' Hz' : '— Hz', PAD + dx, HEAD + LB + ch + 15);
+    if (hz > 0){
+      const n = noteFromHz(hz);
+      x.fillStyle = C.faint; x.font = '600 10.5px Pretendard, sans-serif';
+      x.fillText(n.ko + ' · ' + n.en, PAD + dx + 84, HEAD + LB + ch + 16);
+    }
+  });
+  return cv;
+}
 function shotFromMic(){
   if (!state.micOn && !Vox.playing){ toast('먼저 마이크를 켜 주세요.', 'no'); return; }
+  /* v6 — 「정밀 관찰」 화면이 접혀 있으면 그 캔버스에는 옛 그림이 남아 있습니다.
+     옛 장면을 지금 장면인 것처럼 저장하지 않도록, 먼저 화면을 펼치고 한 프레임을 기다립니다. */
+  const micPanel = $('#p-mic'), fine = $('.mic-grid', micPanel);
+  if (fine && fine.classList.contains('sub-off')){
+    showSub(micPanel, 'mic-fine');
+    if (!state.micHold && (state.micOn || Vox.playing)){
+      toast('정밀 관찰 화면을 펼쳐 지금 장면을 기록할게요.');
+      requestAnimationFrame(() => requestAnimationFrame(() => shotFromMic()));
+    } else {
+      toast('정밀 관찰 화면을 펼쳤어요. 📷 를 한 번 더 눌러 주세요.');
+    }
+    return;
+  }
   const playing = Vox.playing, voice = voxCurrentName();
   const cv = micShotCanvas();          // 재생 중에는 「멈추면 소리도 끊기므로」 그 순간을 바로 뜹니다
   if (!cv){ toast('아직 그려진 화면이 없어요.', 'no'); return; }
@@ -5721,6 +6492,22 @@ function shotFromMic(){
       (n && n !== '—' ? ' · ' + n + ' (' + $('#micKo').textContent + ')' : ''),
     hz + ' · ' + $('#micDb').textContent + ' · 세 화면 한 장',
     wasLive ? '화면을 멈추고 지금 장면을 앨범에 기록했어요.' : null);
+}
+/** 비교 관찰대 기록 (v5.1) — 두 목소리를 나란히 한 장으로 앨범에 담습니다 */
+function shotFromAB(){
+  const cv = abShotCanvas();
+  if (!cv){
+    toast('먼저 ▶ 원래 목소리와 ▶ 변조된 목소리를 한 번씩 들어 주세요.', 'no');
+    return;
+  }
+  const p = voxParams(), r = voxRatio(p.st);
+  const mA = abHz('A'), mB = abHz('B');
+  captureWave(cv,
+    '비교 · 원래 ↔ ' + p.name,
+    (mA > 0 ? mA.toFixed(1) + ' Hz → ' : '') + (mB > 0 ? mB.toFixed(1) + ' Hz · ' : '') +
+    '×' + ((mA > 0 && mB > 0) ? (mB / mA) : r).toFixed(2) +
+    ' · ' + (p.st > 0 ? '+' : '') + p.st + '반음',
+    '두 목소리를 나란히 한 장으로 기록했어요.');
 }
 /** 실험 4 순음 파형 기록 */
 function shotFromAud(){
@@ -6098,6 +6885,496 @@ function bindAudible(){
     fx('click'); updateAudUI();
   });
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   [12-6] 음정 게임 (v6)
+
+   ▸ 무엇을 재는가
+     마이크로 들어온 소리의 기본 진동수(YIN 검출)를 목표 음의 진동수와 견주고,
+     그 차이를 「센트(cent)」로 나타냅니다.  1반음 = 100센트, 1옥타브 = 1200센트.
+       cents = 1200 · log₂(내 진동수 ÷ 목표 진동수)
+     옥타브 무시를 켜면 1200으로 나눈 나머지만 보므로,
+     같은 계이름이면 몇 옥타브 아래·위에서 불러도 정답이 됩니다.
+
+   ▸ 왜 「0.6초 유지」인가
+     한순간 스쳐 지나간 값으로 맞혔다고 하면 운이 좋아도 정답이 됩니다.
+     허용 범위 안에서 일정 시간 머물러야 「그 음을 낼 수 있다」고 볼 수 있어
+     난이도별로 0.5~0.7초의 유지 시간을 둡니다.
+
+   ▸ 화면
+     음정 미터는 띠 그래프(strip chart)입니다. 가로축은 최근 3초의 시간,
+     세로축은 목표 음과의 차이(센트). 초록 띠 안에 선이 머물면 정답입니다.
+   ══════════════════════════════════════════════════════════════════════════ */
+const GAME_DIFF = {
+  easy:   { tol:60, sec:15, hold:500, name:'쉬움',   tip:'±60센트 안에서 <b>0.5초</b> 유지하면 정답 · 한 문항 <b>15초</b>' },
+  normal: { tol:35, sec:12, hold:600, name:'보통',   tip:'±35센트 안에서 <b>0.6초</b> 유지하면 정답 · 한 문항 <b>12초</b>' },
+  hard:   { tol:20, sec:9,  hold:700, name:'어려움', tip:'±20센트 안에서 <b>0.7초</b> 유지하면 정답 · 한 문항 <b>9초</b>' }
+};
+const GAME_ROUNDS = 8;          // 한 판의 문항 수
+const GAME_HIST_MS = 3000;      // 음정 미터에 보이는 시간
+const GAME_SPAN = 120;          // 미터의 세로 범위 (±센트)
+
+const Game = {
+  mode:'practice', oct:4, deg:0, diff:'normal', ignoreOct:true,
+  running:false, phase:'idle',          // idle · listen · judged · end
+  round:0, score:0, combo:0, best:0,
+  roundEnd:0, nextAt:0, holdMs:0,
+  hz:-1, rms:0, cents:null, bestCents:null,
+  hist:[], results:[], practiceOk:0,
+  pitchAt:0, lastEval:0, playedTotal:0
+};
+const gameDiff = () => GAME_DIFF[Game.diff] || GAME_DIFF.normal;
+const gameNote = () => noteOf(Game.deg, Game.oct);
+
+/** 내 진동수와 목표 진동수의 차이(센트). 옥타브 무시를 켜면 ±600센트 안으로 접습니다 */
+function centsTo(hz, target, ignoreOct){
+  if (!(hz > 0) || !(target > 0)) return null;
+  let c = 1200 * Math.log2(hz / target);
+  if (ignoreOct) c -= 1200 * Math.round(c / 1200);
+  return c;
+}
+
+/* ── 목표 음 · 화면 표시 ─────────────────────────────────────────────────── */
+function gameSetTarget(deg, opt){
+  const o = opt || {};
+  Game.deg = clamp(deg, 0, 7);
+  Game.holdMs = 0; Game.hist.length = 0; Game.practiceOk = 0; Game.bestCents = null;
+  $$('#gKeys .gkey').forEach(k => {
+    k.setAttribute('aria-pressed', String(+k.dataset.gdeg === Game.deg));
+    k.classList.remove('hit');
+  });
+  gameRenderTarget();
+  if (o.play !== false) gamePlayTarget();
+}
+function gameRenderTarget(){
+  const n = gameNote();
+  const ko = Game.deg === 7 ? '높은 도' : SOLFEGE[Game.deg];
+  $('#gTargetKo').textContent = ko;
+  $('#gTargetEn').textContent = n.en;
+  $('#gTargetHz').textContent = n.freq.toFixed(1) + ' Hz';
+}
+/** 목표 음을 피아노 소리로 들려줍니다 (판정은 마이크 소리로만 합니다) */
+function gamePlayTarget(){
+  const n = gameNote();
+  playNote('piano', n.freq, 0.72, 1.0);
+  Game.playedTotal++;
+}
+function buildGameKeys(){
+  const box = $('#gKeys'); if (!box) return;
+  box.innerHTML = Array.from({ length:8 }, (_, i) => {
+    const n = noteOf(i, Game.oct);
+    const ko = i === 7 ? '높은 도' : SOLFEGE[i];
+    return '<button class="gkey" type="button" data-gdeg="' + i + '" aria-pressed="' + (i === Game.deg) + '"' +
+           ' aria-label="' + n.ko + ' ' + n.en + ' 를 목표 음으로 고르기">' +
+           '<span class="ko">' + ko + '</span><span class="en">' + n.en + '</span></button>';
+  }).join('');
+}
+
+/* ── 버튼·안내 상태 맞추기 ──────────────────────────────────────────────── */
+function gameSyncMic(){
+  const on = state.micOn;
+  const btn = $('#gMic'); if (!btn) return;
+  btn.textContent = on ? '마이크 끄기' : '마이크 켜기';
+  btn.classList.toggle('sig', !on); btn.classList.toggle('line', on);
+  $('#gLiveBadge').classList.toggle('hidden', !on);
+  $('#gState').textContent = on
+    ? '마이크가 켜졌어요. 목표 음을 소리로 만들어 보세요!'
+    : '마이크는 버튼을 눌렀을 때만 켜집니다.';
+  $('#gTag').textContent = on ? '● 듣는 중' : '대기 중';
+  $('#gTag').classList.toggle('live', on);
+  gameSyncButtons();
+  if (!on){
+    $('#gMineNote').textContent = '—';
+    $('#gMineHz').textContent = '— Hz';
+    $('#gMine').className = 'gmine';
+    gameIdleDraw();
+  }
+}
+function gameSyncButtons(){
+  const play = Game.mode === 'play';
+  $('#gStart').classList.toggle('hidden', !play);
+  $('#gStop').classList.toggle('hidden', !play);
+  $('#gStart').disabled = !state.micOn || Game.running;
+  $('#gStop').disabled = !Game.running;
+  $('#gHear').disabled = Game.running && Game.phase !== 'listen';
+  // 허용 오차(±센트)와 유지 시간은 연습 모드에서도 그대로 쓰이므로 흐리게 두지 않습니다.
+  // 다만 「제한 시간」은 게임 모드에서만 의미가 있어 그 사실을 안내에 적어 둡니다.
+  $('#gKeys').classList.toggle('off', play);
+  $('#gTimeWrap').classList.toggle('hidden', !(play && Game.running));
+  const w = $('#gWarn');
+  if (!state.micOn){
+    w.innerHTML = '🎤 <b>마이크를 켜면 판정이 시작됩니다.</b> 위의 <b>마이크 켜기</b>를 누르고 권한을 허용해 주세요. ' +
+                  '마이크 없이도 <b>🔊 목표 음 듣기</b>로 소리는 확인할 수 있어요.';
+    w.classList.remove('hidden');
+  } else w.classList.add('hidden');
+}
+function gameSetMode(m){
+  if (Game.running) gameStop(true);
+  Game.mode = (m === 'play') ? 'play' : 'practice';
+  $$('#gModeSeg .seg').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gmode === Game.mode)));
+  $('#gModeTip').innerHTML = Game.mode === 'play'
+    ? '<b>게임 모드</b> — ▶ 게임 시작을 누르면 목표 음이 <b>자동</b>으로 나옵니다. 제한 시간 안에 그 음을 내면 정답이고, ' + GAME_ROUNDS + '문항을 이어서 풉니다.'
+    : '<b>연습 모드</b> — 아래 건반에서 목표 음을 직접 고르고, 시간 제한 없이 천천히 맞춰 봅니다.';
+  $('#gResult').classList.add('hidden');
+  $('#gRound').innerHTML = Game.mode === 'play'
+    ? '— <small>/ ' + GAME_ROUNDS + '</small>' : '연습';
+  $('#gScore').textContent = '0'; $('#gCombo').textContent = '0';
+  Game.hist.length = 0; Game.holdMs = 0; Game.practiceOk = 0;
+  gameJudgeText(Game.mode === 'play'
+    ? '▶ 게임 시작을 누르면 첫 번째 음이 들립니다.'
+    : '건반에서 음을 고르고 그 음을 소리로 내 보세요.', '');
+  gameSyncButtons();
+  gameDraw();
+}
+function gameSetOct(o){
+  const v = clamp(o, 3, 5);
+  if (v === Game.oct) return;
+  Game.oct = v;
+  $$('#gOctSeg .seg').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.goct === v)));
+  buildGameKeys();
+  gameSetTarget(Game.deg, { play:false });
+}
+function gameSetDiff(d){
+  Game.diff = GAME_DIFF[d] ? d : 'normal';
+  $$('#gDiffSeg .seg').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.gdiff === Game.diff)));
+  $('#gDiffTip').innerHTML = gameDiff().name + ' — ' + gameDiff().tip +
+                             '<br><span style="color:var(--text-faint)">허용 오차와 유지 시간은 연습 모드에도 적용되고, 제한 시간은 게임 모드에서만 적용됩니다.</span>';
+  Game.holdMs = 0;
+  gameDraw();
+}
+/** 판정 문구 — 색까지 함께 바꿔 「지금 어느 쪽으로 가야 하는지」를 한눈에 */
+function gameJudgeText(msg, kind, right){
+  const el = $('#gJudge');
+  el.className = 'gjudge' + (kind ? ' ' + kind : '');
+  el.innerHTML = msg + '<span class="gj-r" id="gJudgeR">' + (right || '') + '</span>';
+}
+
+/* ── 게임 진행 ──────────────────────────────────────────────────────────── */
+function gameStart(){
+  if (!state.micOn){ toast('먼저 마이크를 켜 주세요.', 'no'); return; }
+  Game.running = true; Game.round = 0; Game.score = 0; Game.combo = 0; Game.best = 0;
+  Game.results.length = 0; Game.playedTotal = 0;
+  $('#gResult').classList.add('hidden');
+  $('#gScore').textContent = '0'; $('#gCombo').textContent = '0';
+  gameNextRound();
+  gameSyncButtons();
+  startLoop();
+}
+function gameNextRound(){
+  if (Game.round >= GAME_ROUNDS){ gameEnd(); return; }
+  Game.round++;
+  // 바로 앞 문항과 같은 음은 피해 「같은 음이 계속 나온다」는 느낌을 없앱니다
+  let d = Math.floor(Math.random() * 8);
+  const prev = Game.results.length ? Game.results[Game.results.length - 1].deg : -1;
+  if (d === prev) d = (d + 1 + Math.floor(Math.random() * 7)) % 8;
+  Game.phase = 'listen';
+  Game.roundEnd = performance.now() + gameDiff().sec * 1000;
+  gameSetTarget(d, { play:true });
+  $('#gRound').innerHTML = Game.round + ' <small>/ ' + GAME_ROUNDS + '</small>';
+  gameJudgeText('이 음을 소리로 내 보세요 — 지금 들린 음과 같게', '', '남은 시간 ' + gameDiff().sec + '초');
+  gameSyncButtons();
+}
+function gameHit(cents){
+  Game.phase = 'judged';
+  Game.score++; Game.combo++; Game.best = Math.max(Game.best, Game.combo);
+  Game.results.push({ deg:Game.deg, oct:Game.oct, ok:true, cents:Math.abs(cents || 0) });
+  $('#gScore').textContent = String(Game.score);
+  $('#gCombo').textContent = String(Game.combo);
+  $$('#gKeys .gkey[data-gdeg="' + Game.deg + '"]').forEach(k => k.classList.add('hit'));
+  fx('ok');
+  markProgress('game');
+  const nm = (Game.deg === 7 ? '높은 도' : SOLFEGE[Game.deg]);
+  gameJudgeText('🎉 정답! <b>' + nm + '</b> 를 맞혔어요 (오차 ' + Math.round(Math.abs(cents || 0)) + '센트)', 'ok',
+                Game.combo >= 2 ? Game.combo + '연속!' : '');
+  Game.nextAt = performance.now() + 1200;
+}
+function gameMiss(){
+  Game.phase = 'judged';
+  Game.combo = 0;
+  Game.results.push({ deg:Game.deg, oct:Game.oct, ok:false, cents:null });
+  $('#gCombo').textContent = '0';
+  fx('no');
+  const n = gameNote(), nm = (Game.deg === 7 ? '높은 도' : SOLFEGE[Game.deg]);
+  gameJudgeText('시간이 끝났어요. 정답은 <b>' + nm + ' (' + n.en + ' · ' + n.freq.toFixed(1) + ' Hz)</b> 였어요.', 'miss');
+  Game.nextAt = performance.now() + 1600;
+}
+function gameEnd(){
+  Game.running = false; Game.phase = 'end';
+  const ok = Game.results.filter(r => r.ok);
+  const pct = Math.round(Game.score / GAME_ROUNDS * 100);
+  const avg = ok.length ? ok.reduce((a, r) => a + r.cents, 0) / ok.length : null;
+  const msg = pct >= 88 ? '훌륭해요! 음을 아주 정확하게 만들 수 있군요.'
+            : pct >= 63 ? '잘했어요! 조금만 더 하면 거의 다 맞힐 수 있겠어요.'
+            : pct >= 38 ? '좋아요. 목표 음을 한 번 더 듣고 따라 부르면 훨씬 쉬워져요.'
+            : '괜찮아요. 연습 모드에서 한 음씩 천천히 맞춰 본 뒤 다시 도전해 보세요.';
+  const dots = Game.results.map((r, i) =>
+    '<span class="gstepdot ' + (r.ok ? 'ok' : 'no') + '">' +
+    (i + 1) + '. ' + (r.deg === 7 ? '높은 도' : SOLFEGE[r.deg]) + (r.ok ? ' ✓' : ' ✕') + '</span>').join('');
+  $('#gResult').innerHTML =
+    '<div class="big tnum">' + Game.score + '<small> / ' + GAME_ROUNDS + '</small></div>' +
+    '<p class="msg">' + msg + '</p>' +
+    '<p class="det">정확도 <b class="tnum">' + pct + '%</b>' +
+    (avg != null ? ' · 맞힌 음의 평균 오차 <b class="tnum">' + avg.toFixed(0) + '센트</b>' : '') +
+    ' · 최고 연속 정답 <b class="tnum">' + Game.best + '</b><br>' +
+    '난이도 ' + gameDiff().name + ' (±' + gameDiff().tol + '센트) · 옥타브 ' +
+    (Game.ignoreOct ? '무시' : '정확히 맞추기') + ' · 기준 옥타브 ' + Game.oct + '</p>' +
+    '<div class="gsteps">' + dots + '</div>' +
+    '<div class="btn-row"><button class="btn main" id="gAgain">🔄 한 판 더</button>' +
+    '<button class="btn line" id="gToPractice">🎹 연습 모드로</button></div>';
+  $('#gResult').classList.remove('hidden');
+  $('#gRound').innerHTML = '끝 <small>/ ' + GAME_ROUNDS + '</small>';
+  gameJudgeText('게임이 끝났어요. 아래 결과를 확인해 보세요.', 'ok');
+  $('#gTimeWrap').classList.add('hidden');
+  markProgress('game');
+  state.saved = false;
+  fx('fanfare');
+  gameSyncButtons();
+  const again = $('#gAgain'), toP = $('#gToPractice');
+  if (again) again.addEventListener('click', () => { fx('click'); gameStart(); });
+  if (toP) toP.addEventListener('click', () => { fx('click'); gameSetMode('practice'); });
+}
+/** 게임 중단 — 마이크를 끄거나 탭을 옮길 때도 조용히 불립니다 */
+function gameStop(quiet){
+  if (!Game.running){ if (!quiet) gameSyncButtons(); return; }
+  Game.running = false; Game.phase = 'idle';
+  $('#gTimeWrap').classList.add('hidden');
+  if (!quiet){
+    gameJudgeText('게임을 멈췄어요. ▶ 게임 시작으로 다시 도전할 수 있어요.', '');
+    toast('게임을 멈췄어요.');
+  }
+  gameSyncButtons();
+}
+
+/* ── 매 프레임 : 소리를 듣고 판정하고 그린다 ────────────────────────────── */
+function gameFrame(){
+  if (!state.micOn || !Mic.an || !AudioX.ctx) return;
+  const now = performance.now();
+  const sr = AudioX.ctx.sampleRate;
+
+  // 음높이 검출은 55 ms 간격 — 게임은 반응이 빨라야 하므로 마이크 탭보다 촘촘히 봅니다
+  if (now - Game.pitchAt > 55){
+    const dt = Game.lastEval ? Math.min(now - Game.lastEval, 200) : 0;
+    Game.pitchAt = now; Game.lastEval = now;
+    Mic.an.getFloatTimeDomainData(Mic.time);
+    const r = detectPitch(Mic.time, sr);
+    Game.hz = r.hz; Game.rms = r.rms;
+    const target = gameNote().freq;
+    const c = r.hz > 0 ? centsTo(r.hz, target, Game.ignoreOct) : null;
+    Game.cents = c;
+    Game.hist.push([now, c]);
+    while (Game.hist.length && now - Game.hist[0][0] > GAME_HIST_MS) Game.hist.shift();
+
+    // 계기판 (내가 내고 있는 음)
+    const mine = $('#gMine');
+    if (r.hz > 0){
+      const n = noteFromHz(r.hz);
+      $('#gMineNote').textContent = n.en;
+      $('#gMineHz').textContent = r.hz.toFixed(1) + ' Hz';
+      $('#gCents').innerHTML = (c > 0 ? '+' : '') + Math.round(c) + ' <small>센트</small>';
+      mine.className = 'gmine ' + (Math.abs(c) <= gameDiff().tol ? 'good' : (c < 0 ? 'low' : 'high'));
+    } else {
+      $('#gMineNote').textContent = '—';
+      $('#gMineHz').textContent = r.rms < 0.010 ? '소리가 작아요' : '음높이를 찾는 중…';
+      $('#gCents').innerHTML = '— <small>센트</small>';
+      mine.className = 'gmine';
+    }
+
+    // 허용 범위 안에 머무른 시간 쌓기 (벗어나면 조금씩 줄어듭니다)
+    const inTol = c != null && Math.abs(c) <= gameDiff().tol;
+    Game.holdMs = inTol ? Game.holdMs + dt : Math.max(0, Game.holdMs - dt * 0.9);
+    if (inTol && (Game.bestCents == null || Math.abs(c) < Game.bestCents)) Game.bestCents = Math.abs(c);
+
+    gameJudgeLive(c, inTol);
+  }
+
+  // 제한 시간 (게임 모드)
+  if (Game.running && Game.phase === 'listen'){
+    const left = Math.max(0, Game.roundEnd - now);
+    $('#gTimeBar').style.width = (left / (gameDiff().sec * 1000) * 100).toFixed(1) + '%';
+    if (Game.holdMs >= gameDiff().hold) gameHit(Game.bestCents != null ? Game.bestCents : Game.cents);
+    else if (left <= 0) gameMiss();
+  } else if (Game.running && Game.phase === 'judged' && now >= Game.nextAt){
+    gameNextRound();
+  }
+  gameDraw();
+}
+/** 소리를 내는 동안의 실시간 안내 — 게임 모드에서 채점 중일 때만 바꿉니다 */
+function gameJudgeLive(c, inTol){
+  if (Game.running && Game.phase !== 'listen') return;
+  const need = gameDiff().hold;
+  // 연습 모드에서 방금 성공했다면, 축하 문구를 2.6초 동안 그대로 둡니다
+  if (Game.practiceOk){
+    if (performance.now() - Game.practiceOk < 2600) return;
+    Game.practiceOk = 0; Game.holdMs = 0; Game.bestCents = null;
+    $$('#gKeys .gkey').forEach(k => k.classList.remove('hit'));
+  }
+  if (c == null){
+    gameJudgeText(Game.rms < 0.010 ? '소리를 조금 더 크게 내 보세요.' : '음높이를 찾는 중이에요…', '',
+                  Game.running ? '남은 시간 ' + Math.ceil(Math.max(0, Game.roundEnd - performance.now()) / 1000) + '초' : '');
+    return;
+  }
+  const pctHold = Math.round(clamp(Game.holdMs / need, 0, 1) * 100);
+  const right = Game.running
+    ? '남은 시간 ' + Math.ceil(Math.max(0, Game.roundEnd - performance.now()) / 1000) + '초'
+    : (Game.practiceOk ? '' : '유지 ' + pctHold + '%');
+  if (inTol){
+    gameJudgeText('👍 좋아요! 이대로 유지하세요 (' + pctHold + '%)', 'ok', right);
+  } else if (c < 0){
+    gameJudgeText('🔽 조금 낮아요 — <b>더 높게</b> 내 보세요 (' + Math.round(-c) + '센트 낮음)', 'low', right);
+  } else {
+    gameJudgeText('🔼 조금 높아요 — <b>더 낮게</b> 내 보세요 (' + Math.round(c) + '센트 높음)', 'high', right);
+  }
+  // 연습 모드는 점수 대신 「해냈다」는 표시만 줍니다
+  if (!Game.running && Game.holdMs >= need && !Game.practiceOk){
+    Game.practiceOk = performance.now();
+    $$('#gKeys .gkey[data-gdeg="' + Game.deg + '"]').forEach(k => k.classList.add('hit'));
+    gameJudgeText('🎉 정확해요! 이 음을 만들었습니다 (오차 ' +
+                  Math.round(Game.bestCents != null ? Game.bestCents : Math.abs(c)) + '센트)', 'ok', '다른 음도 눌러 보세요');
+    fx('ok');
+    markProgress('game');
+    state.saved = false;
+  }
+}
+
+/* ── 음정 미터 그리기 (띠 그래프) ───────────────────────────────────────── */
+function gameDraw(){
+  const f = fitCanvas($('#cvGame')); if (!f) return;
+  const { ctx, w, h } = f;
+  drawScopeBg(ctx, w, h, { cols:6, rows:4, axis:false });
+  const tol = gameDiff().tol;
+  const yOf = c => h / 2 - (clamp(c, -GAME_SPAN, GAME_SPAN) / GAME_SPAN) * (h / 2 - 6);
+
+  // 허용 범위 띠 — 이 안에 선을 넣으면 정답
+  ctx.save();
+  ctx.fillStyle = rgba(C.ok, .16);
+  ctx.fillRect(0, yOf(tol), w, yOf(-tol) - yOf(tol));
+  ctx.strokeStyle = rgba(C.ok, .5); ctx.lineWidth = 1;
+  ctx.setLineDash([5, 4]);
+  [tol, -tol].forEach(v => { const y = Math.round(yOf(v)) + .5; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); });
+  ctx.setLineDash([]);
+  // 눈금 (±50 · ±100센트) 과 목표선 — 글자는 모두 오른쪽에 모아 왼쪽 아래 안내와 겹치지 않게
+  ctx.font = '600 10px Pretendard, sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
+  [[100, '+100 높음'], [50, '+50'], [-50, '-50'], [-100, '-100 낮음']].forEach(([v, lb]) => {
+    const y = Math.round(yOf(v)) + .5;
+    ctx.strokeStyle = rgba(C.faint, .28); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    ctx.fillStyle = rgba(C.faint, .85);
+    ctx.fillText(lb, w - 7, y - 8);
+  });
+  ctx.strokeStyle = rgba(C.ok, .95); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0, Math.round(h / 2) + .5); ctx.lineTo(w, Math.round(h / 2) + .5); ctx.stroke();
+  ctx.fillStyle = rgba(C.ok, .95); ctx.font = '800 10.5px Pretendard, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('목표 음 (0센트)', 8, h / 2 - 10);
+  ctx.restore();
+
+  // 내 소리의 자취 — 끊긴 구간(소리 없음)은 선을 잇지 않습니다
+  const now = performance.now();
+  const xOf = t => w - (now - t) / GAME_HIST_MS * w;
+  let seg = [];
+  const flush = () => {
+    if (seg.length > 1) paintWave(ctx, seg, { color:C.sig, h, width:2.4, fill:false });
+    else if (seg.length === 1){
+      ctx.fillStyle = C.sig; ctx.beginPath(); ctx.arc(seg[0][0], seg[0][1], 2.2, 0, 6.284); ctx.fill();
+    }
+    seg = [];
+  };
+  Game.hist.forEach(([t, c]) => {
+    if (c == null){ flush(); return; }
+    seg.push([xOf(t), yOf(c)]);
+  });
+  flush();
+  // 지금 값 — 오른쪽 끝의 동그라미
+  if (Game.cents != null){
+    const y = yOf(Game.cents);
+    const inTol = Math.abs(Game.cents) <= tol;
+    ctx.save();
+    ctx.fillStyle = inTol ? C.ok : C.sig;
+    ctx.shadowColor = ctx.fillStyle; ctx.shadowBlur = 12;
+    ctx.beginPath(); ctx.arc(w - 6, y, 5, 0, 6.284); ctx.fill();
+    ctx.restore();
+  }
+  if (!Game.hist.length){
+    // 안내 문구는 아래쪽 정보 줄과 겹치지 않는 자리에 직접 놓습니다 (화면이 낮을 때가 있어서)
+    drawScopeIdle(ctx, w, h, '');
+    ctx.save();
+    ctx.font = '700 11.5px Pretendard, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = rgba(C.faint, .9);
+    ctx.fillText(state.micOn ? '소리를 내면 여기에 선이 그려집니다' : '마이크를 켜면 여기에 그려집니다',
+                 w / 2, h - 36);
+    ctx.restore();
+  }
+  const n = gameNote();
+  drawNote(ctx, w, h, '목표 ' + n.en + ' · ' + n.freq.toFixed(1) + ' Hz · 허용 ±' + tol + '센트' +
+           (w > 430 ? ' · 가로축 = 최근 3초' : ''), C.ok);
+  drawWatermark(ctx, w, h);
+}
+function gameIdleDraw(){ gameDraw(); }
+
+/* ── 조작부 연결 ────────────────────────────────────────────────────────── */
+function bindGame(){
+  buildGameKeys();
+  gameRenderTarget();
+  gameSetDiff('normal');
+
+  $('#gMic').addEventListener('click', async () => {
+    fx('click');
+    if (state.micOn){ micStop(); return; }
+    await micStart();
+    if (!state.micOn){
+      const src = $('#micErr');
+      $('#gErr').innerHTML = src ? src.innerHTML : '마이크를 사용할 수 없어요.';
+      $('#gErr').classList.remove('hidden');
+    } else {
+      $('#gErr').classList.add('hidden');
+    }
+  });
+  $('#gHear').addEventListener('click', () => { gamePlayTarget(); });
+  $('#gStart').addEventListener('click', () => { fx('click'); gameStart(); });
+  $('#gStop').addEventListener('click', () => { fx('click'); gameStop(); });
+
+  $('#gModeSeg').addEventListener('click', ev => {
+    const b = ev.target.closest('.seg'); if (!b) return;
+    fx('click'); gameSetMode(b.dataset.gmode);
+  });
+  $('#gOctSeg').addEventListener('click', ev => {
+    const b = ev.target.closest('.seg'); if (!b) return;
+    fx('click'); gameSetOct(+b.dataset.goct);
+  });
+  $('#gDiffSeg').addEventListener('click', ev => {
+    const b = ev.target.closest('.seg'); if (!b) return;
+    fx('click'); gameSetDiff(b.dataset.gdiff);
+  });
+  $('#gSwOct').addEventListener('click', e => {
+    Game.ignoreOct = !Game.ignoreOct;
+    e.currentTarget.setAttribute('aria-pressed', String(Game.ignoreOct));
+    e.currentTarget.setAttribute('aria-label', Game.ignoreOct ? '옥타브 무시 끄기' : '옥타브 무시 켜기');
+    Game.holdMs = 0; Game.hist.length = 0;
+    fx('click');
+    toast(Game.ignoreOct
+      ? '계이름만 같으면 정답으로 봅니다 (옥타브 무시).'
+      : '옥타브까지 정확히 맞춰야 정답입니다.');
+  });
+  $('#gKeys').addEventListener('click', ev => {
+    const k = ev.target.closest('.gkey'); if (!k) return;
+    if (Game.mode === 'play') return;             // 게임 모드에서는 목표 음이 자동입니다
+    gameSetTarget(+k.dataset.gdeg, { play:true });
+  });
+  gameSetMode('practice');
+  gameSyncMic();
+}
+/** 결과지에 담을 한 줄 */
+function gameReportText(){
+  if (!Game.results.length){
+    return state.progress.game ? '연습 모드에서 음 맞히기 성공' : '기록 없음';
+  }
+  const ok = Game.results.filter(r => r.ok);
+  const avg = ok.length ? (ok.reduce((a, r) => a + r.cents, 0) / ok.length).toFixed(0) + '센트' : '—';
+  return Game.score + ' / ' + Game.results.length + '문항 정답 · 평균 오차 ' + avg +
+         ' · 최고 연속 ' + Game.best + ' · 난이도 ' + gameDiff().name +
+         ' (±' + gameDiff().tol + '센트' + (Game.ignoreOct ? ' · 옥타브 무시' : '') + ')';
+}
 </script>
 
 <script>
@@ -6189,6 +7466,21 @@ const QUIZ = [
     why:'한 옥타브 위는 진동수가 정확히 2배이므로 200 Hz → 400 Hz 가 됩니다. ' +
         '옛날 테이프처럼 빨리 감으면 시간도 절반으로 줄지만, 요즘 음성 변조는 파형을 겹쳐 붙여 ' +
         '길이를 먼저 늘린 뒤 그만큼 빠르게 재생하므로 걸리는 시간은 그대로입니다.'
+  },
+  {
+    tag:'문제 8 · 음정 맞히기',
+    q:'음정 게임에서 목표 음이 <b>라(A4 · 440 Hz)</b> 였습니다. ' +
+      '민수는 <b>220 Hz</b>로, 지영이는 <b>466 Hz</b>로 소리를 냈습니다. ' +
+      '&lsquo;옥타브가 달라도 계이름이 같으면 정답&rsquo;이라는 규칙일 때 옳은 설명은?',
+    opts:['민수는 정확히 한 옥타브 낮은 &lsquo;라&rsquo;이므로 정답이다',
+          '민수는 진동수가 절반이므로 다른 계이름이다',
+          '지영이는 440 Hz보다 크기만 하면 되므로 정답이다',
+          '둘 다 440 Hz가 아니므로 모두 오답이다'],
+    a:0, card:'c-freq', go:'t-game',
+    demo:null,
+    why:'진동수가 <b>2배</b>가 될 때마다 한 옥타브가 올라가고, 계이름은 그대로입니다. ' +
+        '220 Hz는 440 Hz의 정확히 절반이므로 <b>한 옥타브 낮은 라</b> — 계이름이 같아 정답입니다. ' +
+        '466 Hz는 440 Hz보다 약 1반음(100센트) 높은 <b>라♯</b>이라서 허용 오차(±35센트)를 크게 벗어납니다.'
   }
 ];
 const QN = QUIZ.length;
@@ -6204,7 +7496,8 @@ const SELF_CHECK = [
   '소리의 높낮이와 진동수의 관계를 설명할 수 있어요',
   '악기마다 소리가 다르게 들리는 까닭을 설명할 수 있어요',
   '주기와 진동수의 관계(f = 1/T)를 계산할 수 있어요',
-  '음성 변조가 소리의 어떤 요소를 바꾸는 것인지 설명할 수 있어요'
+  '음성 변조가 소리의 어떤 요소를 바꾸는 것인지 설명할 수 있어요',
+  '주어진 음을 듣고 같은 높이의 소리를 내 보며, 음이 같다는 것이 진동수가 같다는 뜻임을 설명할 수 있어요'
 ];
 const selfChecked = new Set();
 
@@ -6479,8 +7772,13 @@ function resetAll(){
     progress: Object.assign({}, state.progress),
     shots: shots.slice(), heard: Array.from(heard)
   };
+  backup.game = { score:Game.score, best:Game.best, results:Game.results.slice() };
   toneStop(true);
   voxClear(true); voxClearSaves(true); voxLog = '';   // 녹음과 담아 둔 목소리는 개인 자료이므로 바로 지웁니다
+  gameStop(true); Game.results.length = 0; Game.score = 0; Game.combo = 0; Game.best = 0;
+  Game.hist.length = 0; Game.holdMs = 0; Game.practiceOk = 0;
+  $('#gResult').classList.add('hidden');
+  $('#gScore').textContent = '0'; $('#gCombo').textContent = '0';
   setFreeze(false); clearPeakHold(); lastLivePeak = 0;
   shots.length = 0;
   heard.clear();
@@ -6504,6 +7802,9 @@ function resetAll(){
     backup.heard.forEach(hz => heard.add(hz));
     state.quiz = backup.quiz;
     state.no = backup.no; state.name = backup.name; state.micDone = backup.micDone;
+    Game.score = backup.game.score; Game.best = backup.game.best;
+    backup.game.results.forEach(r => Game.results.push(r));
+    $('#gScore').textContent = String(Game.score);
     backup.self.forEach(i => selfChecked.add(i));
     Object.assign(state.progress, backup.progress);
     $('#inNo').value = backup.no; $('#inName').value = backup.name;
@@ -6603,7 +7904,9 @@ function drawMinis(){
 /* ══════════════════════════════════════════════════════════════════════════
    [15] 탭 · 테마 · 교실 설정
    ══════════════════════════════════════════════════════════════════════════ */
-const TAB_KEYS = ['t-play', 't-amp', 't-freq', 't-timbre', 't-mic', 't-audible', 't-quiz'];
+const TAB_KEYS = ['t-play', 't-amp', 't-freq', 't-timbre', 't-mic', 't-audible', 't-game', 't-quiz'];
+/* 마이크를 쓰는 탭 — 이 둘 사이를 오갈 때는 마이크를 끄지 않습니다 */
+const MIC_TABS = { 't-mic':1, 't-game':1 };
 /* 탭이 그리드(좁은 화면에서는 두 줄)로 놓이므로 인디케이터도 가로·세로 모두 이동합니다 */
 function moveTabInd(){
   const t = $('#' + state.tab), ind = $('#tabInd');
@@ -6620,9 +7923,14 @@ function syncHeaderHeight(){
 }
 function showTab(id){
   if (id !== 't-mic'){
-    // 개인정보 보호 — 탭을 떠나면 마이크를 끄고, 녹음도 그 자리에서 지웁니다
-    if (state.micOn) micStop(true);
+    // 개인정보 보호 — 마이크 탭을 떠나면 녹음은 그 자리에서 지웁니다
     if (Vox.playing || Vox.raw || Vox.rec) voxClear(true);
+  }
+  if (!MIC_TABS[id]){
+    // 마이크를 쓰지 않는 탭으로 가면 마이크를 끕니다 (탭 5 ↔ 탭 7 이동은 그대로 유지)
+    if (state.micOn) micStop(true);
+  } else if (id !== 't-game' && Game.running){
+    gameStop(true);                                         // 게임 도중 다른 탭으로 가면 멈춥니다
   }
   if (state.aud.playing && id !== 't-audible') toneStop();  // 탭을 떠나면 순음도 멈춥니다
   state.tab = id;
@@ -6632,7 +7940,8 @@ function showTab(id){
     t.tabIndex = on ? 0 : -1;
   });
   $$('.panel').forEach(p => p.classList.toggle('on', p.id === 'p' + id.slice(1)));
-  const stepOf = { 't-play':1, 't-amp':2, 't-freq':2, 't-timbre':2, 't-mic':2, 't-quiz':3 }[id] || 1;
+  const stepOf = { 't-play':1, 't-amp':2, 't-freq':2, 't-timbre':2, 't-mic':2, 't-audible':2,
+                   't-game':3, 't-quiz':4 }[id] || 1;
   $$('#steps b').forEach((b, i) => b.classList.toggle('now', i === stepOf - 1));
   clearSeq(); stopAllVoices(); releaseAllKeys(); stopLoop();
   window.scrollTo({ top:0, behavior: reduceMotion ? 'auto' : 'smooth' });
@@ -6643,8 +7952,32 @@ function showTab(id){
     else if (id === 't-amp')    renderAmp();
     else if (id === 't-freq')   renderFreq();
     else if (id === 't-timbre'){ renderTimbre(); renderSynth(); }
-    else if (id === 't-mic'){ drawVoxPreview(); state.micOn ? startLoop() : micIdleDraw(); }
+    else if (id === 't-mic'){ drawVoxPreview(); drawAB(); state.micOn ? startLoop() : micIdleDraw(); }
     else if (id === 't-audible') updateAudUI();
+    else if (id === 't-game'){ gameSyncMic(); gameDraw(); if (state.micOn) startLoop(); }
+  });
+}
+
+/* ── v6 · 화면 고르기 막대 — 한 탭 안에서 보여 줄 화면 하나만 남깁니다 ──────
+   캔버스는 「보이지 않을 때 크기가 0」이라 다시 그려야 하므로,
+   화면을 바꾼 뒤 렌더를 한 번 돌려 줍니다. */
+function showSub(panel, id){
+  if (!panel) return;
+  $$('.subrail .sbtn', panel).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.sub === id)));
+  $$('[data-subid]', panel).forEach(s => s.classList.toggle('sub-off', s.dataset.subid !== id));
+  requestAnimationFrame(() => { renderAllCanvases(); moveTabInd(); syncHeaderHeight(); });
+}
+function bindSubrails(){
+  $$('.subrail').forEach(rail => {
+    const panel = rail.closest('.panel');
+    rail.addEventListener('click', ev => {
+      const b = ev.target.closest('.sbtn'); if (!b) return;
+      fx('click');
+      showSub(panel, b.dataset.sub);
+    });
+    // 처음에는 첫 번째 화면만 보여 줍니다
+    const first = $('.sbtn', rail);
+    if (first) showSub(panel, first.dataset.sub);
   });
 }
 function applyTheme(){
@@ -6671,8 +8004,9 @@ function renderAllCanvases(){
   try {
     renderAmp(); renderFreq(); renderTimbre(); renderSynth(); drawMinis();
     if (state.tab === 't-play'){ drawLiveScope(); drawSpectrum(); }
-    if (state.tab === 't-mic'){ (state.micOn || Vox.playing) ? drawSpectro() : micIdleDraw(); drawVoxPreview(); }
+    if (state.tab === 't-mic'){ (state.micOn || Vox.playing) ? drawSpectro() : micIdleDraw(); drawVoxPreview(); drawAB(); }
     if (state.tab === 't-audible'){ drawAudible(); drawBand(); }
+    if (state.tab === 't-game') gameDraw();
   } catch (e) { /* 렌더 실패가 실험 전체를 막지 않도록 */ }
 }
 
@@ -6710,6 +8044,7 @@ function buildReport(){
     ['내 귀 확인', heard.size
         ? '들린 가장 높은 진동수 ' + (Math.max.apply(null, Array.from(heard)) / 1000) + ' kHz (어림값)'
         : '확인 기록 없음'],
+    ['음정 게임', gameReportText()],
     ['관찰 기록', records.length + '건 기록'],
     ['파형 앨범', shots.length + '장 기록'],
     ['탐구 진행률', progressText()],
@@ -7034,7 +8369,7 @@ function bindUI(){
     if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
     const el = document.activeElement, tag = el ? el.tagName : '';
     if (inEditable()) return;
-    if (ev.key >= '1' && ev.key <= '7'){ ev.preventDefault(); fx('click'); showTab(TAB_KEYS[+ev.key - 1]); return; }
+    if (ev.key >= '1' && ev.key <= '8'){ ev.preventDefault(); fx('click'); showTab(TAB_KEYS[+ev.key - 1]); return; }
     if (ev.key === '?'){ ev.preventDefault(); openHelp(); return; }
     if (ev.key === 'r' || ev.key === 'R'){ ev.preventDefault(); resetAll(); return; }
     if (ev.key === 'c' || ev.key === 'C'){                 // 파형 기록
@@ -7054,10 +8389,20 @@ function bindUI(){
       fx('click');
       return;
     }
+    if ((ev.key === 'l' || ev.key === 'L') && state.tab === 't-game'){   // 목표 음 다시 듣기
+      ev.preventDefault();
+      gamePlayTarget();
+      return;
+    }
     // Space는 버튼에 포커스가 있을 때 브라우저 기본 동작(클릭)과 겹치므로 제외
     if (ev.key === ' ' && tag !== 'BUTTON'){
       if (state.tab === 't-play'){ ev.preventDefault(); $('#btnFreeze').click(); }
       else if (state.tab === 't-mic' && (state.micOn || Vox.playing)){ ev.preventDefault(); setMicHold(!state.micHold); fx('click'); }
+      else if (state.tab === 't-game'){
+        ev.preventDefault();
+        if (Game.mode === 'play'){ Game.running ? gameStop() : gameStart(); fx('click'); }
+        else gamePlayTarget();
+      }
     }
   });
   $('#btnSound').addEventListener('click', e => {
@@ -7186,15 +8531,15 @@ function init(){
   state.quiz = newQuiz();
   buildInsRows(); buildKeys(); bindKeys(); buildMediumRow();
   buildNoteSegs(); buildTimbreGrid(); buildSynth(); bindExperiments(); bindMic(); bindVox();
-  bindAudible(); bindShots();
-  buildChips(); bindUI(); bindRecords(); bindCaliper(); renderQuiz(); renderProgress();
+  bindAudible(); bindShots(); bindGame();
+  buildChips(); bindUI(); bindSubrails(); bindRecords(); bindCaliper(); renderQuiz(); renderProgress();
   setInert($('#drawer'), true); setInert($('#helpModal'), true);
   applyTheme(); applyPresent(); applyModelMode();
   applyPreset('sine');
   setAudFreq(state.aud.freq);
   updateStats();
   micIdleDraw();
-  drawVoxPreview();
+  drawVoxPreview(); drawAB();
   showTab('t-play');
   syncHeaderHeight();
   requestAnimationFrame(() => { syncHeaderHeight(); moveTabInd(); });
@@ -7238,6 +8583,7 @@ function init(){
 
   window.addEventListener('beforeunload', e => {
     const hasWork = records.length > 0 || shots.length > 0 || !!Vox.raw || voxSaves.length > 0 ||
+                    Game.results.length > 0 ||
                     state.quiz.picked.some(v => v != null) || state.no || state.name;
     if (hasWork && !state.saved){ e.preventDefault(); e.returnValue = ''; return ''; }
   });
