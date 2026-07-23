@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>송쌤과학 소리 분석 가상실험실</title>
-<meta name="description" content="송쌤과학 소리 분석 가상실험실 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고 소리의 세기·높낮이·맵시를 탐구하는 과학 시뮬레이션">
+<meta name="description" content="송쌤과학 소리 분석 가상실험실 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고, 내 목소리를 30초 녹음해 여성·남성·아이·할아버지·할머니 목소리로 변조하며 소리의 세기·높낮이·맵시를 탐구하는 과학 시뮬레이션">
 <meta name="theme-color" content="#0B1120">
 <meta property="og:title" content="송쌤과학 소리 분석 가상실험실">
-<meta property="og:description" content="악기 소리와 내 목소리를 파형으로 분석하며 소리의 3요소를 관찰해 보세요.">
+<meta property="og:description" content="악기 소리와 내 목소리를 파형으로 분석하고, 음성 변조로 진동수가 바뀌는 것을 눈과 귀로 함께 확인해 보세요.">
 <meta property="og:type" content="website">
 <meta name="format-detection" content="telephone=no">
 
@@ -26,7 +26,7 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
 
 <!--
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-디자인 방향표 (Design Direction Board) — 송쌤과학 소리 분석 가상실험실 v4
+디자인 방향표 (Design Direction Board) — 송쌤과학 소리 분석 가상실험실 v5
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  실험의 핵심 경험 : 건반을 눌러 소리를 내면 그 소리의 파형이 오실로스코프에 즉시 그려진다
  시각 분위기      : 정밀 계측 실험실 (미래형 분석 장비) — 다크 기반
@@ -56,12 +56,16 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
    · PDF    → PDF 바이트 직접 생성 (jsPDF 불필요)
  개인정보 : 학번·이름은 JS 메모리 변수에만 존재. storage/cookie/네트워크 전송 0건.
            관찰 기록(records 배열)도 메모리에만 두므로 새로고침하면 사라집니다(의도된 동작).
+           v5의 음성 녹음도 같은 원칙 — Float32Array 로 메모리에만 두고, 서버 전송·자동 저장 0건.
+           탭을 옮기거나 새로고침하면 즉시 사라지며, 파일로 남기는 것은 학생이 💾 를 눌렀을 때뿐입니다.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  교실 운영 장치
    · 탭1 관찰 기록 표 → 행 삭제·전체 삭제는 토스트 실행취소, CSV는 UTF-8 BOM 포함
    · ❓ 도움말 모달 → 사용법·단축키·교실 설정(음량·발표 모드·모형 정확도)·전체 초기화
    · 파형 앨범 → 📷 파형 기록으로 관찰 장면을 PNG로 모아 비교하고 결과지에 함께 담음
-   · 단축키 : 1~7 탭 이동 / Space 파형 정지 / C 파형 기록 / M 측정 커서 / R 전체 초기화 / ? 도움말 / Esc 닫기
+   · 음성 변조 스튜디오 → 30초 녹음 · 12가지 목소리 · 재생하며 파형 관찰 (탭 5, v5 신설)
+   · 단축키 : 1~7 탭 이동 / Space 파형 정지 / C 파형 기록 / M 측정 커서 /
+             N 녹음 / P 변조 재생 / R 전체 초기화 / ? 도움말 / Esc 닫기
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  v3 변경 요지
    · 탭 6에 [실험 4 · 가청 주파수] 신설 (20 Hz~20 kHz 순음 · 음량 0~100 · 파형 관찰)
@@ -127,6 +131,42 @@ small-size-test: 16px pass (선 4.5px / 요소 2개)
         '아직 소리가 없음'으로 읽히게 했습니다.
       · 스펙트럼 막대는 세로 그라데이션 + 둥근 머리, 가청 범위 막대는 그라데이션 + 발광.
       · 건반에 하이라이트·안쪽 그림자를 더해 상아빛 두께를 살렸습니다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ v5 변경 요지 — 「내 목소리를 바꿔 듣고, 그 파형까지 관찰한다」 (탭 5 · 음성 변조 스튜디오 신설)
+   1) 30초 녹음
+      · 마이크가 켜진 상태에서 🔴 녹음 버튼 → 최대 30초까지 내 목소리를 담습니다.
+      · 녹음 중에는 미리보기 화면에 소리의 크기(포락선)가 왼쪽에서 오른쪽으로 자라납니다.
+      · 녹음은 오직 이 페이지의 메모리(Float32Array)에만 있습니다.
+        서버 전송·파일 저장이 전혀 없고, 탭을 옮기거나 새로고침하면 즉시 사라집니다.
+        (내려받기는 학생이 💾 버튼을 직접 눌렀을 때만 일어납니다.)
+   2) 12가지 목소리 + 직접 조절
+      · 원래 목소리 · 고음 · 저음 · 여성 · 남성 · 아이 · 할머니 · 할아버지 ·
+        다람쥐 · 거인 · 로봇 · 라디오 — 카드를 누르면 바로 그 목소리로 바뀝니다.
+      · 「직접 조절」에서 반음(-12~+12) · 말하기 속도(0.7~1.4배) · 밝기(-8~+8 dB)를
+        학생이 직접 만질 수 있어, 프리셋이 어떤 수치로 이루어졌는지 눈으로 확인합니다.
+   3) 소리의 높이만 바꾸고 길이는 그대로 (WSOLA 시간 늘리기)
+      · 옛날 테이프처럼 빨리 감으면 음은 높아지지만 말이 빨라져 알아듣기 어렵습니다.
+      · 그래서 ① 파형을 겹쳐 붙이며 길이만 늘린 뒤(WSOLA) ② 그만큼 빠르게 재생해
+        「길이는 그대로, 진동수만 배수로」 바뀌게 했습니다. 외부 라이브러리 0건.
+      · 할머니·할아버지의 떨림(트레몰로), 로봇의 링 모듈레이션, 라디오의 대역 제한 등
+        음색 장치는 모두 Web Audio 노드로 실시간 구성합니다.
+   3-2) 변조된 목소리 남기기 — 두 갈래
+      · 🎧 이 목소리 담기 → 화면 안의 「목소리 보관함」에 최대 6개까지. ▶ 로 번갈아 들으며 비교합니다.
+        담는 순간 오프라인 렌더로 「완성된 소리」를 구워 두므로, 녹음을 지우거나 다시 녹음해도 그대로 남습니다.
+      · 💾 WAV 저장 → 그 소리를 16bit PCM WAV 파일로 내려받기 (인코더도 직접 구현, 라이브러리 0건).
+        보관함 카드의 💾 WAV 로도 언제든 파일이 됩니다.
+      · 재생 · 보관 · 파일이 모두 같은 그래프(voxGraph)를 쓰므로 들은 소리와 저장된 소리가 정확히 같습니다.
+   4) 변조된 목소리를 「들으면서 파형으로 관찰」
+      · 재생 중에는 파형 · 스펙트럼 · 스펙트로그램 · 음이름 계기판이 마이크 대신
+        재생 소리를 분석합니다. 원래 목소리 ▶ 와 변조된 목소리 ▶ 를 번갈아 눌러
+        검출 진동수가 실제로 몇 배가 되는지 그 자리에서 비교할 수 있습니다.
+      · 「원래 ≈ 198 Hz → 변조 ≈ 250 Hz · +4반음 · 1.26배」처럼 수치로도 함께 보여 줍니다.
+      · 재생 위치는 미리보기 파형 위의 세로선으로 따라 움직입니다.
+      · 보관함의 목소리를 ▶ 로 들을 때도 똑같이 세 화면이 그 소리를 분석합니다.
+   5) 함께 정리한 것
+      · 개념 카드 8 「음성 변조의 원리」, 확인 문제 7번(음성 변조), 마이크 미션 6번 추가.
+      · 단축키 N(녹음 시작·정지) · P(변조된 목소리 재생·정지) 추가.
+        R 은 이미 「전체 초기화」이므로 녹음에는 쓰지 않았습니다.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 -->
 
@@ -985,6 +1025,71 @@ input[type=range]::-moz-range-thumb{width:24px; height:24px; border-radius:50%; 
 .mic-live i{width:8px; height:8px; border-radius:50%; background:var(--no); animation:blink 1.2s infinite;}
 
 /* ══════════════════════════════════════════════════════════════
+   12-2. 음성 변조 스튜디오 (v5)
+   왼쪽 = 녹음한 소리의 전체 모습(고정 관찰), 오른쪽 = 목소리 고르기(조작).
+   탭 5의 다른 화면과 같은 「관찰은 왼쪽, 조작은 오른쪽」 규칙을 그대로 씁니다.
+   ══════════════════════════════════════════════════════════════ */
+.vox-grid{display:grid; grid-template-columns:1fr 340px; gap:var(--s4); align-items:start;}
+.vox-bar{display:flex; gap:var(--s2); flex-wrap:wrap; align-items:center; margin-top:var(--s3);}
+.vox-bar > *{align-self:center;}
+.vox-time{font-size:13px; font-weight:800; color:var(--text-sub); letter-spacing:-.02em;}
+.vox-time b{color:var(--sig);}
+/* 녹음 중임을 숨김 없이 알립니다 (마이크 사용 중 배지와 같은 문법) */
+.rec-live{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:800; color:var(--no);}
+.rec-live i{width:9px; height:9px; border-radius:50%; background:var(--no); animation:blink .9s infinite;}
+/* 원음 → 변조음 비교 판독창 */
+.vox-read{
+  margin-top:var(--s3); padding:var(--s3) var(--s4); border-radius:var(--r-sm);
+  background:var(--sig-tint); border:1px solid color-mix(in srgb,var(--sig) 30%,transparent);
+  font-size:13.5px; line-height:1.8; color:var(--text-sub);
+}
+.vox-read .vrow{display:flex; align-items:baseline; gap:var(--s2); flex-wrap:wrap;}
+.vox-read b{color:var(--sig); font-size:16px; font-weight:800; letter-spacing:-.02em;}
+.vox-read .ar{color:var(--text-faint); font-weight:800;}
+.vox-read .sm{font-size:12px; color:var(--text-faint);}
+/* 목소리 카드 — 악기 칩(.ins)과 같은 문법으로, 이모지 + 이름 + 반음 수치 */
+.voices{display:grid; grid-template-columns:repeat(3,1fr); gap:6px;}
+.voice{
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  min-height:76px; padding:var(--s2) 4px; border-radius:var(--r-sm);
+  background:var(--surface); border:1.5px solid var(--line);
+  font-size:12.5px; font-weight:700; color:var(--text-sub); line-height:1.25; text-align:center;
+  transition:all var(--t-base) var(--ease);
+}
+.voice .vi{font-size:21px; line-height:1;}
+.voice .vs{font-size:10px; font-weight:700; color:var(--text-faint); letter-spacing:-.02em;}
+.voice:hover{border-color:var(--line-strong); color:var(--text);}
+.voice[aria-pressed="true"]{
+  background:var(--sig-tint); border-color:color-mix(in srgb,var(--sig) 58%,transparent); color:var(--sig);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--sig) 13%,transparent);
+}
+.voice[aria-pressed="true"] .vs{color:inherit; opacity:.85;}
+.voice[disabled]{opacity:.5; cursor:not-allowed;}
+.vox-tip{font-size:12px; color:var(--text-faint); line-height:1.65; margin-top:var(--s2);}
+.vox-tip b{color:var(--text-sub);}
+/* 목소리 보관함 — 파형 앨범과 같은 문법의 카드 (그림 대신 목소리) */
+.vsaves{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3);}
+.vsave{
+  border:1px solid var(--line); border-radius:var(--r-sm); overflow:hidden;
+  background:var(--surface-2); display:flex; flex-direction:column;
+  border-left:3px solid var(--vc,var(--sig));
+}
+.vsave .meta{padding:9px 11px; flex:1;}
+.vsave .meta b{display:flex; align-items:center; gap:6px; font-size:13px; line-height:1.4;}
+.vsave .meta b .vi{font-size:15px;}
+.vsave .meta span{display:block; font-size:11px; color:var(--text-faint); line-height:1.55; margin-top:2px;}
+.vsave.on{background:var(--sig-tint); border-color:color-mix(in srgb,var(--sig) 45%,transparent);}
+.vsave .act{display:flex; gap:1px; border-top:1px solid var(--line);}
+.vsave .act button{
+  flex:1; min-height:var(--ctl-sm); font-size:12px; font-weight:700; color:var(--text-sub);
+  transition:background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.vsave .act button:hover{background:var(--surface-3); color:var(--text);}
+.vsave .act button.del:hover{background:var(--no-tint); color:var(--no);}
+/* 직접 조절 슬라이더 묶음 — 세로로 쌓되 라벨·값·눈금 규칙은 다른 슬라이더와 동일 */
+.vox-sl{display:grid; gap:var(--s3);}
+
+/* ══════════════════════════════════════════════════════════════
    13. 퀴즈
    ══════════════════════════════════════════════════════════════ */
 .quiz-top{display:flex; align-items:center; gap:var(--s3); margin-bottom:var(--s4); flex-wrap:wrap;}
@@ -1206,6 +1311,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 }
 @media (max-width:900px){
   .mic-grid{grid-template-columns:1fr;}
+  .vox-grid{grid-template-columns:1fr;}
+  .vsaves{grid-template-columns:repeat(2,1fr);}
   .speed-tool{grid-template-columns:1fr;}
   .shots{grid-template-columns:repeat(3,1fr);}
   .usecases{grid-template-columns:1fr;}
@@ -1236,6 +1343,10 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   .hsliders{grid-template-columns:repeat(4,1fr); gap:10px; row-gap:var(--s4);}
   .hs input[type=range]{height:96px;}
   .shots{grid-template-columns:repeat(2,1fr);}
+  .voices{grid-template-columns:repeat(4,1fr);}
+  .voice{min-height:68px; font-size:11.5px;}
+  .voice .vi{font-size:19px;}
+  .vsaves{grid-template-columns:1fr;}
   .bigread .n{font-size:32px;}
   .bigread .tagx{margin-left:0;}
   [data-present="on"] .scope.big canvas{height:240px;}
@@ -1265,6 +1376,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 }
 @media (max-width:380px){
   .ins{min-height:64px;} .ins svg{width:19px; height:19px;} .ins span{font-size:10px;}
+  .voices{grid-template-columns:repeat(3,1fr);}
   .key{height:92px;}
   .stat .v{font-size:20px;}
   .hintbub{max-width:200px; font-size:12px;}
@@ -1930,23 +2042,38 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </button>
       <div class="guide-b" id="gb-mic">
         <div class="gstep"><h4>탐구 목표</h4>
-          <p>내가 내는 소리를 직접 마이크로 넣어, 악기에서 배운 <b>진폭 · 진동수 · 파형</b>이 실제 소리에서도 똑같이 나타나는지 확인합니다.</p></div>
+          <p>내가 내는 소리를 직접 마이크로 넣어, 악기에서 배운 <b>진폭 · 진동수 · 파형</b>이 실제 소리에서도 똑같이 나타나는지 확인합니다.
+             나아가 <b>음성 변조</b>로 내 목소리의 진동수를 바꿔 보고, 그때 파형과 음이름이 어떻게 달라지는지 눈과 귀로 함께 확인합니다.</p></div>
         <div class="gstep"><h4>생각 열기</h4>
-          <p>내 목소리로 &lsquo;도&rsquo;를 부르면, 프로그램이 그 음을 알아맞힐 수 있을까요? 무엇을 보고 알아낼 수 있을까요?</p></div>
+          <p>내 목소리로 &lsquo;도&rsquo;를 부르면, 프로그램이 그 음을 알아맞힐 수 있을까요? 무엇을 보고 알아낼 수 있을까요?</p>
+          <p>영상에서 목소리를 아이나 할아버지처럼 바꾸는 것을 본 적이 있나요? 소리의 <b>무엇</b>을 바꾸면 그렇게 들릴까요?</p></div>
         <div class="gstep"><h4>실험 방법</h4>
           <ol><li><b>마이크 켜기</b>를 누르고 브라우저의 권한 허용을 눌러 줍니다.</li>
               <li>아래 미션 카드를 하나씩 눌러 가며 소리를 내 봅니다.</li>
               <li>파형 · 스펙트럼 · 스펙트로그램 · 음이름이 어떻게 바뀌는지 관찰합니다.</li>
+              <li><b>🔴 녹음</b>을 눌러 최대 <b>30초</b> 동안 한 문장을 말해 봅니다. (예: &ldquo;안녕하세요, 저는 ○○○입니다.&rdquo;)</li>
+              <li><b>🎭 음성 변조 스튜디오</b>에서 여성 · 남성 · 아이 · 할머니 · 할아버지 등 목소리를 골라
+                  <b>▶ 변조된 목소리</b>로 들어 봅니다. 재생하는 동안 위쪽 세 화면이 그 소리를 그대로 분석합니다.</li>
+              <li><b>▶ 원래 목소리</b>와 번갈아 들으며 <b>검출된 진동수(Hz)</b>가 몇 배로 변하는지 비교합니다.</li>
+              <li>마음에 드는 목소리는 <b>🎧 이 목소리 담기</b>로 <b>목소리 보관함</b>에 모아 두고 번갈아 들어 봅니다.
+                  파일로 남기려면 <b>💾 WAV</b>를 누르세요.</li>
               <li>남기고 싶은 장면이 나오면 <b>⏸ 화면 멈추기</b>로 잡아 두고
                   <b>📷 화면 기록</b>을 눌러 <b>파형 앨범</b>에 저장합니다. (세 화면이 한 장에 담겨요)</li></ol>
-          <p class="tiny" style="margin-top:6px">🔒 마이크 소리는 <b>내 기기 안에서만 분석</b>되고 녹음·전송되지 않습니다. 다른 탭으로 이동하면 마이크가 자동으로 꺼집니다.</p></div>
+          <p class="tiny" style="margin-top:6px">🔒 마이크 소리와 녹음은 <b>내 기기의 메모리 안에서만</b> 다뤄집니다.
+             어떤 서버로도 전송되지 않고 저절로 저장되지도 않으며, 다른 탭으로 옮기거나 새로고침하면 <b>즉시 사라집니다</b>.
+             파일로 남는 것은 <b>💾 WAV 저장</b>을 직접 눌렀을 때뿐이에요. 다른 사람의 목소리는 <b>반드시 허락을 받고</b> 녹음합니다.</p></div>
         <div class="gstep"><h4>관찰 포인트</h4>
           <ul><li>크게 소리 낼 때 파형의 <b>높이</b>가 어떻게 변하나요?</li>
               <li>높은 목소리를 낼 때 <b>진동수(Hz)</b> 값은 어떻게 변하나요?</li>
-              <li>&lsquo;아&rsquo; 소리와 박수 소리의 <b>파형 모양</b>은 어떻게 다른가요?</li></ul></div>
+              <li>&lsquo;아&rsquo; 소리와 박수 소리의 <b>파형 모양</b>은 어떻게 다른가요?</li>
+              <li>&lsquo;아이&rsquo; 목소리로 바꾸면 파형의 물결이 <b>촘촘해지나요, 성글어지나요?</b></li>
+              <li>&lsquo;거인&rsquo;처럼 낮게 바꾸면 스펙트로그램의 밝은 줄은 <b>위로</b> 갈까요, <b>아래로</b> 갈까요?</li>
+              <li>목소리를 바꿔도 <b>말의 내용과 말하는 속도</b>는 그대로인가요? 왜 그럴까요?</li></ul></div>
         <div class="gstep"><h4>정리하기 <span class="tiny">(빈칸을 눌러 확인)</span></h4>
           <p>목소리를 크게 내면 <button class="blank" data-ans="진폭">진폭</button>이 커지고,
-             높은 목소리를 내면 <button class="blank" data-ans="진동수">진동수</button>가 커진다.</p></div>
+             높은 목소리를 내면 <button class="blank" data-ans="진동수">진동수</button>가 커진다.</p>
+          <p>음성 변조는 목소리의 <button class="blank" data-ans="진동수">진동수</button>를 배수로 바꾸는 것이고,
+             한 옥타브 높이려면 진동수를 <button class="blank" data-ans="2배">2배</button>로 만들면 된다.</p></div>
       </div>
     </div>
 
@@ -1954,10 +2081,13 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     <div class="stickybar">
       <div class="btn-row">
         <button class="btn sig" id="micBtn">마이크 켜기</button>
+        <button class="btn line" id="voxRec" disabled
+                aria-label="내 목소리를 30초까지 녹음하기">🔴 녹음 (30초)</button>
         <button class="btn ghost" id="micHold" aria-pressed="false" disabled>⏸ 화면 멈추기</button>
         <button class="btn main" id="micShot" disabled
                 aria-label="지금 보고 있는 마이크 화면을 파형 앨범에 기록">📷 화면 기록</button>
         <span class="mic-live hidden" id="micLiveBadge"><i></i>마이크 사용 중</span>
+        <span class="rec-live hidden" id="voxRecBadge" aria-live="polite"><i></i><span id="voxRecCount">녹음 중 0.0초</span></span>
         <span class="muted" id="micState" aria-live="polite" style="align-self:center">마이크는 버튼을 눌렀을 때만 켜집니다.</span>
       </div>
       <p class="holdhint" id="micHoldHint" aria-live="polite"></p>
@@ -2012,8 +2142,101 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
           <button class="mission" style="--mc:var(--ins-xylo)"><span class="mi">👏</span><span><b>미션 3.</b> 박수 소리와 &lsquo;아~&rsquo; 소리의 파형을 비교해 보세요.</span></button>
           <button class="mission" style="--mc:var(--ins-piano)"><span class="mi">🎵</span><span><b>미션 4.</b> 노래로 &lsquo;도–레–미&rsquo;를 불러 검출된 음이름이 맞는지 확인해 보세요.</span></button>
           <button class="mission" style="--mc:var(--ins-violin)"><span class="mi">🚨</span><span><b>미션 5.</b> 사이렌처럼 음을 올렸다 내리며 스펙트로그램의 줄을 움직여 보세요.</span></button>
+          <button class="mission" style="--mc:var(--sig)"><span class="mi">🎭</span><span><b>미션 6.</b> 한 문장을 녹음해 <b>아이</b>와 <b>거인</b> 목소리로 바꿔 듣고, 검출된 진동수가 몇 배로 변하는지 적어 보세요.</span></button>
         </div>
         <p class="tiny" style="margin-top:var(--s3)">미션을 해봤다면 카드를 눌러 체크할 수 있어요.</p>
+      </div>
+    </div>
+
+    <!-- ── 음성 변조 스튜디오 (v5) ────────────────────────────────────────────
+         왼쪽 : 녹음한 소리의 전체 모습과 재생 위치 (관찰)
+         오른쪽 : 어떤 목소리로 바꿀지 (조작)
+         재생하는 동안 위쪽 세 화면(파형·스펙트럼·스펙트로그램)이 변조된 소리를 분석합니다. -->
+    <div class="sec" id="voxSec" style="margin-top:var(--s6)">
+      <div class="sec-h">
+        <h2>🎭 음성 변조 스튜디오</h2>
+        <p>내 목소리를 30초까지 녹음해 여러 목소리로 바꿔 듣고, 그 파형을 그대로 관찰합니다</p>
+      </div>
+
+      <div class="vox-grid">
+        <div>
+          <div class="scope mid">
+            <span class="tag" id="voxTag">녹음 전</span>
+            <canvas id="cvVox" role="img" aria-label="녹음한 목소리의 전체 파형과 재생 위치"></canvas>
+          </div>
+          <div class="vox-bar">
+            <button class="btn line" id="voxPlayOrig" disabled>▶ 원래 목소리</button>
+            <button class="btn main" id="voxPlayMod" disabled>▶ 변조된 목소리</button>
+            <button class="btn ghost" id="voxStop" disabled>■ 정지</button>
+            <span class="vox-time tnum" id="voxTime" aria-live="polite">녹음 없음</span>
+          </div>
+          <div class="vox-bar">
+            <button class="btn line sm" id="voxKeep" disabled
+                    aria-label="지금 고른 목소리를 보관함에 담아 두기">🎧 이 목소리 담기</button>
+            <button class="btn ghost sm" id="voxWav" disabled
+                    aria-label="변조된 목소리를 WAV 파일로 내 컴퓨터에 저장">💾 WAV 저장</button>
+            <button class="btn ghost sm" id="voxAgain" disabled>🔄 다시 녹음</button>
+            <button class="btn ghost sm" id="voxDel" disabled>🗑 녹음 지우기</button>
+          </div>
+
+          <div class="vox-read" id="voxRead">
+            먼저 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 순서로 내 목소리를 담아 보세요.
+            녹음이 끝나면 이곳에 <b>원래 목소리의 진동수</b>와 <b>변조된 목소리의 진동수</b>가 나란히 표시됩니다.
+          </div>
+          <p class="tiny" style="margin-top:var(--s2)">
+            🔒 녹음한 소리는 <b>이 페이지의 메모리에만</b> 있습니다. 전송·자동 저장이 없고, 탭을 옮기거나 새로고침하면 사라져요.
+            스피커 소리가 마이크로 다시 들어가면 소리가 겹쳐 들릴 수 있으니, <b>이어폰</b>을 쓰거나 재생할 때 볼륨을 조금 낮춰 주세요.
+          </p>
+        </div>
+
+        <div>
+          <div class="ctrl-box">
+            <div class="ct">목소리 고르기</div>
+            <div class="voices" id="voxPresets" role="group" aria-label="음성 변조 목소리 선택"></div>
+            <p class="vox-tip" id="voxDesc">카드를 누르면 그 목소리로 바뀝니다. 아래 숫자는 <b>원래 목소리보다 몇 반음</b> 높이거나 낮추는지를 뜻해요.</p>
+          </div>
+
+          <div class="ctrl-box" style="margin-top:var(--s4)">
+            <div class="ct">직접 조절</div>
+            <div class="vox-sl">
+              <div class="slider">
+                <div class="top"><label for="rgVoxSt">음 높이 (반음)</label><span class="val tnum" id="vVoxSt">0 반음</span></div>
+                <input type="range" id="rgVoxSt" min="-12" max="12" step="1" value="0" aria-label="음 높이 반음">
+                <div class="ends"><span>-12 (한 옥타브 아래)</span><span>+12 (한 옥타브 위)</span></div>
+              </div>
+              <div class="slider">
+                <div class="top"><label for="rgVoxSp">말하기 속도</label><span class="val tnum" id="vVoxSp">1.00 배</span></div>
+                <input type="range" id="rgVoxSp" min="70" max="140" step="2" value="100" aria-label="말하기 속도">
+                <div class="ends"><span>0.7배 (느리게)</span><span>1.4배 (빠르게)</span></div>
+              </div>
+              <div class="slider">
+                <div class="top"><label for="rgVoxTn">목소리 밝기</label><span class="val tnum" id="vVoxTn">0 dB</span></div>
+                <input type="range" id="rgVoxTn" min="-8" max="8" step="1" value="0" aria-label="목소리 밝기">
+                <div class="ends"><span>-8 (먹먹하게)</span><span>+8 (또렷하게)</span></div>
+              </div>
+            </div>
+            <p class="vox-tip">슬라이더를 움직이면 <b>직접 조절</b>로 바뀝니다.
+              반음 <b>+12</b>는 진동수 <b>2배</b>(한 옥타브 위), <b>-12</b>는 <b>½배</b>예요.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 목소리 보관함 : 변조한 목소리를 여러 개 담아 두고 번갈아 듣고 비교합니다 ── -->
+      <div class="sec" style="margin-top:var(--s6)">
+        <div class="sec-h">
+          <h2>🎧 목소리 보관함</h2>
+          <p>🎧 이 목소리 담기로 저장한 변조 음성이 여기에 모입니다 — 번갈아 들으며 비교해 보세요</p>
+          <div class="sh-r"><button class="btn ghost sm" id="voxSavesClear" disabled>모두 지우기</button></div>
+        </div>
+        <div class="vsaves hidden" id="voxSaves"></div>
+        <div class="shots-empty" id="voxSavesEmpty">
+          아직 담아 둔 목소리가 없어요. 목소리를 고른 뒤 <b>🎧 이 목소리 담기</b>를 눌러 보세요.
+          담아 둔 목소리는 <b>▶ 듣기</b>로 다시 들으면서 파형을 관찰하고, <b>💾 WAV</b>로 파일로도 남길 수 있어요.
+        </div>
+        <p class="tiny" style="margin-top:var(--s2)">
+          최대 <b>6개</b>까지 담을 수 있어요. 담아 둔 목소리는 다른 탭에 다녀와도 남아 있지만,
+          <b>새로고침하면 사라집니다.</b> 파일로 남기려면 <b>💾 WAV</b>를 눌러 주세요.
+        </p>
       </div>
     </div>
 
@@ -2356,6 +2579,27 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </div>
       <p class="link">🔬 <b>실험 연결</b> — 실험 4에서 진동수를 20,000 Hz까지 올려 보면 어느 순간부터 소리가 들리지 않습니다.</p>
     </article>
+
+    <article class="ccard" id="c-vox" style="--cc:var(--sig)">
+      <h4><span class="chip">8</span> 음성 변조의 원리</h4>
+      <canvas data-mini="vox" aria-hidden="true"></canvas>
+      <p class="def">음성 변조 = 목소리의 <b>진동수</b>를 정해진 배수로 바꾸어 다른 사람의 목소리처럼 들리게 하는 것</p>
+      <p>사람의 목소리는 성대가 떨려서 만들어집니다. 성대가 <b>짧고 얇을수록 빠르게 떨려</b> 진동수가 크고 높은 소리가 나요.
+         그래서 어린이의 목소리는 대체로 진동수가 크고(약 250~400 Hz), 어른 남성의 목소리는 작습니다(약 85~180 Hz).
+         목소리의 진동수를 통째로 몇 배 해 주면 다른 사람의 목소리처럼 들리게 되는 것이지요.</p>
+      <div class="formula">
+        <b>반음 n 개 올리기 → 진동수 × 2<sup>n/12</sup></b>
+        +12 반음(한 옥타브) = 2배 · +7 반음 ≈ 1.50배 · +4 반음 ≈ 1.26배 · −12 반음 = ½배
+      </div>
+      <p>옛날 테이프를 빨리 감으면 목소리가 높아지지만 <b>말도 함께 빨라져</b> 알아듣기 어렵습니다.
+         진동수와 재생 시간이 같이 변하기 때문이에요. 그래서 요즘 프로그램은
+         파형을 잘게 잘라 조금씩 <b>겹쳐 붙여 길이만 늘린 뒤</b>, 그만큼 빠르게 재생합니다.
+         그러면 <b>길이는 그대로인데 진동수만</b> 바뀌어 자연스럽게 들립니다.</p>
+      <p>진동수 말고 <b>음색</b>을 바꾸는 방법도 있습니다. 높은 진동수를 깎아 내면 먹먹한 옛날 라디오 소리가 되고,
+         떨림(트레몰로)을 더하면 목소리가 흔들려 나이 든 느낌이 납니다. 어떤 배음이 남느냐가 <b>맵시</b>를 정하기 때문이에요.</p>
+      <p class="link">🔬 <b>실험 연결</b> — 탭 5의 <b>음성 변조 스튜디오</b>에서 &lsquo;아이&rsquo;를 고른 뒤 재생하면,
+         검출된 진동수가 실제로 1.5배 안팎으로 올라가고 파형의 물결이 촘촘해지는 것을 확인할 수 있어요.</p>
+    </article>
   </div>
   <div class="dr-f">
     <button class="btn main" id="drQuiz" style="width:100%">퀴즈로 확인하기</button>
@@ -2394,6 +2638,27 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <div class="hl">
+      <h4>🎭 음성 변조 스튜디오 (v5에서 새로 생겼어요)</h4>
+      <ol>
+        <li>탭 5에서 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 를 누르고 한 문장을 말합니다. 30초가 되면 저절로 멈춰요.</li>
+        <li><b>목소리 고르기</b>에서 여성 · 남성 · 아이 · 할머니 · 할아버지 · 로봇 등 카드를 누릅니다.</li>
+        <li><b>▶ 변조된 목소리</b>를 누르면 그 소리가 재생되고, 위쪽 세 화면이 <b>재생되는 소리</b>를 분석합니다.</li>
+        <li><b>▶ 원래 목소리</b>와 번갈아 들으며 <b>검출된 진동수(Hz)</b>가 몇 배로 변하는지 확인하세요.</li>
+        <li><b>직접 조절</b> 슬라이더로 반음 · 말하기 속도 · 밝기를 스스로 바꿔 볼 수도 있어요.</li>
+        <li>변조된 목소리를 <b>남기는 방법은 두 가지</b>예요.
+          <b>🎧 이 목소리 담기</b>는 화면 속 <b>목소리 보관함</b>에 담아 두었다가 ▶ 로 번갈아 들어 비교하는 용도(최대 6개),
+          <b>💾 WAV 저장</b>은 내 컴퓨터에 <b>음성 파일</b>로 내려받는 용도입니다. 보관함 카드의 <b>💾 WAV</b>로도 언제든 파일로 만들 수 있어요.</li>
+      </ol>
+      <p class="tiny" style="margin-top:var(--s2)">
+        🔒 녹음한 소리와 보관함의 목소리는 <b>이 페이지의 메모리에만</b> 있습니다. 어떤 서버로도 전송되지 않고 저절로 저장되지도 않아요.
+        녹음은 다른 탭으로 옮기면 지워지고, 보관함은 <b>새로고침하면</b> 사라집니다.
+        파일이 되는 것은 <b>💾 WAV</b>를 직접 눌렀을 때뿐이에요.
+        다른 사람의 목소리는 <b>반드시 허락을 받고</b> 녹음하고, 변조한 목소리로 남을 속이는 데 쓰지 않기로 약속해요.
+      </p>
+      <p class="tiny">🔈 스피커 소리가 마이크로 다시 들어가면 소리가 겹칠 수 있으니 <b>이어폰</b>을 쓰거나 재생할 때 볼륨을 조금 낮춰 주세요.</p>
+    </div>
+
+    <div class="hl">
       <h4>화면 보는 법 (v4에서 새로워졌어요)</h4>
       <ul>
         <li><b>왼쪽(넓은 화면) · 위쪽(좁은 화면)은 관찰 자리</b>예요. 파형은 그 자리에 <b>고정</b>되어 있어서, 아래에서 조작해도 사라지지 않습니다.</li>
@@ -2428,6 +2693,8 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <li><span class="kbd">Space</span> 파형 정지 / 다시 움직이기 (마이크 탭에서는 화면 멈추기)</li>
         <li><span class="kbd">C</span> 파형·화면 기록 (앨범에 사진으로 저장)</li>
         <li><span class="kbd">M</span> 측정 커서 켜기 / 끄기</li>
+        <li><span class="kbd">N</span> 녹음 시작 / 멈추기 (마이크 탭)</li>
+        <li><span class="kbd">P</span> 변조된 목소리 재생 / 정지 (마이크 탭)</li>
         <li><span class="kbd">R</span> 전체 초기화 (실행취소 가능)</li>
         <li><span class="kbd">Esc</span> 열려 있는 패널 닫기</li>
       </ul>
@@ -2446,6 +2713,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <h4>기록과 개인정보</h4>
       <ul>
         <li>🔒 학번 · 이름과 관찰 기록은 <b>내 기기 안에만</b> 있고 어떤 서버로도 전송되지 않아요.</li>
+        <li>🎤 <b>음성 녹음</b>도 마찬가지예요. 메모리에만 잠깐 있다가 탭을 옮기거나 새로고침하면 사라집니다.</li>
         <li>새로고침하면 모두 사라지니 <b>저장을 먼저</b> 해 주세요.</li>
       </ul>
     </div>
@@ -2475,8 +2743,10 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </a>
     </div>
     <div class="f-meta">
-      송쌤과학 소리 분석 가상실험실 <b>v4</b> · 2026.07 업데이트 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
-      모든 소리는 Web Audio API로 실시간 합성했고, 그래픽은 직접 제작한 SVG·Canvas입니다. 외부 이미지·음원·라이브러리를 사용하지 않았습니다.<br>
+      송쌤과학 소리 분석 가상실험실 <b>v5</b> · 2026.07 업데이트 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
+      모든 소리는 Web Audio API로 실시간 합성했고, 그래픽은 직접 제작한 SVG·Canvas입니다. 외부 이미지·음원·라이브러리를 사용하지 않았습니다.
+      음성 변조도 브라우저 안에서 직접 계산합니다(WSOLA 시간 늘리기 + 재생 속도 보정).<br>
+      ※ 음성 녹음은 이 페이지의 메모리에만 존재하며 서버로 전송되거나 자동 저장되지 않습니다. 탭을 옮기거나 새로고침하면 사라집니다.<br>
       ※ 교육적 단순화 — 공기의 흡수와 방의 울림은 없다고 가정했고, 소리의 속력은 공기에서 <b>v = 331.5 + 0.6 t</b>(℃), 물 1,480 m/s, 철 5,120 m/s를 사용했습니다.
       가청 주파수 20 Hz~20 kHz는 건강한 젊은 성인의 대푯값이며, 동물의 가청 범위도 개체에 따라 다른 대푯값입니다.
     </div>
@@ -3459,7 +3729,8 @@ function wake(ms){ activeUntil = performance.now() + (ms || 2600); startLoop(); 
 function needLoop(){
   if (document.hidden) return false;
   if (state.tab === 't-play') return !state.freeze && (liveVoices.size > 0 || performance.now() < activeUntil);
-  if (state.tab === 't-mic')  return state.micOn && !state.micHold;
+  // 탭 5는 마이크가 켜져 있을 때뿐 아니라 「변조된 목소리를 재생하는 동안」에도 화면이 살아 있어야 합니다
+  if (state.tab === 't-mic')  return (state.micOn || Vox.playing) && !state.micHold;
   return false;
 }
 function frame(){
@@ -3791,7 +4062,7 @@ function recCsvExport(){
 function recJsonExport(){
   if (!records.length) return;
   const data = {
-    실험실:'송쌤과학 소리 분석 가상실험실 v4',
+    실험실:'송쌤과학 소리 분석 가상실험실 v5',
     학번: state.no || null, 이름: state.name || null,
     저장일시: new Date().toISOString(),
     기록: records.map((r, i) => ({
@@ -4305,6 +4576,7 @@ async function micStart(){
     $('#micLiveBadge').classList.remove('hidden');
     $('#micTag').textContent = '● 실시간';
     $('#micTag').classList.add('live');
+    voxSyncButtons();
     toast('마이크를 켰어요. 소리를 내 보세요!', 'ok');
     startLoop();
   } catch (e) {
@@ -4315,6 +4587,7 @@ async function micStart(){
   }
 }
 function micStop(quiet){
+  voxRecStop(true);                          // 녹음 중이었다면 지금까지 담긴 소리를 살려 마무리
   if (Mic.stream) Mic.stream.getTracks().forEach(t => t.stop());
   if (Mic.src) { try { Mic.src.disconnect(); } catch (e) {} }
   Mic.stream = null; Mic.src = null; Mic.an = null;
@@ -4329,7 +4602,16 @@ function micStop(quiet){
   $('#micLiveBadge').classList.add('hidden');
   $('#micTag').textContent = '대기 중';
   $('#micTag').classList.remove('live', 'frozen');
-  micIdleDraw();
+  voxSyncButtons();
+  if (!Vox.playing) micIdleDraw();           // 재생 중이라면 화면은 재생 소리를 계속 그립니다
+}
+/** 지금 세 화면이 분석해야 할 소리 —
+    변조된 목소리를 재생하는 동안에는 마이크 대신 「재생되는 소리」를 분석합니다.
+    그래야 학생이 바뀐 목소리를 들으면서 그 파형·진동수를 같은 자리에서 확인할 수 있습니다. */
+function micSource(){
+  if (Vox.playing && Vox.an) return { an:Vox.an, time:Vox.time, freq:Vox.freqData, live:false };
+  if (state.micOn && Mic.an)  return { an:Mic.an, time:Mic.time, freq:Mic.freq, live:true };
+  return null;
 }
 function micIdleDraw(){
   [['#cvMicWave', 4], ['#cvMicSpec', 4], ['#cvSpectro', 4]].forEach(([sel, rows]) => {
@@ -4347,38 +4629,41 @@ function micIdleDraw(){
   });
 }
 function micFrame(){
-  if (!state.micOn || !Mic.an) return;
-  const an = Mic.an, sr = AudioX.ctx.sampleRate;
-  an.getFloatTimeDomainData(Mic.time);
-  an.getByteFrequencyData(Mic.freq);
+  const S = micSource();
+  if (!S) return;
+  const an = S.an, buf = S.time, spec = S.freq, sr = AudioX.ctx.sampleRate;
+  an.getFloatTimeDomainData(buf);
+  an.getByteFrequencyData(spec);
   const binHz = sr / 2 / an.frequencyBinCount;
+  const label = S.live ? '내 소리' : '변조된 목소리 (' + voxCurrentName() + ')';
+  const col = S.live ? C.accent2 : C.sig;
 
   /* 파형 — 영점 교차 트리거 + 자동 크기 조절 */
   const fw = fitCanvas($('#cvMicWave'));
   if (fw){
     const { ctx, w, h } = fw;
     drawScopeBg(ctx, w, h, { cols:10, rows:4 });
-    const need = Math.min(Math.round(0.025 * sr), Mic.time.length - 4);
+    const need = Math.min(Math.round(0.025 * sr), buf.length - 4);
     let start = 0, armed = false;
-    const limit = Math.max(1, Math.min(Mic.time.length - need - 2, Math.floor(Mic.time.length * 0.45)));
+    const limit = Math.max(1, Math.min(buf.length - need - 2, Math.floor(buf.length * 0.45)));
     for (let i = 1; i < limit; i++){
-      if (!armed){ if (Mic.time[i] < -0.02) armed = true; }
-      else if (Mic.time[i - 1] < 0 && Mic.time[i] >= 0){ start = i; break; }
+      if (!armed){ if (buf[i] < -0.02) armed = true; }
+      else if (buf[i - 1] < 0 && buf[i] >= 0){ start = i; break; }
     }
     let mx = 0;
-    for (let i = 0; i <= need; i++){ const a = Math.abs(Mic.time[start + i]); if (a > mx) mx = a; }
+    for (let i = 0; i <= need; i++){ const a = Math.abs(buf[start + i]); if (a > mx) mx = a; }
     const gain = clamp(mx > 0.001 ? 0.86 / mx : 1, 1, 14);   // 작은 소리도 보이도록 자동 확대
     const step = Math.max(1, Math.floor(need / (w * 2)));
     const pts = [];
     for (let i = 0; i <= need; i += step){
-      let v = Mic.time[start + i] * gain;
+      let v = buf[start + i] * gain;
       if (!isNum(v)) v = 0;
       v = clamp(v, -1, 1);
       pts.push([w * i / need, h / 2 - v * (h / 2 - 8) * 0.94]);
     }
-    paintWave(ctx, pts, { color: C.accent2, h, width: 2.2 });
-    if (mx < 0.004) drawScopeIdle(ctx, w, h, '소리를 내면 파형이 커집니다');
-    drawNote(ctx, w, h, '내 소리 · 화면 확대 ' + gain.toFixed(1) + '배', C.accent2);
+    paintWave(ctx, pts, { color: col, h, width: 2.2 });
+    if (mx < 0.004) drawScopeIdle(ctx, w, h, S.live ? '소리를 내면 파형이 커집니다' : '재생 중 · 조용한 구간이에요');
+    drawNote(ctx, w, h, label + ' · 화면 확대 ' + gain.toFixed(1) + '배', col);
     drawNote(ctx, w, h, '보이는 시간 25 ms', C.faint, 'right');
     drawWatermark(ctx, w, h);
   }
@@ -4387,19 +4672,22 @@ function micFrame(){
   if (fs){
     const { ctx, w, h } = fs;
     drawScopeBg(ctx, w, h, { cols:8, rows:4, axis:false });
-    paintSpecBars(ctx, w, h, Mic.freq, binHz, C.accent, 20);
+    paintSpecBars(ctx, w, h, spec, binHz, S.live ? C.accent : C.sig, 20);
     paintSpecAxis(ctx, w, h);
     drawWatermark(ctx, w, h);
   }
   /* 스펙트로그램 */
-  spectroPush(Mic.freq, binHz);
+  spectroPush(spec, binHz);
   drawSpectro();
+
+  /* 녹음 진행 막대 · 재생 위치는 음성 변조 스튜디오의 미리보기에 그립니다 */
+  if (Vox.rec || Vox.playing) drawVoxPreview();
 
   /* 음높이 검출은 120ms 간격으로만 (계산 비용 절약) */
   const now = performance.now();
   if (now - Mic.last > 120){
     Mic.last = now;
-    const r = detectPitch(Mic.time, sr);
+    const r = detectPitch(buf, sr);
     const lv = clamp(r.rms * 320, 0, 100);
     $('#micLevel').style.width = lv.toFixed(0) + '%';
     $('#micDb').textContent = (r.rms > 0.0005 ? (20 * Math.log10(r.rms)).toFixed(0) : '-60') + ' dBFS';
@@ -4411,9 +4699,11 @@ function micFrame(){
       $('#micCent').textContent = (n.cents > 0 ? '+' : '') + n.cents;
       $('#micNeedle').style.left = clamp(50 + n.cents, 2, 98) + '%';
       $('#micGauge').classList.toggle('intune', Math.abs(n.cents) <= 10);
+      if (!S.live) voxLivePitch(r.hz);       // 재생 중 검출된 진동수를 모아 평균을 냅니다
     } else {
       $('#micNote').textContent = '—';
-      $('#micKo').textContent = r.rms < 0.010 ? '더 크게 소리 내 보세요' : '음높이를 찾는 중…';
+      $('#micKo').textContent = r.rms < 0.010
+        ? (S.live ? '더 크게 소리 내 보세요' : '조용한 구간이에요') : '음높이를 찾는 중…';
       $('#micHz').textContent = '— Hz';
       $('#micGauge').classList.remove('intune');
     }
@@ -4450,6 +4740,843 @@ function bindMic(){
     if (state.micDone > 0) markProgress('mic');
     fx('click');
   });
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   [12-3] 음성 변조 스튜디오 (v5)
+
+   ▸ 왜 이렇게 만들었나
+     학생이 「목소리를 바꾼다」를 소리로만 경험하고 끝나면 과학이 되지 않습니다.
+     그래서 ① 내 목소리를 담고 ② 진동수를 정해진 배수로 바꾼 뒤
+     ③ 그 소리를 들으면서 같은 화면에서 파형·스펙트럼·검출 진동수를 함께 보게 했습니다.
+
+   ▸ 소리를 어떻게 바꾸나 (외부 라이브러리 없이)
+     테이프를 빨리 감듯 재생 속도만 올리면 진동수는 올라가지만 말도 함께 빨라집니다.
+     그래서 두 단계로 나눕니다.
+       1단계 WSOLA — 파형을 조각내어 「가장 잘 이어지는 자리」를 찾아 겹쳐 붙이며
+                     소리의 높이는 그대로 두고 길이만 r 배로 늘립니다.
+       2단계 재생   — 늘어난 소리를 playbackRate = r 로 재생합니다.
+     결과: 길이는 원래대로 · 진동수만 r 배. (r = 2^(반음/12))
+     음색(맵시)은 Web Audio 필터로 — 저역통과·하이셸프·트레몰로·링 모듈레이션.
+
+   ▸ 개인정보
+     녹음은 Float32Array 로 메모리에만 존재합니다. 전송·자동 저장 0건.
+     탭을 옮기거나 새로고침하면 사라지고, 파일이 되는 건 💾 를 눌렀을 때뿐입니다.
+   ══════════════════════════════════════════════════════════════════════════ */
+const VOX_MAX_SEC = 30;                    // 수업 시간을 고려한 녹음 상한
+const VOX_ENV_BINS = 720;                  // 미리보기 포락선 막대 개수
+
+/* 목소리 카드 — st 반음 · sp 말하기 속도(클수록 빠름) · tone 밝기(dB)
+   lp 저역통과(Hz) · bp 대역통과(Hz) · tr 떨림 깊이 · trHz 떨림 빠르기 · ring 링모듈레이션(Hz) */
+const VOX_PRESETS = [
+  { id:'none',   ic:'🙂', name:'원래 목소리', st:0,   sp:1.00, tone:0,  lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'녹음한 그대로예요. 변조된 목소리와 번갈아 들어 보세요.' },
+  { id:'high',   ic:'🔺', name:'고음',       st:7,   sp:1.00, tone:2,  lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수를 약 1.50배로 올렸어요. 파형의 물결이 촘촘해집니다.' },
+  { id:'low',    ic:'🔻', name:'저음',       st:-7,  sp:1.00, tone:-1, lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수를 약 0.67배로 낮췄어요. 파형의 물결이 성글어집니다.' },
+  { id:'woman',  ic:'👩', name:'여성',       st:4,   sp:1.00, tone:2.5,lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수 약 1.26배 + 높은 음을 조금 살려 또렷하게.' },
+  { id:'man',    ic:'👨', name:'남성',       st:-4,  sp:1.00, tone:-2, lp:5500, bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수 약 0.79배 + 높은 음을 조금 깎아 두툼하게.' },
+  { id:'child',  ic:'🧒', name:'아이',       st:7,   sp:1.06, tone:3,  lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수 약 1.50배 + 말도 조금 빠르게. 어린이 목소리의 특징이에요.' },
+  { id:'grandma',ic:'👵', name:'할머니',     st:2,   sp:0.94, tone:-1, lp:3200, bp:0,   tr:0.16,trHz:5.4, ring:0,
+    desc:'조금 높이고 느리게 + 목소리가 살짝 떨리도록(트레몰로).' },
+  { id:'grandpa',ic:'👴', name:'할아버지',   st:-3,  sp:0.90, tone:-2, lp:2500, bp:0,   tr:0.20,trHz:4.6, ring:0,
+    desc:'낮추고 느리게 + 떨림과 먹먹함을 더했어요.' },
+  { id:'squirrel',ic:'🐿️',name:'다람쥐',    st:12,  sp:1.15, tone:4,  lp:0,    bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'한 옥타브 위 — 진동수가 정확히 2배가 됩니다.' },
+  { id:'giant',  ic:'🦣', name:'거인',       st:-10, sp:0.86, tone:-3, lp:1800, bp:0,   tr:0,   trHz:0,   ring:0,
+    desc:'진동수 약 0.56배 — 아주 낮고 느린 목소리.' },
+  { id:'robot',  ic:'🤖', name:'로봇',       st:0,   sp:1.00, tone:0,  lp:4000, bp:0,   tr:0,   trHz:0,   ring:62, mix:true,
+    desc:'반음은 그대로지만, 62 Hz 를 곱해(링 모듈레이션) 원래 없던 진동수를 새로 만들었어요. ' +
+         '그래서 검출되는 음높이도 함께 흔들립니다.' },
+  { id:'radio',  ic:'📻', name:'라디오',     st:0,   sp:1.00, tone:0,  lp:0,    bp:1400,tr:0,   trHz:0,   ring:0,
+    desc:'높이는 그대로! 낮은 음과 높은 음을 깎아 배음만 바꾼 거예요 — 맵시의 변화.' }
+];
+const VOX_CUSTOM = { id:'custom', ic:'🎚️', name:'직접 조절', st:0, sp:1, tone:0, lp:0, bp:0, tr:0, trHz:0, ring:0,
+  desc:'슬라이더로 만든 나만의 목소리예요.' };
+
+const Vox = {
+  /* 녹음 */
+  proc:null, sink:null, rec:false, chunks:[], got:0, sr:44100, timer:null,
+  raw:null, dur:0, env:null, f0:0,
+  /* 재생 */
+  an:null, time:null, freqData:null, src:null, oscs:[], playing:false, playMod:false,
+  playT0:0, playDur:0, endTimer:null, livePitch:[], playLabel:'', playSaved:-1,
+  /* 변조 설정 */
+  preset:'none', st:0, sp:1, tone:0,
+  cache:new Map()                          // 시간 늘림 결과 (같은 목소리를 다시 고르면 즉시 재생)
+};
+
+/* ── 지금 고른 목소리의 설정 한 벌 ─────────────────────────────────────── */
+function voxPreset(id){
+  return VOX_PRESETS.filter(p => p.id === id)[0] || VOX_PRESETS[0];
+}
+function voxParams(){
+  if (Vox.preset === 'custom'){
+    return Object.assign({}, VOX_CUSTOM, { st:Vox.st, sp:Vox.sp, tone:Vox.tone });
+  }
+  return voxPreset(Vox.preset);
+}
+function voxCurrentName(){
+  return Vox.playLabel || (Vox.playMod ? voxParams().name : '원래 목소리');
+}
+/* 반음 → 진동수 배수 (12반음 = 한 옥타브 = 2배) */
+const voxRatio = st => Math.pow(2, st / 12);
+
+/* ══ 1단계 · WSOLA 시간 늘리기 ══════════════════════════════════════════
+   소리의 높이(진동수)는 그대로 두고 길이만 S 배로 만듭니다.
+   그냥 잘라 붙이면 이음매에서 「뚝뚝」 소리가 나므로,
+   다음 조각을 붙일 때 ±3 ms 안에서 「앞 조각과 가장 잘 이어지는 자리」를 찾아 씁니다.
+   (상관값이 가장 큰 자리 = 파형의 마루·골이 맞아떨어지는 자리) */
+function timeStretch(x, sr, S){
+  if (!x || !x.length) return new Float32Array(0);
+  if (Math.abs(S - 1) < 0.002) return x.slice();
+
+  const frame = Math.max(256, Math.round(sr * 0.046));   // 조각 길이 ≈ 46 ms
+  const hopS  = Math.max(64, Math.round(frame / 2));     // 붙이는 간격 (50 % 겹침 — 한 소리 창의 합이 1)
+  const hopA  = Math.max(1, Math.round(hopS / S));       // 원본에서 읽어 나가는 간격
+  const seek  = Math.min(Math.round(sr * 0.003), 200);   // 이음매를 찾는 범위 ±3 ms
+  // 이음매 비교는 30초 녹음에서도 학생이 기다리지 않도록 8칸씩 건너뛰며 봅니다
+  //  (±3 ms 안에서는 소리의 크기가 거의 변하지 않으므로 이 정도로도 마루·골이 정확히 맞습니다)
+  const cLen = Math.min(hopS, 640), cStep = 8;
+  const win = new Float32Array(frame);
+  for (let i = 0; i < frame; i++) win[i] = 0.5 - 0.5 * Math.cos(2 * Math.PI * i / frame);
+
+  const outLen = Math.round(x.length * S) + frame;
+  const y = new Float32Array(outLen);
+  const nrm = new Float32Array(outLen);
+
+  /* 읽어 나가는 자리(nom)는 항상 hopA 씩 규칙적으로 나아갑니다.
+     이음매를 찾느라 고른 자리(a)를 다음 출발점으로 삼으면 그 어긋남이 쌓여
+     결과물의 길이가 몇 %씩 밀리기 때문입니다. 찾은 자리는 그 조각에만 씁니다. */
+  let nom = 0, si = 0, tmplAt = -1;
+  const lastA = x.length - frame;
+  while (si + frame < outLen && nom <= lastA){
+    let best = 0;
+    if (tmplAt >= 0){
+      // 앞 조각이 「자연스럽게 이어졌을 자리」와 가장 닮은 지점을 찾습니다
+      let bestScore = -Infinity;
+      const lo = Math.max(-seek, -nom), hi = Math.min(seek, lastA - nom);
+      for (let d = lo; d <= hi; d++){
+        const p = nom + d;
+        let dot = 0, en = 1e-9;
+        for (let k = 0; k < cLen; k += cStep){
+          const v = x[p + k];
+          dot += x[tmplAt + k] * v;
+          en  += v * v;
+        }
+        const score = dot / Math.sqrt(en);      // 소리가 큰 자리에 끌리지 않도록 정규화
+        if (score > bestScore){ bestScore = score; best = d; }
+      }
+    }
+    const a = clamp(nom + best, 0, lastA);
+    for (let i = 0; i < frame; i++){
+      y[si + i]   += x[a + i] * win[i];
+      nrm[si + i] += win[i];
+    }
+    tmplAt = Math.min(a + hopS, x.length - cLen - 1);
+    nom += hopA;
+    si += hopS;
+  }
+  // 마지막 조각 때문에 길이가 조금 넘칠 수 있으므로 「원래 길이 × S」로 잘라 맞춥니다
+  const end = Math.min(outLen, si + frame, Math.max(hopS, Math.round(x.length * S)));
+  for (let i = 0; i < end; i++) if (nrm[i] > 1e-4) y[i] /= nrm[i];
+  return y.subarray(0, end);
+}
+
+/** 지금 설정으로 「길이를 늘린 소리」를 만든다 (같은 설정이면 캐시에서 바로) */
+function voxStretched(p){
+  const S = voxRatio(p.st) / (p.sp || 1);    // 재생을 r 배 빠르게 할 것이므로 그만큼 미리 늘림
+  const key = S.toFixed(4);
+  if (Vox.cache.has(key)) return Vox.cache.get(key);
+  const y = timeStretch(Vox.raw, Vox.sr, S);
+  if (Vox.cache.size > 4) Vox.cache.clear();   // 30초 녹음이면 한 벌이 수 MB — 너무 쌓아 두지 않습니다
+  Vox.cache.set(key, y);
+  return y;
+}
+
+/* ══ 2단계 · 재생 그래프 ═══════════════════════════════════════════════
+   실시간 재생과 WAV 저장이 완전히 같은 소리가 되도록 그래프를 한 곳에서 만듭니다. */
+function voxGraph(ctx, buf, rate, p, dest){
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  src.playbackRate.value = rate;
+  const oscs = [];                            // 재생을 멈출 때 함께 꺼야 할 진동자들
+  let node = src;
+
+  if (p.ring > 0){                            // 링 모듈레이션 — 소리에 사인파를 곱한다
+    const rg = ctx.createGain(); rg.gain.value = 0;
+    const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = p.ring;
+    osc.connect(rg.gain); osc.start(); oscs.push(osc);
+    node.connect(rg);
+    const up = ctx.createGain(); up.gain.value = 1.9;   // 곱하면 작아지므로 되살립니다
+    rg.connect(up); node = up;
+  }
+  if (p.bp > 0){                              // 대역통과 — 옛날 라디오처럼 가운데 진동수만 남긴다
+    const f = ctx.createBiquadFilter();
+    f.type = 'bandpass'; f.frequency.value = p.bp; f.Q.value = 0.85;
+    node.connect(f);
+    const up = ctx.createGain(); up.gain.value = 2.2;
+    f.connect(up); node = up;
+  }
+  if (p.lp > 0){                              // 저역통과 — 높은 배음을 깎아 먹먹하게
+    const f = ctx.createBiquadFilter();
+    f.type = 'lowpass'; f.frequency.value = p.lp; f.Q.value = 0.7;
+    node.connect(f); node = f;
+  }
+  if (p.tone){                                // 하이셸프 — 목소리의 밝기
+    const f = ctx.createBiquadFilter();
+    f.type = 'highshelf'; f.frequency.value = 2400; f.gain.value = p.tone;
+    node.connect(f); node = f;
+  }
+  if (p.tr > 0){                              // 트레몰로 — 소리의 크기를 주기적으로 흔든다
+    const g = ctx.createGain(); g.gain.value = 1 - p.tr;
+    const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = p.trHz;
+    const dep = ctx.createGain(); dep.gain.value = p.tr;
+    lfo.connect(dep); dep.connect(g.gain); lfo.start(); oscs.push(lfo);
+    node.connect(g); node = g;
+  }
+  const out = ctx.createGain(); out.gain.value = 0.92;
+  node.connect(out); out.connect(dest);
+  return { src, oscs };
+}
+
+/* ══ 녹음 ══════════════════════════════════════════════════════════════ */
+function voxRecStart(){
+  if (!state.micOn || !Mic.src){ toast('먼저 마이크를 켜 주세요.', 'no'); return; }
+  if (Vox.rec) return;
+  voxStopPlay();
+  const ctx = AudioX.ctx;
+  if (!ctx.createScriptProcessor){
+    toast('이 브라우저에서는 녹음을 지원하지 않아요.', 'no'); return;
+  }
+  Vox.sr = ctx.sampleRate;
+  Vox.chunks = []; Vox.got = 0;
+  Vox.env = new Float32Array(VOX_ENV_BINS);
+  Vox.raw = null; Vox.dur = 0; Vox.f0 = 0; Vox.cache.clear();
+
+  const maxLen = Math.floor(VOX_MAX_SEC * Vox.sr);
+  // 소리를 스피커로 내보내지 않기 위해 이득 0 의 도착지에 연결합니다 (하울링 방지)
+  if (!Vox.sink){ Vox.sink = ctx.createGain(); Vox.sink.gain.value = 0; Vox.sink.connect(ctx.destination); }
+  Vox.proc = ctx.createScriptProcessor(4096, 1, 1);
+  Vox.proc.onaudioprocess = e => {
+    if (!Vox.rec) return;
+    const inp = e.inputBuffer.getChannelData(0);
+    const room = maxLen - Vox.got;
+    if (room <= 0){ voxRecStop(); return; }
+    const n = Math.min(inp.length, room);
+    const c = new Float32Array(n);
+    let peak = 0;
+    for (let i = 0; i < n; i++){ const v = inp[i]; c[i] = v; const a = v < 0 ? -v : v; if (a > peak) peak = a; }
+    // 미리보기 포락선 — 이 조각이 차지하는 시간만큼 막대를 채웁니다
+    const b0 = Math.floor(Vox.got / (VOX_MAX_SEC * Vox.sr) * VOX_ENV_BINS);
+    const b1 = Math.floor((Vox.got + n) / (VOX_MAX_SEC * Vox.sr) * VOX_ENV_BINS);
+    for (let b = b0; b <= b1 && b < VOX_ENV_BINS; b++) if (peak > Vox.env[b]) Vox.env[b] = peak;
+    Vox.chunks.push(c); Vox.got += n;
+  };
+  Mic.src.connect(Vox.proc);
+  Vox.proc.connect(Vox.sink);
+  Vox.rec = true;
+
+  $('#voxRecBadge').classList.remove('hidden');
+  $('#voxTag').textContent = '● 녹음 중';
+  $('#voxTag').classList.add('live');
+  voxSyncButtons();
+  markProgress('mic');
+  fx('click');
+  toast('녹음을 시작했어요. 한 문장을 또박또박 말해 보세요! (최대 30초)', 'ok');
+  // 화면을 멈춰 두었더라도 남은 시간과 파형이 계속 보이도록 별도의 시계를 씁니다
+  clearInterval(Vox.timer);
+  Vox.timer = setInterval(voxRecTick, 100);
+  voxRecTick();
+}
+function voxRecTick(){
+  if (!Vox.rec) return;
+  const sec = Vox.got / Vox.sr;
+  $('#voxRecCount').textContent = '녹음 중 ' + sec.toFixed(1) + '초 / ' + VOX_MAX_SEC + '초';
+  $('#voxTime').textContent = sec.toFixed(1) + ' / ' + VOX_MAX_SEC.toFixed(1) + ' 초 녹음 중';
+  drawVoxPreview();
+  if (sec >= VOX_MAX_SEC) voxRecStop();
+}
+/** 녹음 마무리 — quiet 는 「탭 이동·마이크 끄기처럼 학생이 직접 멈추지 않은 경우」 */
+function voxRecStop(quiet){
+  if (!Vox.rec) return;
+  Vox.rec = false;
+  clearInterval(Vox.timer); Vox.timer = null;
+  try { Mic.src && Mic.src.disconnect(Vox.proc); } catch (e) {}
+  try { Vox.proc && Vox.proc.disconnect(); } catch (e) {}
+  if (Vox.proc) Vox.proc.onaudioprocess = null;
+  Vox.proc = null;
+
+  $('#voxRecBadge').classList.add('hidden');
+  $('#voxTag').classList.remove('live');
+
+  if (Vox.got < Vox.sr * 0.4){                 // 0.4초도 안 되면 기록으로 삼지 않습니다
+    Vox.chunks = []; Vox.got = 0; Vox.raw = null;
+    $('#voxTag').textContent = '녹음 전';
+    $('#voxTime').textContent = '녹음 없음';
+    voxSyncButtons(); drawVoxPreview(); voxRenderRead();
+    if (!quiet) toast('녹음이 너무 짧아요. 1초 이상 말해 주세요.', 'no');
+    return;
+  }
+  const raw = new Float32Array(Vox.got);
+  let o = 0;
+  Vox.chunks.forEach(c => { raw.set(c, o); o += c.length; });
+  Vox.chunks = [];
+  Vox.raw = raw;
+  Vox.dur = raw.length / Vox.sr;
+  Vox.env = voxEnvelope(raw);
+  Vox.f0 = voxMedianPitch(raw, Vox.sr);
+  Vox.cache.clear();
+
+  $('#voxTag').textContent = '녹음 완료';
+  $('#voxTime').textContent = '녹음 ' + Vox.dur.toFixed(1) + ' 초';
+  voxSyncButtons(); drawVoxPreview(); voxRenderRead();
+  state.saved = false;
+  if (!quiet) { fx('ok'); toast('녹음을 마쳤어요. 목소리를 골라 ▶ 변조된 목소리를 눌러 보세요!', 'ok'); }
+}
+/** 녹음한 소리의 전체 모습(구간별 최대 진폭) */
+function voxEnvelope(x){
+  const env = new Float32Array(VOX_ENV_BINS);
+  const per = x.length / VOX_ENV_BINS;
+  for (let b = 0; b < VOX_ENV_BINS; b++){
+    const s = Math.floor(b * per), e = Math.min(x.length, Math.floor((b + 1) * per));
+    let mx = 0;
+    for (let i = s; i < e; i++){ const a = x[i] < 0 ? -x[i] : x[i]; if (a > mx) mx = a; }
+    env[b] = mx;
+  }
+  return env;
+}
+/** 녹음 전체를 훑어 대표 진동수(중앙값)를 구한다 — 「원래 목소리 ≈ ○○ Hz」의 근거
+    한 번의 검출도 가볍지 않으므로, 녹음 길이에 상관없이 60번만 고르게 훑습니다.
+    (평균 대신 중앙값을 쓰는 이유 — 숨소리·잡음에서 튄 값에 끌려가지 않기 위해) */
+function voxMedianPitch(x, sr){
+  const win = 2048, want = 60;
+  if (x.length <= win) return 0;
+  const hop = Math.max(win, Math.floor((x.length - win) / want));
+  const list = [];
+  for (let i = 0; i + win <= x.length; i += hop){
+    const r = detectPitch(x.subarray(i, i + win), sr);
+    if (r.hz > 0) list.push(r.hz);
+  }
+  if (list.length < 3) return 0;
+  list.sort((a, b) => a - b);
+  return list[Math.floor(list.length / 2)];
+}
+
+/* ══ 재생 ══════════════════════════════════════════════════════════════ */
+function voxStopPlay(silent){
+  clearTimeout(Vox.endTimer);
+  if (Vox.src){
+    try { Vox.src.onended = null; Vox.src.stop(); } catch (e) {}
+    try { Vox.src.disconnect(); } catch (e) {}
+  }
+  (Vox.oscs || []).forEach(o => { try { o.stop(); o.disconnect(); } catch (e) {} });
+  Vox.oscs = [];
+  Vox.src = null;
+  if (!Vox.playing) return;
+  Vox.playing = false; Vox.playLabel = ''; Vox.playSaved = -1;
+  $('#voxTag').textContent = Vox.raw ? '녹음 완료' : '녹음 전';
+  $('#voxTag').classList.remove('live');
+  $('#voxTime').textContent = Vox.raw ? '녹음 ' + Vox.dur.toFixed(1) + ' 초' : '녹음 없음';
+  if (state.micOn){ $('#micTag').textContent = '● 실시간'; $('#micTag').classList.add('live'); }
+  else { $('#micTag').textContent = '대기 중'; $('#micTag').classList.remove('live', 'frozen'); }
+  spectroClear();
+  voxSyncButtons(); renderVoxSaves();
+  drawVoxPreview();
+  if (!state.micOn) micIdleDraw();
+  if (!silent) startLoop();
+}
+/** mod=true 면 변조된 목소리, false 면 원래 목소리 */
+function voxPlay(mod){
+  if (!Vox.raw){ toast('먼저 🔴 녹음 (30초) 을 눌러 목소리를 담아 주세요.', 'no'); return; }
+  if (Vox.rec) voxRecStop();
+  voxStopPlay(true);
+  if (!AudioX.ensure()) return;
+  const p = mod ? voxParams() : VOX_PRESETS[0];
+  const S = (voxRatio(p.st) / (p.sp || 1)).toFixed(4);
+  const ready = Vox.cache.has(S) || Math.abs(+S - 1) < 0.002;
+  if (!ready){
+    // 소리를 만드는 데 잠깐 걸리므로 「만드는 중」을 먼저 보여 준 뒤 계산합니다
+    $('#voxTag').textContent = '목소리 만드는 중…';
+    $('#voxTime').textContent = '잠시만 기다려 주세요…';
+    setTimeout(() => voxStart(p, mod), 30);
+  } else {
+    voxStart(p, mod);
+  }
+}
+function voxStart(p, mod){
+  if (!Vox.raw) return;
+  const ctx = AudioX.ctx, sr = Vox.sr;
+  let data;
+  try { data = voxStretched(p); }
+  catch (e){ toast('목소리를 만들지 못했어요. 다시 시도해 주세요.', 'no'); voxSyncButtons(); return; }
+  if (!data || !data.length){ toast('녹음이 너무 짧아요.', 'no'); voxSyncButtons(); return; }
+
+  const buf = ctx.createBuffer(1, data.length, sr);
+  buf.getChannelData(0).set(data);
+  const rate = voxRatio(p.st);
+
+  voxEnsureAnalyser();
+  spectroInit(); spectroClear();
+  if (state.micHold) setMicHold(false);       // 화면이 멈춰 있으면 재생을 볼 수 없으므로 풀어 줍니다
+  const g = voxGraph(ctx, buf, rate, p, Vox.an);
+  voxBeginPlay(g.src, g.oscs, data.length / sr / rate, mod ? p.name : '원래 목소리', !!mod);
+}
+/** 재생용 분석기 — 세 화면이 「재생되는 소리」를 볼 수 있게 해 주는 귀 */
+function voxEnsureAnalyser(){
+  if (Vox.an) return;
+  const ctx = AudioX.ctx;
+  Vox.an = ctx.createAnalyser();
+  Vox.an.fftSize = 4096;
+  Vox.an.smoothingTimeConstant = 0.62;
+  Vox.time = new Float32Array(Vox.an.fftSize);
+  Vox.freqData = new Uint8Array(Vox.an.frequencyBinCount);
+  Vox.an.connect(AudioX.master);
+}
+/** 재생 시작에 따르는 상태·화면 정리 (지금 만든 소리 · 보관함의 소리가 함께 씁니다) */
+function voxBeginPlay(src, oscs, dur, label, mod){
+  const ctx = AudioX.ctx;
+  Vox.src = src; Vox.oscs = oscs || [];
+  Vox.playDur = dur;
+  Vox.playT0 = ctx.currentTime;
+  Vox.playing = true; Vox.playMod = !!mod;
+  Vox.playLabel = label;
+  Vox.livePitch = [];
+  src.onended = () => { if (Vox.playing) voxStopPlay(); };
+  src.start();
+  // onended 가 오지 않는 브라우저를 위한 보험
+  clearTimeout(Vox.endTimer);
+  Vox.endTimer = setTimeout(() => { if (Vox.playing) voxStopPlay(); }, (dur + 0.5) * 1000);
+
+  $('#voxTag').textContent = '▶ ' + label + ' 재생 중';
+  $('#voxTag').classList.add('live');
+  $('#micTag').textContent = '▶ ' + (mod ? '변조 재생' : '원음 재생');
+  $('#micTag').classList.add('live'); $('#micTag').classList.remove('frozen');
+  $('#voxTime').textContent = (Vox.raw ? '녹음 ' + Vox.dur.toFixed(1) + ' 초 · ' : '') + '재생 중';
+  voxSyncButtons(); renderVoxSaves();
+  markProgress('mic');
+  state.saved = false;
+  startLoop();
+}
+/** 재생 중 검출된 진동수를 모아 두었다가 판독창의 「실제 측정값」으로 씁니다 */
+function voxLivePitch(hz){
+  if (!Vox.playMod || Vox.livePitch.length > 240) return;
+  Vox.livePitch.push(hz);
+}
+
+/* ══ 미리보기 화면 (녹음 전체 모습 · 재생 위치) ═══════════════════════ */
+function voxPlayPos(){
+  if (!Vox.playing || !AudioX.ctx) return -1;
+  return clamp((AudioX.ctx.currentTime - Vox.playT0) / Math.max(0.001, Vox.playDur), 0, 1);
+}
+function drawVoxPreview(){
+  const f = fitCanvas($('#cvVox')); if (!f) return;
+  const { ctx, w, h } = f;
+  drawScopeBg(ctx, w, h, { cols:10, rows:4 });
+
+  if (!Vox.env || (!Vox.raw && !Vox.rec)){
+    drawScopeIdle(ctx, w, h, '🔴 녹음 (30초) 을 누르면 여기에 담깁니다');
+    drawWatermark(ctx, w, h);
+    return;
+  }
+  const span = Vox.rec ? VOX_MAX_SEC : Math.max(0.1, Vox.dur);
+  const used = Vox.rec ? clamp((Vox.got / Vox.sr) / VOX_MAX_SEC, 0, 1) : 1;
+  const yc = h / 2, half = h / 2 - 10;
+  const pos = voxPlayPos();
+
+  // 이미 재생된 구간을 옅게 칠해 진행 상황이 한눈에 보이게
+  if (pos >= 0){
+    ctx.fillStyle = rgba(C.sig, .10);
+    ctx.fillRect(0, 0, w * pos, h);
+  }
+  // 포락선 — 위아래 대칭 막대
+  const col = Vox.rec ? C.no : (Vox.playing ? C.sig : C.accent2);
+  const bins = Math.max(1, Math.round(VOX_ENV_BINS * used));
+  ctx.fillStyle = rgba(col, .82);
+  for (let px = 0; px < Math.floor(w * used); px++){
+    const b = Math.min(VOX_ENV_BINS - 1, Math.floor(px / Math.max(1, w * used) * bins));
+    const a = clamp(Vox.env[b] * 1.35, 0, 1);
+    const bh = Math.max(1, a * half * 0.92);
+    ctx.fillRect(px, yc - bh, 1, bh * 2);
+  }
+  // 시간 눈금 — 아래쪽 가장자리. 왼쪽 설명 글자와 오른쪽 워터마크 자리는 비워 둡니다
+  ctx.font = '600 10px Pretendard, sans-serif';
+  ctx.textBaseline = 'bottom'; ctx.textAlign = 'center';
+  const step = span > 12 ? 5 : span > 4 ? 2 : 1;
+  for (let t = step; t < span; t += step){
+    const x = Math.round(w * t / span) + .5;
+    ctx.strokeStyle = rgba(C.faint, .34); ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, h - 17); ctx.lineTo(x, h - 10); ctx.stroke();
+    if (x < 104 || x > w - 84) continue;
+    ctx.fillStyle = rgba(C.faint, .85);
+    ctx.fillText(t + '초', x, h - 3);
+  }
+  // 재생 위치 표시선
+  if (pos >= 0){
+    const x = Math.round(w * pos) + .5;
+    ctx.strokeStyle = C.sig; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x, 4); ctx.lineTo(x, h - 4); ctx.stroke();
+    ctx.fillStyle = C.sig;
+    ctx.beginPath(); ctx.moveTo(x - 5, 4); ctx.lineTo(x + 5, 4); ctx.lineTo(x, 12); ctx.closePath(); ctx.fill();
+  }
+  drawNote(ctx, w, h, Vox.rec ? '녹음 중 ↑ 소리 크기' : '가로축 = 시간', col);
+  drawNote(ctx, w, h,
+    Vox.rec ? '왼쪽에서 오른쪽으로 쌓입니다 · 최대 ' + VOX_MAX_SEC + '초'
+            : (Vox.playing ? '▶ 재생 위치 · 전체 ' + span.toFixed(1) + '초'
+                           : '녹음 전체 모습 · 길이 ' + span.toFixed(1) + '초'), C.faint, 'right');
+  drawWatermark(ctx, w, h);
+}
+
+/* ══ 판독창 · 버튼 상태 ═══════════════════════════════════════════════ */
+function voxRenderRead(){
+  const box = $('#voxRead'); if (!box) return;
+  if (!Vox.raw){
+    box.innerHTML = '먼저 <b>마이크 켜기</b> → <b>🔴 녹음 (30초)</b> 순서로 내 목소리를 담아 보세요. ' +
+                    '녹음이 끝나면 이곳에 <b>원래 목소리의 진동수</b>와 <b>변조된 목소리의 진동수</b>가 나란히 표시됩니다.';
+    return;
+  }
+  const p = voxParams();
+  const r = voxRatio(p.st);
+  if (!(Vox.f0 > 0)){
+    box.innerHTML = '<div class="vrow">녹음 <b>' + Vox.dur.toFixed(1) + '초</b> · 선택한 목소리 <b>' + p.name + '</b></div>' +
+      '<div class="sm">말소리가 아니라 박수·바람 소리처럼 음높이가 뚜렷하지 않으면 진동수를 잴 수 없어요. ' +
+      '&ldquo;아~&rdquo; 하고 길게 소리 내어 다시 녹음해 보세요.</div>';
+    return;
+  }
+  const f2 = Vox.f0 * r;
+  const n1 = noteFromHz(Vox.f0), n2 = noteFromHz(f2);
+  const meas = Vox.livePitch.length >= 5 ? (() => {
+    const a = Vox.livePitch.slice().sort((x, y) => x - y);
+    return a[Math.floor(a.length / 2)];
+  })() : 0;
+  // 로봇처럼 「진동수를 곱해 새 소리를 만드는」 변조는 계산식으로 예측할 수 없으므로 그렇게 적습니다
+  const right = p.mix
+    ? p.name + ' <b>진동수가 새로 섞임</b>'
+    : p.name + ' <b>' + f2.toFixed(1) + ' Hz</b> <span class="sm">(' + n2.ko + ' · ' + n2.en + ')</span>';
+  box.innerHTML =
+    '<div class="vrow">원래 목소리 <b>' + Vox.f0.toFixed(1) + ' Hz</b> <span class="sm">(' + n1.ko + ' · ' + n1.en + ')</span>' +
+    '<span class="ar">→</span>' + right + '</div>' +
+    '<div class="sm">' + (p.st === 0 ? '음 높이는 그대로' : (p.st > 0 ? '+' : '') + p.st + ' 반음') +
+    ' · 진동수 <b style="font-size:13.5px">' + r.toFixed(2) + '배</b>' +
+    ' · 말하기 속도 ' + (p.sp || 1).toFixed(2) + '배' +
+    ' · 길이 ' + (Vox.dur / (p.sp || 1)).toFixed(1) + '초' +
+    (meas ? ' · 재생 중 실제 측정값 ' + meas.toFixed(1) + ' Hz' : '') + '</div>' +
+    '<div class="sm">' + p.desc + '</div>';
+  voxNoteLog();
+}
+function voxSyncButtons(){
+  const has = !!Vox.raw, rec = Vox.rec, play = Vox.playing;
+  const set = (sel, dis) => { const b = $(sel); if (b) b.disabled = !!dis; };
+  const rb = $('#voxRec');
+  if (rb){
+    rb.textContent = rec ? '⏹ 녹음 멈추기' : (has ? '🔴 다시 녹음 (30초)' : '🔴 녹음 (30초)');
+    rb.disabled = (!state.micOn && !rec) || play;
+    rb.classList.toggle('sig', rec);
+    rb.classList.toggle('line', !rec);
+  }
+  set('#voxPlayOrig', !has || rec);
+  set('#voxPlayMod',  !has || rec);
+  set('#voxStop',     !play);
+  set('#voxKeep',     !has || rec || play || voxSaves.length >= VOX_SAVE_MAX);
+  set('#voxWav',      !has || rec || play);
+  set('#voxAgain',    !state.micOn || rec || play);
+  set('#voxDel',      !has || rec || play);
+  set('#voxSavesClear', !voxSaves.length);
+  const kb = $('#voxKeep');
+  if (kb) kb.textContent = voxSaves.length >= VOX_SAVE_MAX
+    ? '🎧 보관함 가득 참 (' + VOX_SAVE_MAX + '개)'
+    : '🎧 이 목소리 담기' + (voxSaves.length ? ' (' + voxSaves.length + '/' + VOX_SAVE_MAX + ')' : '');
+  $$('#voxPresets .voice').forEach(b => { b.disabled = rec; });
+  // 재생 중에는 세 화면이 「재생 소리」를 분석하므로 기록 버튼도 함께 열어 둡니다
+  const shot = $('#micShot'), hold = $('#micHold');
+  if (shot) shot.disabled = !(state.micOn || play);
+  if (hold) hold.disabled = !(state.micOn || play);
+}
+
+/* ══ WAV 저장 — 재생과 똑같은 그래프를 오프라인으로 한 번 더 돌려 만든다 ══ */
+function encodeWav(buf){
+  const n = buf.length, sr = buf.sampleRate;
+  const ab = new ArrayBuffer(44 + n * 2);
+  const v = new DataView(ab);
+  const wr = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  wr(0, 'RIFF');  v.setUint32(4, 36 + n * 2, true);  wr(8, 'WAVE');
+  wr(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, sr, true); v.setUint32(28, sr * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  wr(36, 'data'); v.setUint32(40, n * 2, true);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++){
+    const s = clamp(d[i], -1, 1);
+    v.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+  }
+  return new Blob([ab], { type:'audio/wav' });
+}
+/** 변조된 목소리를 「완성된 소리」로 한 번에 구워 낸다.
+    스피커로 듣는 것과 완전히 같은 그래프를 오프라인으로 돌리므로,
+    보관함에 담는 소리 · 파일로 내려받는 소리 · 지금 들리는 소리가 모두 같습니다. */
+function voxRenderVoice(p){
+  const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+  if (!OAC) return Promise.reject(new Error('unsupported'));
+  if (!Vox.raw) return Promise.reject(new Error('empty'));
+  const data = voxStretched(p);
+  if (!data || !data.length) return Promise.reject(new Error('empty'));
+  const rate = voxRatio(p.st), sr = Vox.sr;
+  const outLen = Math.ceil(data.length / rate) + Math.ceil(sr * 0.08);
+  const oc = new OAC(1, outLen, sr);
+  const buf = oc.createBuffer(1, data.length, sr);
+  buf.getChannelData(0).set(data);
+  const g = voxGraph(oc, buf, rate, p, oc.destination);
+  g.src.start();                        // 오프라인 렌더도 재생과 똑같이 소리를 흘려보내야 합니다
+  return oc.startRendering();
+}
+/** 시간이 조금 걸리는 작업이므로 「만드는 중」을 먼저 보여 준 뒤 시작합니다 */
+function voxBusy(msg, fn){
+  if (!Vox.raw){ toast('먼저 🔴 녹음 (30초) 을 눌러 목소리를 담아 주세요.', 'no'); return; }
+  if (!(window.OfflineAudioContext || window.webkitOfflineAudioContext)){
+    toast('이 브라우저에서는 목소리를 파일로 만들 수 없어요.', 'no'); return;
+  }
+  toast(msg);
+  setTimeout(() => {
+    try { fn(); } catch (e){ toast('목소리를 만들지 못했어요. 다시 시도해 주세요.', 'no'); }
+  }, 40);
+}
+/** 지금 고른 목소리를 바로 WAV 파일로 내려받기 */
+function voxSaveWav(){
+  const p = voxParams();
+  voxBusy('변조된 목소리를 파일로 만드는 중이에요…', () => {
+    voxRenderVoice(p).then(rendered => {
+      download(encodeWav(rendered), voxFileName(p));
+      fx('shutter');
+      toast('변조된 목소리를 WAV 파일로 저장했어요. 다운로드 폴더를 확인해 주세요.', 'ok');
+    }).catch(() => toast('파일을 만들지 못했어요. 다시 시도해 주세요.', 'no'));
+  });
+}
+function voxFileName(p){
+  return fileBase() + '_음성변조_' + safeName(p.name) +
+         (p.st ? '_' + (p.st > 0 ? '+' : '') + p.st + '반음' : '') + '.wav';
+}
+
+/* ══ 목소리 보관함 ═════════════════════════════════════════════════════
+   변조한 목소리를 여러 개 담아 두고 번갈아 들으며 비교하는 곳입니다.
+   담아 두는 것은 「완성된 소리(AudioBuffer)」라서, 녹음을 지우거나 다시 녹음해도
+   담아 둔 목소리는 그대로 남습니다. 파형 앨범과 같이 메모리에만 존재합니다. */
+const VOX_SAVE_MAX = 6;
+const voxSaves = [];
+
+function voxKeep(){
+  if (voxSaves.length >= VOX_SAVE_MAX){
+    toast('목소리는 ' + VOX_SAVE_MAX + '개까지 담을 수 있어요. 필요 없는 것을 먼저 지워 주세요.', 'no');
+    return;
+  }
+  const p = voxParams();
+  const r = voxRatio(p.st);
+  voxBusy('「' + p.name + '」 목소리를 보관함에 담는 중이에요…', () => {
+    voxRenderVoice(p).then(buf => {
+      voxSaves.push({
+        name: p.name, ic: p.ic, st: p.st, sp: p.sp || 1, mix: !!p.mix,
+        buf: buf, dur: buf.duration,
+        f0: Vox.f0 > 0 ? Vox.f0 : 0, f2: Vox.f0 > 0 ? Vox.f0 * r : 0,
+        at: new Date(), p: Object.assign({}, p)
+      });
+      state.saved = false;
+      renderVoxSaves(); voxSyncButtons(); fx('shutter');
+      toast('「' + p.name + '」 목소리를 보관함에 담았어요. ▶ 듣기로 다시 들어 보세요.', 'ok');
+    }).catch(() => toast('목소리를 담지 못했어요. 다시 시도해 주세요.', 'no'));
+  });
+}
+function renderVoxSaves(){
+  const box = $('#voxSaves'); if (!box) return;
+  const has = voxSaves.length > 0;
+  box.classList.toggle('hidden', !has);
+  const empty = $('#voxSavesEmpty'); if (empty) empty.classList.toggle('hidden', has);
+  const clr = $('#voxSavesClear'); if (clr) clr.disabled = !has;
+
+  const frag = document.createDocumentFragment();
+  voxSaves.forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'vsave' + (Vox.playing && Vox.playSaved === i ? ' on' : '');
+    const meta = document.createElement('div'); meta.className = 'meta';
+    const b = document.createElement('b');
+    b.innerHTML = '<span class="vi" aria-hidden="true">' + s.ic + '</span>' + (i + 1) + '. ' + s.name;
+    const sp = document.createElement('span');
+    sp.textContent =
+      (s.st === 0 ? '높이 그대로' : (s.st > 0 ? '+' : '') + s.st + ' 반음 · 진동수 ' + voxRatio(s.st).toFixed(2) + '배') +
+      ' · ' + s.dur.toFixed(1) + '초' +
+      (s.f0 > 0 && !s.mix ? ' · ' + s.f0.toFixed(0) + ' → ' + s.f2.toFixed(0) + ' Hz' : '');
+    meta.appendChild(b); meta.appendChild(sp);
+
+    const act = document.createElement('div'); act.className = 'act';
+    const pl = document.createElement('button');
+    pl.type = 'button'; pl.dataset.vsPlay = String(i);
+    pl.textContent = (Vox.playing && Vox.playSaved === i) ? '■ 정지' : '▶ 듣기';
+    pl.setAttribute('aria-label', (i + 1) + '번 ' + s.name + ' 목소리 듣기');
+    const dl = document.createElement('button');
+    dl.type = 'button'; dl.dataset.vsDl = String(i); dl.textContent = '💾 WAV';
+    dl.setAttribute('aria-label', (i + 1) + '번 ' + s.name + ' 목소리를 WAV 파일로 저장');
+    const de = document.createElement('button');
+    de.type = 'button'; de.className = 'del'; de.dataset.vsDel = String(i); de.textContent = '🗑';
+    de.setAttribute('aria-label', (i + 1) + '번 ' + s.name + ' 목소리 지우기');
+    act.appendChild(pl); act.appendChild(dl); act.appendChild(de);
+
+    card.appendChild(meta); card.appendChild(act);
+    frag.appendChild(card);
+  });
+  box.textContent = '';
+  box.appendChild(frag);
+}
+/** 보관함의 목소리 듣기 — 이미 완성된 소리이므로 그대로 흘려보내면 됩니다.
+    이때도 세 화면은 「지금 들리는 소리」를 분석합니다. */
+function voxPlaySaved(i){
+  const s = voxSaves[i]; if (!s) return;
+  if (Vox.playing && Vox.playSaved === i){ voxStopPlay(); return; }
+  if (Vox.rec) voxRecStop();
+  voxStopPlay(true);
+  if (!AudioX.ensure()) return;
+  const ctx = AudioX.ctx;
+  voxEnsureAnalyser();
+  spectroInit(); spectroClear();
+  if (state.micHold) setMicHold(false);
+  const src = ctx.createBufferSource();
+  src.buffer = s.buf;
+  const out = ctx.createGain(); out.gain.value = 0.95;
+  src.connect(out); out.connect(Vox.an);
+  Vox.playSaved = i;
+  voxBeginPlay(src, [], s.buf.duration, s.name, s.st !== 0 || s.mix);
+}
+function voxDlSaved(i){
+  const s = voxSaves[i]; if (!s) return;
+  try {
+    download(encodeWav(s.buf), voxFileName(s));
+    fx('shutter');
+    toast('「' + s.name + '」 목소리를 WAV 파일로 저장했어요.', 'ok');
+  } catch (e){ toast('파일을 만들지 못했어요. 다시 시도해 주세요.', 'no'); }
+}
+function voxDelSaved(i){
+  if (!voxSaves[i]) return;
+  if (Vox.playing && Vox.playSaved === i) voxStopPlay(true);
+  const gone = voxSaves.splice(i, 1)[0];
+  if (Vox.playSaved > i) Vox.playSaved--;
+  renderVoxSaves(); voxSyncButtons(); fx('click');
+  toastUndo('「' + gone.name + '」 목소리를 지웠어요.', () => {
+    voxSaves.splice(Math.min(i, voxSaves.length), 0, gone);
+    renderVoxSaves(); voxSyncButtons();
+  });
+}
+function voxClearSaves(quiet){
+  if (!voxSaves.length) return;
+  if (Vox.playSaved >= 0) voxStopPlay(true);
+  const backup = voxSaves.slice();
+  voxSaves.length = 0;
+  renderVoxSaves(); voxSyncButtons();
+  if (quiet) return;
+  fx('click');
+  toastUndo('담아 둔 목소리를 모두 지웠어요.', () => {
+    backup.forEach(s => voxSaves.push(s));
+    renderVoxSaves(); voxSyncButtons();
+  });
+}
+
+/* ══ 녹음 지우기 ═══════════════════════════════════════════════════════ */
+function voxClear(quiet){
+  voxStopPlay(true);
+  voxRecStop(true);
+  Vox.raw = null; Vox.env = null; Vox.dur = 0; Vox.f0 = 0;
+  Vox.got = 0; Vox.chunks = []; Vox.livePitch = [];
+  Vox.cache.clear();
+  $('#voxTag').textContent = '녹음 전';
+  $('#voxTag').classList.remove('live');
+  $('#voxTime').textContent = '녹음 없음';
+  voxSyncButtons(); drawVoxPreview(); voxRenderRead();
+  if (!quiet) toast('녹음을 지웠어요.', 'ok');
+}
+
+/* 결과지에 담는 것은 「무엇을 관찰했는지」 한 줄뿐입니다 (소리 자체는 어디에도 남기지 않습니다).
+   탭을 옮기면 녹음은 지워지므로, 관찰 요약만 따로 붙잡아 두었다가 결과지에 씁니다. */
+let voxLog = '';
+function voxNoteLog(){
+  if (!Vox.raw) return;
+  const p = voxParams(), r = voxRatio(p.st);
+  voxLog = '녹음 ' + Vox.dur.toFixed(1) + '초 · 선택 ' + p.name +
+           ' (' + (p.st > 0 ? '+' : '') + p.st + '반음 · 진동수 ' + r.toFixed(2) + '배)' +
+           (Vox.f0 > 0 ? ' · 원음 ' + Vox.f0.toFixed(1) + 'Hz → 변조 ' + (Vox.f0 * r).toFixed(1) + 'Hz' : '');
+}
+function voxReportText(){ return voxLog || '녹음 기록 없음'; }
+/** 보관함에 담아 둔 목소리들을 결과지 한 줄로 (소리가 아니라 「무엇을 만들었는지」만) */
+function voxSavesReportText(){
+  if (!voxSaves.length) return '담아 둔 목소리 없음';
+  return voxSaves.length + '개 — ' + voxSaves.map(s =>
+    s.name + '(' + (s.st > 0 ? '+' : '') + s.st + '반음)').join(', ');
+}
+
+/* ══ 조작부 만들기 · 연결 ══════════════════════════════════════════════ */
+function buildVox(){
+  $('#voxPresets').innerHTML = VOX_PRESETS.map(p => {
+    const s = p.st === 0 ? '높이 그대로' : (p.st > 0 ? '+' : '') + p.st + ' 반음';
+    return '<button class="voice" type="button" data-vox="' + p.id + '"' +
+           ' aria-pressed="' + (Vox.preset === p.id) + '" aria-label="' + p.name + ' 목소리로 바꾸기">' +
+           '<span class="vi" aria-hidden="true">' + p.ic + '</span>' +
+           '<span>' + p.name + '</span><span class="vs">' + s + '</span></button>';
+  }).join('');
+}
+function voxSelect(id, fromSlider){
+  Vox.preset = id;
+  if (!fromSlider){
+    const p = voxPreset(id);
+    Vox.st = p.st; Vox.sp = p.sp; Vox.tone = p.tone;
+    $('#rgVoxSt').value = p.st;
+    $('#rgVoxSp').value = Math.round(p.sp * 100);
+    $('#rgVoxTn').value = p.tone;
+  }
+  $$('#voxPresets .voice').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.vox === id)));
+  const p = voxParams();
+  $('#vVoxSt').textContent = (p.st > 0 ? '+' : '') + p.st + ' 반음';
+  $('#vVoxSp').textContent = (p.sp || 1).toFixed(2) + ' 배';
+  $('#vVoxTn').textContent = (p.tone > 0 ? '+' : '') + (+p.tone).toFixed(0) + ' dB';
+  $('#voxDesc').innerHTML = '<b>' + p.name + '</b> — ' + p.desc;
+  voxRenderRead();
+}
+function bindVox(){
+  buildVox();
+  $('#voxPresets').addEventListener('click', ev => {
+    const b = ev.target.closest('.voice'); if (!b || b.disabled) return;
+    voxSelect(b.dataset.vox);
+    fx('click');
+    // 이미 재생 중이었다면 새 목소리로 바로 이어서 들려 줍니다
+    if (Vox.playing && Vox.playMod) voxPlay(true);
+  });
+  const slid = () => {
+    Vox.st   = clamp(+$('#rgVoxSt').value, -12, 12);
+    Vox.sp   = clamp(+$('#rgVoxSp').value, 70, 140) / 100;
+    Vox.tone = clamp(+$('#rgVoxTn').value, -8, 8);
+    voxSelect('custom', true);
+  };
+  ['#rgVoxSt', '#rgVoxSp', '#rgVoxTn'].forEach(sel => {
+    $(sel).addEventListener('input', slid);
+  });
+  $('#voxRec').addEventListener('click', () => { Vox.rec ? voxRecStop() : voxRecStart(); });
+  $('#voxPlayOrig').addEventListener('click', () => { fx('click'); voxPlay(false); });
+  $('#voxPlayMod').addEventListener('click', () => { fx('click'); voxPlay(true); });
+  $('#voxStop').addEventListener('click', () => { fx('click'); voxStopPlay(); });
+  $('#voxKeep').addEventListener('click', voxKeep);
+  $('#voxWav').addEventListener('click', voxSaveWav);
+  $('#voxAgain').addEventListener('click', () => { voxClear(true); voxRecStart(); });
+  $('#voxDel').addEventListener('click', () => { fx('click'); voxClear(); });
+  $('#voxSavesClear').addEventListener('click', () => voxClearSaves());
+  // 보관함 카드는 다시 그려지므로 목록 전체에 한 번만 위임 연결합니다
+  $('#voxSaves').addEventListener('click', ev => {
+    const pl = ev.target.closest('[data-vs-play]');
+    if (pl){ fx('click'); voxPlaySaved(+pl.dataset.vsPlay); return; }
+    const dl = ev.target.closest('[data-vs-dl]');
+    if (dl){ voxDlSaved(+dl.dataset.vsDl); return; }
+    const de = ev.target.closest('[data-vs-del]');
+    if (de){ voxDelSaved(+de.dataset.vsDel); }
+  });
+  voxSelect('none');
+  renderVoxSaves();
+  voxSyncButtons();
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -4562,7 +5689,8 @@ function micShotCanvas(){
   // 머리글 — 무엇을 언제 잡은 화면인지 그림 안에 남깁니다
   x.fillStyle = C.text; x.font = '800 13px Pretendard, sans-serif';
   x.textAlign = 'left'; x.textBaseline = 'middle';
-  x.fillText('🎤 마이크 분석 화면' + (state.micHold ? ' (정지 상태)' : ''), PAD, HEAD / 2 + 2);
+  x.fillText((Vox.playing ? '🎭 ' + voxCurrentName() + ' 재생 화면' : '🎤 마이크 분석 화면') +
+             (state.micHold ? ' (정지 상태)' : ''), PAD, HEAD / 2 + 2);
   x.fillStyle = C.faint; x.font = '600 10.5px Pretendard, sans-serif';
   x.textAlign = 'right';
   x.fillText($('#micNote').textContent + ' · ' + $('#micHz').textContent + ' · ' + $('#micDb').textContent,
@@ -4580,15 +5708,17 @@ function micShotCanvas(){
   return cv;
 }
 function shotFromMic(){
-  if (!state.micOn){ toast('먼저 마이크를 켜 주세요.', 'no'); return; }
-  // 「보고 있는 그 장면」이 저장되도록, 실시간이면 먼저 멈춘 뒤 기록합니다
-  const wasLive = !state.micHold;
-  if (wasLive) setMicHold(true);
-  const cv = micShotCanvas();
+  if (!state.micOn && !Vox.playing){ toast('먼저 마이크를 켜 주세요.', 'no'); return; }
+  const playing = Vox.playing, voice = voxCurrentName();
+  const cv = micShotCanvas();          // 재생 중에는 「멈추면 소리도 끊기므로」 그 순간을 바로 뜹니다
   if (!cv){ toast('아직 그려진 화면이 없어요.', 'no'); return; }
+  // 마이크 실시간일 때는 「보고 있는 그 장면」이 저장되도록 화면을 먼저 멈춥니다
+  const wasLive = !playing && !state.micHold;
+  if (wasLive) setMicHold(true);
   const n = $('#micNote').textContent, hz = $('#micHz').textContent;
   captureWave(cv,
-    '내 목소리' + (n && n !== '—' ? ' · ' + n + ' (' + $('#micKo').textContent + ')' : ''),
+    (playing ? '변조 · ' + voice : '내 목소리') +
+      (n && n !== '—' ? ' · ' + n + ' (' + $('#micKo').textContent + ')' : ''),
     hz + ' · ' + $('#micDb').textContent + ' · 세 화면 한 장',
     wasLive ? '화면을 멈추고 지금 장면을 앨범에 기록했어요.' : null);
 }
@@ -5045,20 +6175,36 @@ const QUIZ = [
     demo:{ type:'tone', freq:15000, msg:'15 kHz 순음이에요. 들리나요?' },
     why:'박쥐는 초음파를 듣고 스스로 내기도 합니다. 초음파를 쏜 뒤 되돌아오는 메아리로 벽까지의 거리를 재지요. ' +
         '자동차 후방 센서와 초음파 진단도 같은 원리를 이용합니다.'
+  },
+  {
+    tag:'문제 7 · 음성 변조',
+    q:'진동수가 <b>200 Hz</b>인 목소리를 음성 변조로 <b>한 옥타브 높은</b> 아이 목소리처럼 바꾸었습니다. ' +
+      '변조된 목소리의 진동수와, 말하는 데 걸리는 시간은 어떻게 될까요? (말의 빠르기는 그대로 두었습니다)',
+    opts:['진동수 400 Hz · 걸리는 시간은 그대로',
+          '진동수 400 Hz · 걸리는 시간은 절반',
+          '진동수 100 Hz · 걸리는 시간은 2배',
+          '진동수 200 Hz 그대로 · 파형의 모양만 달라진다'],
+    a:0, card:'c-vox', go:'t-mic',
+    demo:null,
+    why:'한 옥타브 위는 진동수가 정확히 2배이므로 200 Hz → 400 Hz 가 됩니다. ' +
+        '옛날 테이프처럼 빨리 감으면 시간도 절반으로 줄지만, 요즘 음성 변조는 파형을 겹쳐 붙여 ' +
+        '길이를 먼저 늘린 뒤 그만큼 빠르게 재생하므로 걸리는 시간은 그대로입니다.'
   }
 ];
 const QN = QUIZ.length;
 const SUMMARY = [
   ['소리의 세기', '세게 낼수록 <b>진폭</b>이 커진다. 진동수는 그대로.'],
   ['소리의 높낮이', '<b>진동수</b>가 클수록 높은 소리. 한 옥타브 위는 약 2배.'],
-  ['소리의 맵시', '진폭·진동수가 같아도 <b>배음</b>이 다르면 파형의 모양이 다르다.']
+  ['소리의 맵시', '진폭·진동수가 같아도 <b>배음</b>이 다르면 파형의 모양이 다르다.'],
+  ['음성 변조', '목소리의 <b>진동수</b>를 배수로 바꾼 것. +12반음(한 옥타브) = 진동수 2배.']
 ];
 /* 자기평가 문항 — 결과 화면에서 스스로 점검하고 결과지에 함께 기록 */
 const SELF_CHECK = [
   '소리의 세기와 진폭의 관계를 설명할 수 있어요',
   '소리의 높낮이와 진동수의 관계를 설명할 수 있어요',
   '악기마다 소리가 다르게 들리는 까닭을 설명할 수 있어요',
-  '주기와 진동수의 관계(f = 1/T)를 계산할 수 있어요'
+  '주기와 진동수의 관계(f = 1/T)를 계산할 수 있어요',
+  '음성 변조가 소리의 어떤 요소를 바꾸는 것인지 설명할 수 있어요'
 ];
 const selfChecked = new Set();
 
@@ -5096,7 +6242,7 @@ function renderQuiz(){
       '<p style="font-size:15px;font-weight:700;margin-top:4px">' + pct + '점 · ' +
       (pct === 100 ? '완벽해요!' : pct >= 60 ? '잘했어요!' : '개념을 한 번 더 볼까요?') + '</p>' +
       '<div class="sumup">' + SUMMARY.map((s, i) =>
-        '<div style="--sc:' + ['var(--accent-2)', 'var(--ins-piano)', 'var(--ins-violin)'][i] + '">' +
+        '<div style="--sc:' + ['var(--accent-2)', 'var(--ins-piano)', 'var(--ins-violin)', 'var(--sig)'][i] + '">' +
         '<b>' + s[0] + '</b> — ' + s[1] + '</div>').join('') + '</div>' +
       (state.saved ? '' : '<div class="unsaved">아직 저장하지 않았어요</div>') +
       (wrong.length
@@ -5214,7 +6360,7 @@ const CARDS = [
   { id:'c-wave',   t:'소리는 파동' }, { id:'c-amp',    t:'진폭 · 세기' },
   { id:'c-freq',   t:'진동수 · 높낮이' }, { id:'c-timbre', t:'맵시 · 파형' },
   { id:'c-harm',   t:'배음' }, { id:'c-speed', t:'속력 · 파장' },
-  { id:'c-audible', t:'가청 주파수' }
+  { id:'c-audible', t:'가청 주파수' }, { id:'c-vox', t:'음성 변조' }
 ];
 const readCards = new Set();
 function buildChips(){
@@ -5334,6 +6480,7 @@ function resetAll(){
     shots: shots.slice(), heard: Array.from(heard)
   };
   toneStop(true);
+  voxClear(true); voxClearSaves(true); voxLog = '';   // 녹음과 담아 둔 목소리는 개인 자료이므로 바로 지웁니다
   setFreeze(false); clearPeakHold(); lastLivePeak = 0;
   shots.length = 0;
   heard.clear();
@@ -5441,6 +6588,13 @@ function drawMinis(){
       ctx.textAlign = 'right'; ctx.fillText('20 kHz', X(20000) + 6, y + 12);
       ctx.textAlign = 'left';  ctx.fillStyle = C.sub;
       ctx.fillText('초음파 →', Math.min(X(20000) + 10, w - 56), y - 5);
+    } else if (kind === 'vox'){
+      // 같은 길이 안에서 물결 개수만 늘어난다 = 길이는 그대로, 진동수만 2배
+      line(u => Math.sin(u * Math.PI * 4) * 0.40 + 0.44, C.info, 2.2);
+      line(u => Math.sin(u * Math.PI * 8) * 0.40 - 0.44, C.sig, 2.2);
+      ctx.textAlign = 'left';
+      ctx.fillStyle = C.info; ctx.fillText('원래 목소리', 10, 6);
+      ctx.fillStyle = C.sig;  ctx.fillText('한 옥타브 올린 목소리 — 물결만 2배', 10, h - 16);
     }
     drawWatermark(ctx, w, h);
   });
@@ -5465,7 +6619,11 @@ function syncHeaderHeight(){
   document.documentElement.style.setProperty('--hh', Math.round(h.getBoundingClientRect().height) + 'px');
 }
 function showTab(id){
-  if (state.micOn && id !== 't-mic') micStop(true);   // 개인정보 보호 — 탭을 떠나면 마이크를 끕니다
+  if (id !== 't-mic'){
+    // 개인정보 보호 — 탭을 떠나면 마이크를 끄고, 녹음도 그 자리에서 지웁니다
+    if (state.micOn) micStop(true);
+    if (Vox.playing || Vox.raw || Vox.rec) voxClear(true);
+  }
   if (state.aud.playing && id !== 't-audible') toneStop();  // 탭을 떠나면 순음도 멈춥니다
   state.tab = id;
   $$('.tab').forEach(t => {
@@ -5485,7 +6643,7 @@ function showTab(id){
     else if (id === 't-amp')    renderAmp();
     else if (id === 't-freq')   renderFreq();
     else if (id === 't-timbre'){ renderTimbre(); renderSynth(); }
-    else if (id === 't-mic'){ state.micOn ? startLoop() : micIdleDraw(); }
+    else if (id === 't-mic'){ drawVoxPreview(); state.micOn ? startLoop() : micIdleDraw(); }
     else if (id === 't-audible') updateAudUI();
   });
 }
@@ -5513,7 +6671,7 @@ function renderAllCanvases(){
   try {
     renderAmp(); renderFreq(); renderTimbre(); renderSynth(); drawMinis();
     if (state.tab === 't-play'){ drawLiveScope(); drawSpectrum(); }
-    if (state.tab === 't-mic'){ state.micOn ? drawSpectro() : micIdleDraw(); }
+    if (state.tab === 't-mic'){ (state.micOn || Vox.playing) ? drawSpectro() : micIdleDraw(); drawVoxPreview(); }
     if (state.tab === 't-audible'){ drawAudible(); drawBand(); }
   } catch (e) { /* 렌더 실패가 실험 전체를 막지 않도록 */ }
 }
@@ -5544,7 +6702,9 @@ function buildReport(){
     ['배음 합성', state.synth.map(x => Math.round(x * 100)).join(' / ') + '  (1~8배음 %)'],
     ['소리의 속력 설정', MEDIA[state.medium].name + (state.medium === 'air' ? ' ' + state.temp + '℃' : '') +
         ' · ' + (state.medium === 'vac' ? '전달 안 됨' : v.toFixed(1) + ' m/s')],
-    ['마이크 미션', state.micDone + ' / 5 수행'],
+    ['마이크 미션', state.micDone + ' / ' + Math.max(1, $$('#missions .mission').length) + ' 수행'],
+    ['음성 변조', voxReportText()],
+    ['목소리 보관함', voxSavesReportText()],
     ['실험 4 설정', hzText(state.aud.freq) + ' Hz · 음량 ' + state.aud.vol +
         ' · 주기 ' + (1000 / state.aud.freq).toFixed(3) + ' ms'],
     ['내 귀 확인', heard.size
@@ -5709,7 +6869,7 @@ function buildReport(){
   x.strokeStyle = '#DCE8F1'; x.beginPath();
   x.moveTo(28, H - 30); x.lineTo(W - 28, H - 30); x.stroke();
   x.fillStyle = '#708797'; x.font = '600 10.5px Pretendard, sans-serif';
-  x.fillText('© 송쌤과학 · 소리 분석 가상실험실 v4', 28, H - 16);
+  x.fillText('© 송쌤과학 · 소리 분석 가상실험실 v5', 28, H - 16);
   x.textAlign = 'right';
   x.fillText('이 파일은 학생 기기 안에서 만들어졌습니다', W - 28, H - 16);
   return cv;
@@ -5883,10 +7043,21 @@ function bindUI(){
       if (state.tab === 't-mic'){ ev.preventDefault(); shotFromMic(); return; }
     }
     if ((ev.key === 'm' || ev.key === 'M') && state.tab === 't-play'){ ev.preventDefault(); setCaliper(!state.calOn); fx('click'); return; }
+    if ((ev.key === 'n' || ev.key === 'N') && state.tab === 't-mic'){   // 녹음 시작 / 멈추기
+      ev.preventDefault();
+      Vox.rec ? voxRecStop() : voxRecStart();
+      return;
+    }
+    if ((ev.key === 'p' || ev.key === 'P') && state.tab === 't-mic'){   // 변조된 목소리 재생 / 정지
+      ev.preventDefault();
+      Vox.playing ? voxStopPlay() : voxPlay(true);
+      fx('click');
+      return;
+    }
     // Space는 버튼에 포커스가 있을 때 브라우저 기본 동작(클릭)과 겹치므로 제외
     if (ev.key === ' ' && tag !== 'BUTTON'){
       if (state.tab === 't-play'){ ev.preventDefault(); $('#btnFreeze').click(); }
-      else if (state.tab === 't-mic' && state.micOn){ ev.preventDefault(); setMicHold(!state.micHold); fx('click'); }
+      else if (state.tab === 't-mic' && (state.micOn || Vox.playing)){ ev.preventDefault(); setMicHold(!state.micHold); fx('click'); }
     }
   });
   $('#btnSound').addEventListener('click', e => {
@@ -6014,7 +7185,7 @@ function init(){
   $('#insRow').dataset.scope = 'play';
   state.quiz = newQuiz();
   buildInsRows(); buildKeys(); bindKeys(); buildMediumRow();
-  buildNoteSegs(); buildTimbreGrid(); buildSynth(); bindExperiments(); bindMic();
+  buildNoteSegs(); buildTimbreGrid(); buildSynth(); bindExperiments(); bindMic(); bindVox();
   bindAudible(); bindShots();
   buildChips(); bindUI(); bindRecords(); bindCaliper(); renderQuiz(); renderProgress();
   setInert($('#drawer'), true); setInert($('#helpModal'), true);
@@ -6023,6 +7194,7 @@ function init(){
   setAudFreq(state.aud.freq);
   updateStats();
   micIdleDraw();
+  drawVoxPreview();
   showTab('t-play');
   syncHeaderHeight();
   requestAnimationFrame(() => { syncHeaderHeight(); moveTabInd(); });
@@ -6052,6 +7224,7 @@ function init(){
   document.addEventListener('visibilitychange', () => {
     if (document.hidden){
       stopLoop(); clearSeq(); stopAllVoices(); releaseAllKeys(); toneStop();
+      voxRecStop(true); voxStopPlay(true);
       if (AudioX.ctx && AudioX.ctx.state === 'running') AudioX.ctx.suspend();
     } else {
       if (AudioX.ctx && AudioX.ctx.state === 'suspended') AudioX.ctx.resume();
@@ -6064,7 +7237,7 @@ function init(){
   document.addEventListener('keydown', kick);
 
   window.addEventListener('beforeunload', e => {
-    const hasWork = records.length > 0 || shots.length > 0 ||
+    const hasWork = records.length > 0 || shots.length > 0 || !!Vox.raw || voxSaves.length > 0 ||
                     state.quiz.picked.some(v => v != null) || state.no || state.name;
     if (hasWork && !state.saved){ e.preventDefault(); e.returnValue = ''; return ''; }
   });
