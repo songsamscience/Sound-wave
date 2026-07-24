@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>송쌤과학 소리 분석 가상실험실</title>
-<meta name="description" content="송쌤과학 소리 분석 가상실험실 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고, 내 목소리를 30초 녹음해 여성·남성·아이·할아버지·할머니 목소리로 변조하며, 마이크로 피아노 음계의 음정을 맞히는 음정 게임까지 즐기는 과학 시뮬레이션">
+<title>송쌤과학 소리 분석 가상실험실 v7 · 소리의 3요소</title>
+<meta name="description" content="송쌤과학 소리 분석 가상실험실 v7 | 소리의 3요소(세기·높낮이·맵시)를 파형에서 하나씩 확인하는 중학교 과학 시뮬레이션 | 칼림바·리코더·실로폰·피아노·바이올린 소리를 파형으로 관찰하고, 내 목소리를 30초 녹음해 여성·남성·아이·할아버지·할머니 목소리로 변조하며, 마이크로 피아노 음계의 음정을 맞히는 음정 게임까지 즐기는 과학 시뮬레이션">
 <meta name="theme-color" content="#0B1120">
 <meta property="og:title" content="송쌤과학 소리 분석 가상실험실">
 <meta property="og:description" content="악기 소리와 내 목소리를 파형으로 분석하고, 음성 변조로 진동수가 바뀌는 것을 눈과 귀로 함께 확인해 보세요.">
@@ -450,11 +450,32 @@ header{
 .steps{display:flex; align-items:center; gap:var(--s2); margin:0; font-size:12.5px; color:var(--text-faint); flex-wrap:wrap;}
 .steps b{color:var(--text-sub); font-weight:700;}
 .steps .now{color:var(--sig);}
+/* v7 — 학습 흐름에서도 3요소 구간이 이 실험실의 중심임을 드러냅니다 */
+.steps b.s2{color:var(--sig); background:var(--sig-tint); padding:1px 8px; border-radius:var(--r-pill);}
 
 /* ── 메뉴바(탭) : 가로 스크롤 없이 8개가 한눈에 ───────────────────────────
    폭을 8등분하는 그리드라 어떤 화면에서도 잘려 나가지 않습니다.
    좁은 화면에서는 4열 두 줄로 접히고, 인디케이터도 세로 이동을 지원합니다. */
 .tabrail{position:relative; margin-bottom:var(--s3);}
+/* ── v7 : 「소리의 3요소」 묶음 띠 ───────────────────────────────────────
+   탭이 8칸 그리드이므로 1 : 3 : 4 로 나누면 각 묶음이 탭 열과 딱 맞습니다.
+   좁은 화면에서 탭이 4열 두 줄로 접히면 첫 줄이 1 : 3 이 되어 그대로 들어맞습니다. */
+.grpbar{display:grid; grid-template-columns:1fr 3fr 4fr; gap:4px; padding:0 4px; margin-bottom:5px;}
+.grpbar .g{
+  display:flex; align-items:center; justify-content:center; gap:4px;
+  min-height:22px; padding:0 6px; border-radius:var(--r-pill);
+  font-size:11.5px; font-weight:800; letter-spacing:.2px; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+  color:var(--text-faint); background:var(--surface-2); border:1px solid var(--line);
+}
+.grpbar .g-core{
+  color:var(--sig); background:var(--sig-tint);
+  border-color:color-mix(in srgb,var(--sig) 45%,transparent);
+}
+/* 띠가 접히는 화면에서도 세 요소가 한 덩어리로 보이도록 탭 바탕에 옅은 색을 깝니다.
+   선택된 탭은 뒤에 있는 인디케이터가 보여야 하므로 바탕을 비웁니다. */
+.tab[data-grp="core"]{background:color-mix(in srgb,var(--sig) 8%,transparent);}
+.tab[data-grp="core"][aria-selected="true"]{background:transparent;}
 .tabs{
   position:relative; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:4px;
   padding:4px; border-radius:var(--r-md);
@@ -503,6 +524,29 @@ header{
    한 탭 안에 세로로 길게 이어져 있던 보조 자료들을 「화면」 단위로 나누고,
    고른 화면 하나만 보여 줍니다. 아래로 한참 스크롤해야 보이던 조작부가
    늘 첫 화면에 들어오게 하는 장치입니다. 탭 레일 바로 아래에 붙습니다. */
+/* ── v7 : 실험 탭 머리의 3요소 표시 ─────────────────────────────────────
+   지금 이 화면이 세 요소 중 무엇을 다루는지, 그리고 무엇을 고정해 두었는지를
+   화면 맨 위에서 한 줄로 못 박아 둡니다 (변인 통제를 눈으로 확인) */
+.elhead{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:9px var(--s4); margin-bottom:var(--s4);
+  border-radius:var(--r-sm); background:var(--sig-tint);
+  border:1px solid color-mix(in srgb,var(--sig) 35%,transparent);
+}
+.elhead .en{
+  flex:none; width:26px; height:26px; border-radius:9px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--sig); color:#0B1120; font-size:13px; font-weight:800;
+}
+[data-theme="light"] .elhead .en{color:#fff;}
+.elhead .et{font-size:14px; font-weight:800; color:var(--sig); white-space:nowrap;}
+.elhead .ed{flex:1 1 230px; min-width:0; font-size:12.5px; font-weight:600; color:var(--text-sub); line-height:1.55;}
+.elhead .ed b{color:var(--text);}
+@media (max-width:600px){
+  .elhead{padding:8px var(--s3); gap:8px; margin-bottom:var(--s3);}
+  .elhead .ed{flex-basis:100%; font-size:12px;}
+}
+
 .subrail{
   position:sticky; top:var(--hh); z-index:36;
   display:flex; align-items:center; gap:6px; flex-wrap:wrap;
@@ -1608,6 +1652,43 @@ table.rec .memo{max-width:180px; overflow:hidden; text-overflow:ellipsis;}
 [data-theme="light"] .chips button.read{color:var(--ok-deep);}
 .dr-b{flex:1; overflow-y:auto; padding:var(--s4); -webkit-overflow-scrolling:touch;}
 .dr-f{padding:var(--s3) var(--s4); border-top:1px solid var(--line); flex:none;}
+/* ── v7 : 개념 카드 묶음 머리 — 「도입 · 소리의 3요소 · 더 알아보기」 ───── */
+.cgrp{display:flex; align-items:center; gap:8px; margin:var(--s5) 0 var(--s2); padding:0 2px;}
+.cgrp:first-child{margin-top:0;}
+.cgrp .cg-n{
+  flex:none; padding:3px 11px; border-radius:var(--r-pill);
+  background:var(--surface-2); border:1px solid var(--line);
+  font-size:11.5px; font-weight:800; color:var(--text-faint); white-space:nowrap;
+}
+.cgrp b{font-size:12.5px; font-weight:700; color:var(--text-faint); white-space:nowrap;}
+.cgrp::after{content:""; flex:1; height:1px; background:var(--line);}
+.cgrp.core .cg-n{background:var(--sig-tint); border-color:color-mix(in srgb,var(--sig) 45%,transparent); color:var(--sig);}
+.cgrp.core b{color:var(--sig);}
+
+/* ── v7 : 3요소 총정리 표 — 요소마다 「파형에서 볼 곳」을 짝지어 둡니다 ──── */
+.c3{margin-top:var(--s3); border:1px solid var(--line); border-radius:var(--r-xs); overflow:hidden;}
+.c3 > div{display:grid; grid-template-columns:1fr 1.2fr 1.2fr; gap:1px; background:var(--line);}
+.c3 > div > span{background:var(--surface); padding:8px 9px; font-size:12.5px; color:var(--text-sub); line-height:1.5;}
+.c3 .c3-h > span{background:var(--surface-2); font-size:11px; font-weight:800; color:var(--text-faint); text-align:center; padding:6px 4px;}
+.c3-r > span:first-child{color:var(--rc,var(--sig)); font-weight:800;}
+.c3-r b{color:var(--text);}
+.c3-r > span:first-child b{color:var(--rc,var(--sig));}
+.c3-r i{display:block; font-style:normal; font-size:11px; font-weight:600; color:var(--text-faint); margin-top:2px;}
+
+/* ── v7 : 「바뀌는 것 · 그대로인 것」 — 3요소가 서로 독립임을 못 박습니다 ── */
+.ccard .keep{display:flex; flex-wrap:wrap; gap:6px; margin-top:var(--s3);}
+.ccard .keep span{flex:1 1 44%; min-width:146px; padding:8px 10px; border-radius:var(--r-xs); font-size:12.5px; font-weight:700; line-height:1.5;}
+.ccard .keep em{display:block; font-style:normal; font-size:10.5px; font-weight:800; letter-spacing:.3px; opacity:.75; margin-bottom:3px;}
+.ccard .keep .y{background:color-mix(in srgb,var(--ok) 15%,transparent); color:var(--ok);}
+[data-theme="light"] .ccard .keep .y{color:var(--ok-deep);}
+.ccard .keep .n{background:var(--surface-2); color:var(--text-sub);}
+
+/* 개념 칩 줄의 묶음 구분자 */
+.chips .cdiv{flex:none; align-self:center; padding:0 4px 0 6px; font-size:10.5px; font-weight:800; color:var(--text-faint); white-space:nowrap;}
+.chips .cdiv:first-child{padding-left:0;}
+.chips button.core{border-color:color-mix(in srgb,var(--sig) 45%,transparent); color:var(--sig);}
+.chips button.read{border-color:color-mix(in srgb,var(--ok) 45%,transparent); color:var(--ok);}
+
 .ccard{padding:var(--s4); border-radius:var(--r-md); background:var(--surface); border:1px solid var(--line); margin-bottom:var(--s3); transition:border-color var(--t-base) var(--ease);}
 .ccard.flash{border-color:var(--sig); box-shadow:0 0 0 3px var(--sig-tint);}
 .ccard h4{display:flex; align-items:center; gap:8px; font-size:15.5px; margin-bottom:var(--s2);}
@@ -1686,6 +1767,9 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
 @media (max-width:680px){
   /* 8개 = 4열 두 줄로 정확히 나누어떨어집니다 (가로 스크롤 0) */
   .tabs{grid-template-columns:repeat(4,minmax(0,1fr));}
+  /* v7 — 첫 줄이 [도입 1칸][3요소 3칸] 이 되므로 띠도 1 : 3 으로 맞춥니다 */
+  .grpbar{grid-template-columns:1fr 3fr;}
+  .grpbar .g:last-child{display:none;}
   .tab{min-height:56px; padding:5px 3px; font-size:11px;}
   .tab .lb{white-space:normal; overflow:visible; line-height:1.2;}
 }
@@ -1818,7 +1902,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     <div class="logo" aria-hidden="true">송쌤<br>과학</div>
     <div class="htitle">
       <b>송쌤과학 소리 분석 가상실험실</b>
-      <span>세기 · 높낮이 · 맵시를 파형으로 보는 실험실</span>
+      <span>소리의 3요소 — 세기 · 높낮이 · 맵시를 파형에서 찾는 실험실</span>
     </div>
     <div class="tools">
       <button class="tbtn labeled pulse" id="btnTheory" aria-label="이론 개념 정리 패널 열기">
@@ -1882,7 +1966,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   <!-- ═══════════════ 스텝 · 진행률 (한 줄) ═══════════════ -->
   <div class="topline">
     <div class="steps" id="steps">
-      <b class="s1">① 소리 내보기</b><span>→</span><b class="s2">② 비교 실험</b><span>→</span><b class="s3">③ 음정 도전</b><span>→</span><b class="s4">④ 확인하기</b>
+      <b class="s1">① 소리 만나기</b><span>→</span><b class="s2">② 소리의 3요소</b><span>→</span><b class="s3">③ 넓혀 보기</b><span>→</span><b class="s4">④ 확인하기</b>
     </div>
     <div class="track">
       <span class="lb">진행률 <b id="trkPct">0%</b></span>
@@ -1892,25 +1976,32 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   </div>
 
   <!-- ═══════════════ 메뉴바(탭) — 8개가 한 화면에 ═══════════════
+       v7 · 「소리의 3요소」를 중심축으로 세 묶음(도입 · 3요소 · 넓혀 보기)으로 나눕니다.
        긴 이름은 짧게 줄이고 원래 이름은 aria-label·title 에 남깁니다 -->
   <div class="tabrail">
+    <!-- v7 · 묶음 띠 — 탭이 8칸 그리드이므로 1 : 3 : 4 로 나누면 탭 열과 정확히 맞습니다 -->
+    <div class="grpbar" aria-hidden="true">
+      <span class="g">도입</span>
+      <span class="g g-core">🎯 소리의 3요소</span>
+      <span class="g">넓혀 보기 · 확인</span>
+    </div>
     <div class="tabs" role="tablist" aria-label="실험 단계 선택">
       <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
-      <button class="tab" role="tab" id="t-play"   aria-controls="p-play"   aria-selected="true"
-              aria-label="1단계 자유 탐구 연주실" title="자유 탐구 연주실"><span class="num">1</span><span class="lb">연주실</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-amp"    aria-controls="p-amp"    aria-selected="false" tabindex="-1"
-              aria-label="2단계 실험 1 소리의 세기와 진폭" title="실험 1 · 소리의 세기와 진폭"><span class="num">2</span><span class="lb">세기·진폭</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-freq"   aria-controls="p-freq"   aria-selected="false" tabindex="-1"
-              aria-label="3단계 실험 2 소리의 높낮이와 진동수" title="실험 2 · 소리의 높낮이와 진동수"><span class="num">3</span><span class="lb">높낮이·진동수</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-timbre" aria-controls="p-timbre" aria-selected="false" tabindex="-1"
-              aria-label="4단계 실험 3 소리의 맵시와 배음" title="실험 3 · 소리의 맵시와 배음"><span class="num">4</span><span class="lb">맵시·배음</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-mic"    aria-controls="p-mic"    aria-selected="false" tabindex="-1"
+      <button class="tab" role="tab" id="t-play"   aria-controls="p-play"   aria-selected="true" data-grp="in"
+              aria-label="1단계 도입 소리 만나기 자유 탐구 연주실" title="도입 · 소리 만나기(자유 탐구 연주실)"><span class="num">1</span><span class="lb">소리 만나기</span><span class="dn" aria-hidden="true"></span></button>
+      <button class="tab" role="tab" id="t-amp"    aria-controls="p-amp"    aria-selected="false" tabindex="-1" data-grp="core"
+              aria-label="2단계 소리의 3요소 첫째 세기 진폭" title="소리의 3요소 ① 세기 — 진폭"><span class="num">2</span><span class="lb">① 세기</span><span class="dn" aria-hidden="true"></span></button>
+      <button class="tab" role="tab" id="t-freq"   aria-controls="p-freq"   aria-selected="false" tabindex="-1" data-grp="core"
+              aria-label="3단계 소리의 3요소 둘째 높낮이 진동수" title="소리의 3요소 ② 높낮이 — 진동수"><span class="num">3</span><span class="lb">② 높낮이</span><span class="dn" aria-hidden="true"></span></button>
+      <button class="tab" role="tab" id="t-timbre" aria-controls="p-timbre" aria-selected="false" tabindex="-1" data-grp="core"
+              aria-label="4단계 소리의 3요소 셋째 맵시 파형의 모양과 배음" title="소리의 3요소 ③ 맵시 — 파형의 모양과 배음"><span class="num">4</span><span class="lb">③ 맵시</span><span class="dn" aria-hidden="true"></span></button>
+      <button class="tab" role="tab" id="t-mic"    aria-controls="p-mic"    aria-selected="false" tabindex="-1" data-grp="ex"
               aria-label="5단계 마이크 실시간 분석" title="마이크 실시간 분석"><span class="num">5</span><span class="lb">마이크 분석</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-audible" aria-controls="p-audible" aria-selected="false" tabindex="-1"
+      <button class="tab" role="tab" id="t-audible" aria-controls="p-audible" aria-selected="false" tabindex="-1" data-grp="ex"
               aria-label="6단계 실험 4 가청 주파수" title="실험 4 · 가청 주파수"><span class="num">6</span><span class="lb">가청 주파수</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-game"   aria-controls="p-game"   aria-selected="false" tabindex="-1"
+      <button class="tab" role="tab" id="t-game"   aria-controls="p-game"   aria-selected="false" tabindex="-1" data-grp="ex"
               aria-label="7단계 음정 게임 마이크로 음 맞히기" title="음정 게임 · 마이크로 음 맞히기"><span class="num">7</span><span class="lb">음정 게임</span><span class="dn" aria-hidden="true"></span></button>
-      <button class="tab" role="tab" id="t-quiz"   aria-controls="p-quiz"   aria-selected="false" tabindex="-1"
+      <button class="tab" role="tab" id="t-quiz"   aria-controls="p-quiz"   aria-selected="false" tabindex="-1" data-grp="ex"
               aria-label="8단계 확인 문제" title="확인 문제"><span class="num">8</span><span class="lb">확인 문제</span><span class="dn" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -2178,6 +2269,11 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
        ═══════════════════════════════════════════════════════════ -->
   <section class="panel" id="p-amp" role="tabpanel" aria-labelledby="t-amp">
 
+    <div class="elhead">
+      <span class="en" aria-hidden="true">①</span><span class="et">소리의 세기</span>
+      <span class="ed">파형의 <b>위아래 높이(진폭)</b>만 봅니다 — 높낮이와 맵시는 그대로 두고 <b>세기만</b> 바꿉니다.</span>
+    </div>
+
     <div class="guide" id="g-amp">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-amp">
         <svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M3 12h3l3-7 6 14 3-7h3"/></svg>
@@ -2278,6 +2374,11 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
        탭 3 · 실험 2 — 소리의 높낮이와 진동수
        ═══════════════════════════════════════════════════════════ -->
   <section class="panel" id="p-freq" role="tabpanel" aria-labelledby="t-freq">
+
+    <div class="elhead">
+      <span class="en" aria-hidden="true">②</span><span class="et">소리의 높낮이</span>
+      <span class="ed">같은 시간 안의 <b>물결 개수(진동수)</b>만 봅니다 — 세기와 맵시는 그대로 두고 <b>높낮이만</b> 바꿉니다.</span>
+    </div>
 
     <div class="guide" id="g-freq">
       <button class="guide-h" aria-expanded="false" aria-controls="gb-freq">
@@ -2380,6 +2481,11 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <span class="srl">화면 고르기</span>
       <button class="sbtn" type="button" data-sub="tb-five" aria-pressed="true"><span class="sn">1</span>다섯 악기 비교</button>
       <button class="sbtn" type="button" data-sub="tb-synth" aria-pressed="false"><span class="sn">2</span>배음 합성 실험대</button>
+    </div>
+
+    <div class="elhead">
+      <span class="en" aria-hidden="true">③</span><span class="et">소리의 맵시</span>
+      <span class="ed">물결 하나의 <b>생김새(파형의 모양)</b>만 봅니다 — 세기와 높낮이는 똑같이 맞춰 두고 <b>악기만</b> 바꿉니다.</span>
     </div>
 
     <div class="guide" id="g-timbre">
@@ -3182,8 +3288,10 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
   </div>
   <div class="dr-b" id="drBody">
 
+    <div class="cgrp"><span class="cg-n">도입</span><b>소리를 무엇으로 구별할까</b></div>
+
     <article class="ccard" id="c-wave" style="--cc:var(--accent)">
-      <h4><span class="chip">1</span> 소리는 파동이에요</h4>
+      <h4><span class="chip">🌊</span> 소리는 파동이에요</h4>
       <canvas data-mini="wave" aria-hidden="true"></canvas>
       <p class="def">소리 = 물체의 떨림이 매질을 타고 퍼져 나가는 파동</p>
       <p>물체가 떨리면 주변 공기가 촘촘해졌다 성글어지기를 반복합니다.
@@ -3193,8 +3301,43 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       <p class="link">🔬 <b>실험 연결</b> — 오실로스코프 화면의 위아래 물결이 바로 공기가 촘촘·성글어지는 모습을 그린 것입니다.</p>
     </article>
 
+    <article class="ccard" id="c-three" style="--cc:var(--sig)">
+      <h4><span class="chip">★</span> 소리의 3요소 — 한눈에 보기</h4>
+      <canvas data-mini="three" aria-hidden="true"></canvas>
+      <p class="def">소리의 3요소 = 세기 · 높낮이 · 맵시</p>
+      <p>세상의 소리는 셀 수 없이 많지만, 서로 구별하는 기준은 <b>이 세 가지</b>면 충분합니다.
+         중요한 것은 세 가지가 <b>파형에서 보는 곳이 서로 다르다</b>는 점이에요.
+         어디를 봐야 하는지 먼저 익혀 두면, 이어지는 실험 2·3·4가 훨씬 쉬워집니다.</p>
+      <div class="c3">
+        <div class="c3-h"><span>요소</span><span>파형에서 보는 곳</span><span>무엇이 정하나</span></div>
+        <div class="c3-r" style="--rc:var(--accent-2)">
+          <span><b>① 세기</b><i>크다 · 작다</i></span>
+          <span>위아래 <b>높이</b><i>= 진폭</i></span>
+          <span>얼마나 <b>세게</b> 떨리나</span>
+        </div>
+        <div class="c3-r" style="--rc:var(--ins-piano)">
+          <span><b>② 높낮이</b><i>높다 · 낮다</i></span>
+          <span>물결의 <b>촘촘한 정도</b><i>= 진동수</i></span>
+          <span>1초에 <b>몇 번</b> 떨리나</span>
+        </div>
+        <div class="c3-r" style="--rc:var(--ins-violin)">
+          <span><b>③ 맵시</b><i>음색 · 개성</i></span>
+          <span>물결 하나의 <b>생김새</b><i>= 파형의 모양</i></span>
+          <span>어떤 <b>배음</b>이 섞였나</span>
+        </div>
+      </div>
+      <div class="formula">
+        <b>세기 → 진폭 · 높낮이 → 진동수 · 맵시 → 파형의 모양</b>
+        세 요소는 서로 <b>독립</b>입니다. 하나를 바꾸어도 나머지 둘은 그대로예요.
+      </div>
+      <p class="link">🔬 <b>실험 연결</b> — 탭 <b>2 · 3 · 4</b>가 각각 한 요소씩을 맡습니다.
+         한 번에 하나만 바꾸고 나머지는 고정해 두는 <b>변인 통제</b> 방식으로 확인해 보세요.</p>
+    </article>
+
+    <div class="cgrp core"><span class="cg-n">🎯 소리의 3요소</span><b>이 실험실의 중심</b></div>
+
     <article class="ccard" id="c-amp" style="--cc:var(--accent-2)">
-      <h4><span class="chip">2</span> 진폭 — 소리의 세기</h4>
+      <h4><span class="chip">①</span> 첫째 요소 · 소리의 세기 — 진폭</h4>
       <canvas data-mini="amp" aria-hidden="true"></canvas>
       <p class="def">진폭 = 진동의 중심에서 가장 크게 벗어난 정도</p>
       <p>물체를 세게 칠수록 크게 떨리고, 공기도 더 크게 흔들립니다.
@@ -3204,11 +3347,15 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <b>진폭 2배 → 소리의 세기 약 4배</b>
         소리의 세기(에너지)는 진폭의 제곱에 비례합니다. 데시벨(dB)로는 약 6 dB이 커져요.
       </div>
-      <p class="link">🔬 <b>실험 연결</b> — 실험 1에서 세게 연주했을 때 파형만 높아지고 물결 개수는 그대로였던 것이 이 때문입니다.</p>
+      <div class="keep">
+        <span class="y"><em>바뀌는 것</em>진폭 — 파형의 위아래 높이</span>
+        <span class="n"><em>그대로인 것</em>진동수(높낮이) · 파형의 모양(맵시)</span>
+      </div>
+      <p class="link">🔬 <b>실험 연결</b> — <b>탭 2 · ① 세기</b>에서 세게 연주했을 때 파형만 높아지고 물결 개수는 그대로였던 것이 이 때문입니다.</p>
     </article>
 
     <article class="ccard" id="c-freq" style="--cc:var(--ins-piano)">
-      <h4><span class="chip">3</span> 진동수 — 소리의 높낮이</h4>
+      <h4><span class="chip">②</span> 둘째 요소 · 소리의 높낮이 — 진동수</h4>
       <canvas data-mini="freq" aria-hidden="true"></canvas>
       <p class="def">진동수 = 1초 동안 진동한 횟수 (단위 Hz, 헤르츠)</p>
       <p>진동수가 클수록 높은 소리로 들립니다. 짧고 가는 줄일수록 빠르게 떨려 높은 소리가 나요.
@@ -3217,32 +3364,43 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
         <b>T = 1 / f</b>
         T: 주기(초) — 한 번 진동하는 데 걸린 시간 · f: 진동수(Hz) — 1초 동안의 진동 횟수
       </div>
-      <p class="link">🔬 <b>실험 연결</b> — 탭 1의 <b>측정</b> 버튼으로 물결 한 개의 시간을 직접 재면 1÷T가 실제 진동수와 거의 같게 나옵니다.</p>
+      <div class="keep">
+        <span class="y"><em>바뀌는 것</em>진동수 — 같은 시간 안의 물결 개수</span>
+        <span class="n"><em>그대로인 것</em>진폭(세기) · 파형의 모양(맵시)</span>
+      </div>
+      <p class="link">🔬 <b>실험 연결</b> — <b>탭 3 · ② 높낮이</b>에서 두 파형의 시간축은 완전히 같습니다. 물결 개수만 세어 비교하세요.</p>
+      <p class="link">📏 <b>직접 재 보기</b> — 탭 1의 <b>측정</b> 버튼으로 물결 한 개의 시간을 재면 1÷T가 실제 진동수와 거의 같게 나옵니다.</p>
       <p class="link">🎯 <b>음정 게임(탭 7)</b> — 음의 차이는 <b>센트</b>로 잽니다. 1반음 = 100센트, 1옥타브 = 1200센트예요.
          내 목소리의 진동수를 목표 음에 맞추면, 두 소리의 진동수가 같아진 것입니다.</p>
     </article>
 
     <article class="ccard" id="c-timbre" style="--cc:var(--ins-violin)">
-      <h4><span class="chip">4</span> 맵시(음색) — 파형의 모양</h4>
+      <h4><span class="chip">③</span> 셋째 요소 · 소리의 맵시 — 파형의 모양</h4>
       <canvas data-mini="timbre" aria-hidden="true"></canvas>
       <p class="def">맵시 = 소리의 세기와 높이가 같아도 구별되는 소리의 개성</p>
       <p>악기마다 떨리는 부분의 모양과 재질이 달라 파형의 생김새가 달라집니다.
          눈을 감고도 피아노와 바이올린을 구별할 수 있는 것은 이 <b>파형의 모양</b> 덕분이에요.</p>
-      <p class="link">🔬 <b>실험 연결</b> — 실험 3에서 다섯 악기가 같은 &lsquo;라&rsquo;를 연주했는데도 파형이 모두 달랐던 것이 맵시입니다.</p>
+      <div class="keep">
+        <span class="y"><em>바뀌는 것</em>파형의 모양 — 물결 하나의 생김새</span>
+        <span class="n"><em>그대로인 것</em>진폭(세기) · 진동수(높낮이)</span>
+      </div>
+      <p class="link">🔬 <b>실험 연결</b> — <b>탭 4 · ③ 맵시</b>에서 다섯 악기가 같은 &lsquo;라&rsquo;를 같은 세기로 연주했는데도 파형이 모두 달랐던 것이 맵시입니다.</p>
     </article>
 
     <article class="ccard" id="c-harm" style="--cc:var(--ins-xylo)">
-      <h4><span class="chip">5</span> 배음 — 맵시를 만드는 재료</h4>
+      <h4><span class="chip">③</span> 셋째 요소 더 파고들기 · 배음 — 맵시를 만드는 재료</h4>
       <canvas data-mini="harm" aria-hidden="true"></canvas>
       <p class="def">배음 = 기본음의 2배·3배·4배… 진동수를 가진 함께 울리는 소리</p>
       <p>악기 소리는 하나의 진동수만 있는 것이 아니라 여러 진동수가 겹쳐 있습니다.
          어떤 배음이 얼마나 섞이느냐에 따라 파형의 모양, 곧 맵시가 결정됩니다.
          리코더는 배음이 적어 매끈하고, 바이올린은 배음이 많아 뾰족합니다.</p>
-      <p class="link">🔬 <b>실험 연결</b> — 실험 3의 <b>배음 합성 실험대</b>에서 막대를 올릴수록 파형이 뾰족해지는 것을 직접 볼 수 있어요.</p>
+      <p class="link">🔬 <b>실험 연결</b> — <b>탭 4</b>의 <b>배음 합성 실험대</b>에서 막대를 올릴수록 파형이 뾰족해지는 것을 직접 볼 수 있어요.</p>
     </article>
 
+    <div class="cgrp"><span class="cg-n">더 알아보기</span><b>3요소에서 한 걸음 더</b></div>
+
     <article class="ccard" id="c-speed" style="--cc:var(--brand)">
-      <h4><span class="chip">6</span> 소리의 속력과 파장</h4>
+      <h4><span class="chip">＋</span> 소리의 속력과 파장 — 높낮이는 그대로, 파장만 변한다</h4>
       <canvas data-mini="speed" aria-hidden="true"></canvas>
       <p class="def">소리의 속력 = 매질의 종류와 온도에 따라 달라진다</p>
       <p>소리는 고체 &gt; 액체 &gt; 기체 순으로 빠르게 전달됩니다. 입자가 촘촘히 붙어 있을수록 떨림이 빨리 옮겨 가기 때문이에요.
@@ -3255,7 +3413,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </article>
 
     <article class="ccard" id="c-audible" style="--cc:var(--ins-xylo)">
-      <h4><span class="chip">7</span> 가청 주파수와 초음파</h4>
+      <h4><span class="chip">＋</span> 가청 주파수와 초음파 — 들리는 높낮이의 한계</h4>
       <canvas data-mini="audible" aria-hidden="true"></canvas>
       <p class="def">가청 주파수 = 사람이 들을 수 있는 진동수의 범위, 보통 20 Hz ~ 20 kHz</p>
       <p>이 범위를 벗어나는 소리는 아무리 크게 내도 잘 들리지 않습니다.
@@ -3272,7 +3430,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </article>
 
     <article class="ccard" id="c-vox" style="--cc:var(--sig)">
-      <h4><span class="chip">8</span> 음성 변조의 원리</h4>
+      <h4><span class="chip">＋</span> 음성 변조의 원리 — 높낮이와 맵시를 손보는 기술</h4>
       <canvas data-mini="vox" aria-hidden="true"></canvas>
       <p class="def">음성 변조 = 목소리의 <b>진동수</b>를 정해진 배수로 바꾸어 다른 사람의 목소리처럼 들리게 하는 것</p>
       <p>사람의 목소리는 성대가 떨려서 만들어집니다. 성대가 <b>짧고 얇을수록 빠르게 떨려</b> 진동수가 크고 높은 소리가 나요.
@@ -3308,10 +3466,28 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
     </div>
 
     <div class="hl">
+      <h4>🎯 소리의 3요소로 보는 학습 흐름 (v7)</h4>
+      <p style="margin-bottom:var(--s2)">v7은 메뉴와 개념 정리를 모두 <b>소리의 3요소</b>를 축으로 다시 짰습니다.
+        메뉴 위의 띠가 <b>도입 → 소리의 3요소 → 넓혀 보기 · 확인</b> 세 묶음을 구분해 줍니다.</p>
+      <ul>
+        <li><b>도입 (탭 1)</b> — 소리가 파동임을 확인하고, 파형에서 <b>어디를 봐야 하는지</b> 감을 잡습니다.</li>
+        <li><b>소리의 3요소 (탭 2 · 3 · 4)</b> — 한 탭이 한 요소를 맡습니다.
+          각 탭 맨 위 배지가 <b>지금 바꾸는 것</b>과 <b>고정해 둔 것</b>을 알려 주어, 변인 통제를 자연스럽게 익힙니다.
+          <br>① 세기 = 진폭(높이) · ② 높낮이 = 진동수(물결 개수) · ③ 맵시 = 파형의 모양(배음)</li>
+        <li><b>넓혀 보기 · 확인 (탭 5~8)</b> — 3요소를 내 목소리 · 가청 범위 · 음정 게임으로 넓혀 보고 확인 문제로 정리합니다.</li>
+      </ul>
+      <p class="tiny" style="margin-top:var(--s2)">📖 <b>이론</b> 버튼을 누르면 개념 정리도 같은 세 묶음으로 나뉘어 있고,
+        맨 앞의 <b>★ 소리의 3요소 한눈에 보기</b> 카드에 세 요소를 한 표로 정리해 두었습니다.
+        수업 도입에서 이 카드 하나만 띄워 두어도 좋습니다.</p>
+    </div>
+
+    <div class="hl">
       <h4>이렇게 사용해요</h4>
       <ol>
-        <li>탭 1에서 악기를 고르고 건반을 눌러 <b>소리와 파형</b>을 함께 살펴봅니다.</li>
-        <li>탭 2 · 3 · 4에서 <b>세기 · 높낮이 · 맵시</b>를 하나씩 비교합니다.</li>
+        <li><b>탭 1 · 소리 만나기</b> — 악기를 고르고 건반을 눌러 <b>소리와 파형</b>을 함께 살펴봅니다.</li>
+        <li><b>탭 2 · ① 세기</b> — 같은 음을 세기만 바꿔 연주하고 <b>진폭</b>이 달라지는 것을 봅니다.</li>
+        <li><b>탭 3 · ② 높낮이</b> — 같은 세기로 음만 바꿔 <b>물결 개수(진동수)</b>를 세어 봅니다.</li>
+        <li><b>탭 4 · ③ 맵시</b> — 세기와 음을 똑같이 맞춘 다섯 악기로 <b>파형의 모양</b>을 견줍니다.</li>
         <li>탭 5에서 <b>내 목소리</b>를, 탭 6에서 <b>가청 주파수</b>를 알아봅니다.</li>
         <li>탭 7 <b>음정 게임</b>에서 주어진 음을 내 목소리로 맞혀 봅니다.</li>
         <li>탭 8에서 확인 문제를 풀고, <b>결과 캡처</b> 또는 <b>PDF 저장</b>으로 과제를 제출합니다.</li>
@@ -3470,7 +3646,7 @@ footer{border-top:1px solid var(--line); background:var(--surface-2); padding:va
       </a>
     </div>
     <div class="f-meta">
-      송쌤과학 소리 분석 가상실험실 <b>v6</b> · 2026.07 업데이트 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
+      송쌤과학 소리 분석 가상실험실 <b>v7</b> · 2026.07 업데이트 · <b>소리의 3요소</b> 중심 구성 · 2022 개정 교육과정 중학교 과학 &lsquo;소리&rsquo; 단원 연계<br>
       모든 소리는 Web Audio API로 실시간 합성했고, 그래픽은 직접 제작한 SVG·Canvas입니다. 외부 이미지·음원·라이브러리를 사용하지 않았습니다.
       음성 변조도 브라우저 안에서 직접 계산합니다(WSOLA 시간 늘리기 + 재생 속도 보정).
       음정 게임의 음높이 판정은 YIN 알고리즘으로 진동수를 찾아 센트 단위로 비교합니다.<br>
@@ -7721,7 +7897,7 @@ function gameReportText(){
    ══════════════════════════════════════════════════════════════════════════ */
 const QUIZ = [
   {
-    tag:'문제 1 · 소리의 세기',
+    tag:'문제 1 · 3요소 ① 세기',
     q:'같은 실로폰으로 &lsquo;도&rsquo; 음을 약하게 칠 때와 세게 칠 때, 두 소리의 파동을 비교한 설명으로 옳은 것은?',
     opts:['세게 칠 때 진폭이 커지고, 진동수는 같다',
           '세게 칠 때 진동수가 커지고, 진폭은 같다',
@@ -7733,7 +7909,7 @@ const QUIZ = [
         '1초 동안 진동하는 횟수(진동수)는 변하지 않으므로 음의 높이는 그대로입니다.'
   },
   {
-    tag:'문제 2 · 소리의 높낮이',
+    tag:'문제 2 · 3요소 ② 높낮이',
     q:'피아노로 낮은 &lsquo;도&rsquo;와 높은 &lsquo;도&rsquo;를 같은 세기로 눌렀습니다. 높은 &lsquo;도&rsquo;의 파동은 낮은 &lsquo;도&rsquo;와 비교해 어떻게 다른가요?',
     opts:['진폭이 2배 커진다',
           '1초 동안 진동하는 횟수가 약 2배 많아진다',
@@ -7745,7 +7921,7 @@ const QUIZ = [
         '진동수가 클수록 높은 소리로 들리고, 세기가 같으므로 진폭은 비슷합니다.'
   },
   {
-    tag:'문제 3 · 소리의 맵시',
+    tag:'문제 3 · 3요소 ③ 맵시',
     q:'리코더와 바이올린으로 똑같이 &lsquo;라(440Hz)&rsquo; 음을 같은 크기로 연주했습니다. 두 소리의 파동에서 나타나는 차이는?',
     opts:['진폭이 다르다',
           '진동수가 다르다',
@@ -7757,7 +7933,21 @@ const QUIZ = [
         '이 차이를 소리의 맵시(음색)라고 하며, 눈을 감고도 악기를 구별할 수 있는 이유입니다.'
   },
   {
-    tag:'문제 4 · 주기와 진동수',
+    tag:'문제 4 · 3요소 종합',
+    q:'같은 피아노로 &lsquo;라(440Hz)&rsquo;를 <b>세게</b> 친 소리와 <b>약하게</b> 친 소리가 있습니다. ' +
+      '두 소리를 두고 소리의 3요소를 비교한 설명으로 <b>옳은</b> 것은?',
+    opts:['세기만 다르고, 높낮이와 맵시는 같다',
+          '세기와 높낮이가 함께 달라진다',
+          '세기와 맵시가 함께 달라진다',
+          '세 가지가 모두 달라진다'],
+    a:0, card:'c-three', go:'t-amp',
+    demo:{ type:'amp', key:'piano', deg:5, msg:'피아노 · 라 — 약하게 → 세게 · 달라지는 것은 진폭뿐' },
+    why:'소리의 3요소는 서로 독립입니다. 세기를 바꾸면 진폭만 달라지고, ' +
+        '1초당 진동 횟수(진동수)와 배음의 구성(파형의 모양)은 그대로이므로 높낮이와 맵시는 변하지 않습니다. ' +
+        '그래서 우리는 세게 친 &lsquo;라&rsquo;와 약하게 친 &lsquo;라&rsquo;를 같은 피아노의 같은 음으로 알아듣습니다.'
+  },
+  {
+    tag:'문제 5 · 주기와 진동수',
     q:'오실로스코프의 측정 커서로 물결 한 개의 길이를 재었더니 <b>2 ms</b>였습니다. 이 소리의 진동수는 얼마인가요?',
     opts:['2 Hz', '200 Hz', '500 Hz', '2000 Hz'],
     a:2, card:'c-freq', go:'t-play',
@@ -7766,7 +7956,7 @@ const QUIZ = [
         '단위를 초로 바꾸는 것이 계산의 핵심이에요.'
   },
   {
-    tag:'문제 5 · 매질과 파장',
+    tag:'문제 6 · 매질과 파장',
     q:'공기 중에서 나던 소리가 물속으로 들어갔습니다. 물에서는 소리가 더 빠르게 전달됩니다. 이때 소리의 <b>진동수</b>와 <b>파장</b>은 어떻게 될까요?',
     opts:['진동수는 그대로이고, 파장은 길어진다',
           '진동수가 커지고, 파장은 그대로이다',
@@ -7778,7 +7968,7 @@ const QUIZ = [
         'v = f × λ 에서 v가 커지고 f가 그대로이면 파장 λ가 길어져요.'
   },
   {
-    tag:'문제 6 · 가청 주파수와 초음파',
+    tag:'문제 7 · 가청 주파수와 초음파',
     q:'가청 주파수와 초음파에 대한 설명으로 <b>옳지 않은</b> 것은?',
     opts:['사람이 들을 수 있는 진동수는 보통 20 Hz ~ 20 kHz이다',
           '20 kHz보다 높은 소리를 초음파라고 한다',
@@ -7790,7 +7980,7 @@ const QUIZ = [
         '자동차 후방 센서와 초음파 진단도 같은 원리를 이용합니다.'
   },
   {
-    tag:'문제 7 · 음성 변조',
+    tag:'문제 8 · 음성 변조',
     q:'진동수가 <b>200 Hz</b>인 목소리를 음성 변조로 <b>한 옥타브 높은</b> 아이 목소리처럼 바꾸었습니다. ' +
       '변조된 목소리의 진동수와, 말하는 데 걸리는 시간은 어떻게 될까요? (말의 빠르기는 그대로 두었습니다)',
     opts:['진동수 400 Hz · 걸리는 시간은 그대로',
@@ -7804,7 +7994,7 @@ const QUIZ = [
         '길이를 먼저 늘린 뒤 그만큼 빠르게 재생하므로 걸리는 시간은 그대로입니다.'
   },
   {
-    tag:'문제 8 · 음정 맞히기',
+    tag:'문제 9 · 음정 맞히기',
     q:'음정 게임에서 목표 음이 <b>라(A4 · 440 Hz)</b> 였습니다. ' +
       '민수는 <b>220 Hz</b>로, 지영이는 <b>466 Hz</b>로 소리를 냈습니다. ' +
       '&lsquo;옥타브가 달라도 계이름이 같으면 정답&rsquo;이라는 규칙일 때 옳은 설명은?',
@@ -7985,16 +8175,27 @@ function answerQuiz(pick, item){
 /* ══════════════════════════════════════════════════════════════════════════
    [14] 이론 드로어 — 실험 화면을 떠나지 않고 개념을 확인
    ══════════════════════════════════════════════════════════════════════════ */
+/* v7 — 카드를 「도입 → 소리의 3요소 → 더 알아보기」 세 묶음으로 나눕니다.
+   칩 줄에도 같은 묶음 이름이 끼어들어, 어디까지가 중심 개념인지 바로 보입니다. */
 const CARDS = [
-  { id:'c-wave',   t:'소리는 파동' }, { id:'c-amp',    t:'진폭 · 세기' },
-  { id:'c-freq',   t:'진동수 · 높낮이' }, { id:'c-timbre', t:'맵시 · 파형' },
-  { id:'c-harm',   t:'배음' }, { id:'c-speed', t:'속력 · 파장' },
-  { id:'c-audible', t:'가청 주파수' }, { id:'c-vox', t:'음성 변조' }
+  { id:'c-wave',    t:'소리는 파동',      g:'도입' },
+  { id:'c-three',   t:'★ 3요소 한눈에',   g:'도입' },
+  { id:'c-amp',     t:'① 세기 · 진폭',     g:'3요소', core:true },
+  { id:'c-freq',    t:'② 높낮이 · 진동수', g:'3요소', core:true },
+  { id:'c-timbre',  t:'③ 맵시 · 파형',     g:'3요소', core:true },
+  { id:'c-harm',    t:'③ 배음',           g:'3요소', core:true },
+  { id:'c-speed',   t:'속력 · 파장',       g:'더 알아보기' },
+  { id:'c-audible', t:'가청 주파수',       g:'더 알아보기' },
+  { id:'c-vox',     t:'음성 변조',         g:'더 알아보기' }
 ];
 const readCards = new Set();
 function buildChips(){
-  $('#drChips').innerHTML = CARDS.map(c =>
-    '<button data-card="' + c.id + '">' + c.t + '</button>').join('');
+  let last = '';
+  $('#drChips').innerHTML = CARDS.map(c => {
+    const div = c.g === last ? '' : '<span class="cdiv">' + c.g + '</span>';
+    last = c.g;
+    return div + '<button data-card="' + c.id + '"' + (c.core ? ' class="core"' : '') + '>' + c.t + '</button>';
+  }).join('');
   $('#drChips').addEventListener('click', ev => {
     const b = ev.target.closest('button'); if (!b) return;
     scrollToCard(b.dataset.card);
@@ -8169,7 +8370,33 @@ function drawMinis(){
       paintWave(ctx, pts, { color, h, width: width || 2, fill:false });
     };
     ctx.font = '700 10px Pretendard, sans-serif'; ctx.textBaseline = 'top';
-    if (kind === 'wave'){
+    if (kind === 'three'){
+      /* v7 — 세 요소를 한 칸씩 나란히. 각 칸마다 회색(기준)과 색(바뀐 것)을 겹쳐,
+         「무엇 하나만 달라졌는가」가 바로 눈에 들어오게 했습니다. */
+      const gap = 5, cw = (w - gap * 4) / 3, top = 15, bot = 13;
+      const cell = (ix, name, foot, f1, f2, col) => {
+        const x0 = gap + ix * (cw + gap), yc = top + (h - top - bot) / 2, amp = (h - top - bot) / 2 - 2;
+        const put = (fn, color, lw) => {
+          const pts = new Array(97);
+          for (let i = 0; i <= 96; i++) pts[i] = [x0 + cw * i / 96, yc - fn(i / 96) * amp];
+          paintWave(ctx, pts, { color, h, yc, width: lw, fill:false, glow:false });
+        };
+        put(f1, C.faint, 1.4);
+        put(f2, col, 2.2);
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        ctx.fillStyle = col;   ctx.fillText(name, x0 + cw / 2, 2);
+        ctx.fillStyle = C.sub; ctx.fillText(foot, x0 + cw / 2, h - bot + 2);
+        if (ix){ ctx.strokeStyle = C.line; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(x0 - gap / 2, top - 2); ctx.lineTo(x0 - gap / 2, h - bot); ctx.stroke(); }
+      };
+      cell(0, '① 세기', '높이가 다름',
+           u => Math.sin(u * Math.PI * 8) * 0.30, u => Math.sin(u * Math.PI * 8) * 0.92, C.accent2);
+      cell(1, '② 높낮이', '개수가 다름',
+           u => Math.sin(u * Math.PI * 4) * 0.72, u => Math.sin(u * Math.PI * 10) * 0.72, C.ins.piano);
+      cell(2, '③ 맵시', '모양이 다름',
+           u => modelSample('recorder', 3, CMP_STRENGTH, u) * 0.86,
+           u => modelSample('violin',   3, CMP_STRENGTH, u) * 0.86, C.ins.violin);
+    } else if (kind === 'wave'){
       line(u => Math.sin(u * Math.PI * 4) * 0.72, C.accent, 2.4);
       ctx.fillStyle = C.faint; ctx.textAlign = 'left';
       ctx.fillText('공기가 촘촘 ↔ 성글어지는 모습을 그래프로', 8, 6);
@@ -8277,7 +8504,8 @@ function showTab(id){
     t.tabIndex = on ? 0 : -1;
   });
   $$('.panel').forEach(p => p.classList.toggle('on', p.id === 'p' + id.slice(1)));
-  const stepOf = { 't-play':1, 't-amp':2, 't-freq':2, 't-timbre':2, 't-mic':2, 't-audible':2,
+  // v7 — 3요소(탭 2·3·4)를 2단계로 묶고, 마이크·가청 주파수·음정 게임은 3단계로 보냅니다
+  const stepOf = { 't-play':1, 't-amp':2, 't-freq':2, 't-timbre':2, 't-mic':3, 't-audible':3,
                    't-game':3, 't-quiz':4 }[id] || 1;
   $$('#steps b').forEach((b, i) => b.classList.toggle('now', i === stepOf - 1));
   clearSeq(); stopAllVoices(); releaseAllKeys(); stopLoop();
